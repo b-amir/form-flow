@@ -189,6 +189,7 @@ export const FormBuilderLayout: React.FC<FormBuilderLayoutProps> = ({
             {selectedElement ? (
               <ElementPropertiesEditor
                 element={selectedElement}
+                allElements={draftForm.elements}
                 onUpdateElement={handleUpdateElement}
               />
             ) : (

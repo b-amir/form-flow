@@ -9,3 +9,4 @@ export { FormListView } from './FormListView';
 export { ElementSelectionPanel } from './ElementSelectionPanel';
 export { FormPropertiesPanel } from './FormPropertiesPanel';
 export { ElementPropertiesEditor } from './ElementPropertiesEditor';
+export { ConditionalLogicBuilder } from './ConditionalLogicBuilder';

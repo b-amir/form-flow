@@ -7,15 +7,18 @@ import {
   Switch,
 } from '@mui/material';
 import type { ApiElement } from '@/types/api';
+import type { ConditionalLogic } from '@/types/api';
+import { ConditionalLogicBuilder } from './ConditionalLogicBuilder';
 
 interface ElementPropertiesEditorProps {
   element: ApiElement | null;
+  allElements: ApiElement[];
   onUpdateElement: (id: string, updates: Partial<ApiElement>) => void;
 }
 
 export const ElementPropertiesEditor: React.FC<
   ElementPropertiesEditorProps
-> = ({ element, onUpdateElement }) => {
+> = ({ element, allElements, onUpdateElement }) => {
   if (!element) {
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -35,6 +38,12 @@ export const ElementPropertiesEditor: React.FC<
 
   const handleRequiredChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onUpdateElement(element.id, { isRequired: e.target.checked });
+  };
+
+  const handleConditionalLogicChange = (
+    conditionalLogic: ConditionalLogic | undefined
+  ) => {
+    onUpdateElement(element.id, { conditionalLogic } as Partial<ApiElement>);
   };
 
   return (
@@ -65,6 +74,12 @@ export const ElementPropertiesEditor: React.FC<
       <Typography variant="caption" color="text.secondary">
         Element Type: {element.type === 'text' ? 'Text Field' : 'Checkbox'}
       </Typography>
+
+      <ConditionalLogicBuilder
+        element={element}
+        allElements={allElements}
+        onUpdateConditionalLogic={handleConditionalLogicChange}
+      />
     </Box>
   );
 };
