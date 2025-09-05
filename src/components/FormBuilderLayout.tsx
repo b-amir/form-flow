@@ -1,26 +1,28 @@
-import React, { type ReactNode } from 'react';
-import { Box, Paper } from '@mui/material';
+import React from 'react';
+import { Box } from '@mui/material';
+import { ElementSelectionPanel } from './ElementSelectionPanel';
 
-interface FormBuilderLayoutProps {
-  children?: ReactNode;
-}
-
-export const FormBuilderLayout: React.FC<FormBuilderLayoutProps> = ({
+export const FormBuilderLayout: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
+  const handleSelectElement = (type: 'text' | 'checkbox') => {
+    // TODO: Implement element addition logic
+    console.log('Selected element type:', type);
+  };
+
   return (
-    <Box sx={{ display: 'flex', height: '100vh', backgroundColor: '#f5f6fa' }}>
-      <Box sx={{ width: 240, backgroundColor: '#fff', boxShadow: 1, p: 2 }}>
-        Element Selection Panel
+    <Box sx={{ display: 'flex', height: '100vh' }}>
+      <Box
+        sx={{
+          width: 240,
+          p: 2,
+          borderRight: '1px solid #eee',
+          bgcolor: '#fafafa',
+        }}
+      >
+        <ElementSelectionPanel onSelectElement={handleSelectElement} />
       </Box>
-      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 3 }}>
-        <Paper elevation={2} sx={{ flex: 1, p: 3 }}>
-          {children}
-        </Paper>
-      </Box>
-      <Box sx={{ width: 320, backgroundColor: '#fff', boxShadow: 1, p: 2 }}>
-        Properties Panel
-      </Box>
+      <Box sx={{ flex: 1, p: 2 }}>{children}</Box>
     </Box>
   );
 };

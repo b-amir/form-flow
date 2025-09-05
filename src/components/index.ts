@@ -5,3 +5,4 @@ export { FieldFactory } from './FieldFactory';
 export { ValidatedFormRenderer } from './ValidatedFormRenderer';
 export { LoadingFormRenderer } from './LoadingFormRenderer';
 export { FormBuilderLayout } from './FormBuilderLayout';
+export { ElementSelectionPanel } from './ElementSelectionPanel';
