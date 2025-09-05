@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, Typography, Snackbar, Alert } from '@mui/material';
-import { Visibility, Edit, Save } from '@mui/icons-material';
+import { Visibility, Edit, Save, ArrowBack } from '@mui/icons-material';
 import { ElementSelectionPanel } from './ElementSelectionPanel';
 import { FormPropertiesPanel } from './FormPropertiesPanel';
 import { ElementPropertiesEditor } from './ElementPropertiesEditor';
@@ -10,8 +10,14 @@ import { useFormBuilderStore } from '@/features/form-management/stores/formBuild
 import { formApi } from '@/services/api';
 import type { ApiElement } from '@/types/api';
 
-export const FormBuilderLayout: React.FC<{ children?: React.ReactNode }> = ({
+interface FormBuilderLayoutProps {
+  children?: React.ReactNode;
+  onBackToList?: () => void;
+}
+
+export const FormBuilderLayout: React.FC<FormBuilderLayoutProps> = ({
   children,
+  onBackToList,
 }) => {
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -105,7 +111,18 @@ export const FormBuilderLayout: React.FC<{ children?: React.ReactNode }> = ({
             alignItems: 'center',
           }}
         >
-          <Typography variant="h6">Form Builder</Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {onBackToList && (
+              <Button
+                variant="outlined"
+                startIcon={<ArrowBack />}
+                onClick={onBackToList}
+              >
+                Back to Forms
+              </Button>
+            )}
+            <Typography variant="h6">Form Builder</Typography>
+          </Box>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <Button
               variant="contained"

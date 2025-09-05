@@ -5,6 +5,7 @@ export { FieldFactory } from './FieldFactory';
 export { ValidatedFormRenderer } from './ValidatedFormRenderer';
 export { LoadingFormRenderer } from './LoadingFormRenderer';
 export { FormBuilderLayout } from './FormBuilderLayout';
+export { FormListView } from './FormListView';
 export { ElementSelectionPanel } from './ElementSelectionPanel';
 export { FormPropertiesPanel } from './FormPropertiesPanel';
 export { ElementPropertiesEditor } from './ElementPropertiesEditor';

@@ -23,6 +23,39 @@ export const useFormBuilderStore = create<FormBuilderStore>(set => ({
     }));
   },
 
+  updateFormName: (name: string) => {
+    set(state => ({
+      draftForm: {
+        ...state.draftForm,
+        name,
+      },
+      isDirty: true,
+    }));
+  },
+
+  updateElements: (elements: ApiElement[]) => {
+    set(state => ({
+      draftForm: {
+        ...state.draftForm,
+        elements: [...elements],
+      },
+      isDirty: true,
+    }));
+  },
+
+  clearForm: () => {
+    set({
+      draftForm: {
+        id: 'draft',
+        name: '',
+        elements: [],
+      },
+      selectedElementId: null,
+      validationErrors: [],
+      isDirty: false,
+    });
+  },
+
   addElement: (element: ApiElement) => {
     set(state => ({
       draftForm: {

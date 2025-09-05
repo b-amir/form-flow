@@ -27,6 +27,9 @@ export interface FormBuilderStore {
   isDirty: boolean;
 
   setFormName: (name: string) => void;
+  updateFormName: (name: string) => void;
+  updateElements: (elements: ApiElement[]) => void;
+  clearForm: () => void;
   addElement: (element: ApiElement) => void;
   updateElement: (id: string, updates: Partial<ApiElement>) => void;
   removeElement: (id: string) => void;
