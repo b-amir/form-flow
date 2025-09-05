@@ -7,3 +7,4 @@ export { LoadingFormRenderer } from './LoadingFormRenderer';
 export { FormBuilderLayout } from './FormBuilderLayout';
 export { ElementSelectionPanel } from './ElementSelectionPanel';
 export { FormPropertiesPanel } from './FormPropertiesPanel';
+export { ElementPropertiesEditor } from './ElementPropertiesEditor';

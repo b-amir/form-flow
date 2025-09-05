@@ -1,11 +1,11 @@
-import { type Form, type Element } from './form';
+import { type Form, type BaseElement } from './form';
 
 export interface ConditionalLogic {
   dependsOn: string;
   showWhen: boolean;
 }
 
-export interface ApiElement extends Element {
+export interface ApiElement extends BaseElement {
   conditionalLogic?: ConditionalLogic;
 }
 

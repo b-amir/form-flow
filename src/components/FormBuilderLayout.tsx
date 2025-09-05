@@ -1,16 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box } from '@mui/material';
 import { ElementSelectionPanel } from './ElementSelectionPanel';
 import { FormPropertiesPanel } from './FormPropertiesPanel';
+import { ElementPropertiesEditor } from './ElementPropertiesEditor';
+import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
+import type { ApiElement } from '@/types/api';
 
 export const FormBuilderLayout: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
-  const [formName, setFormName] = useState('Untitled Form');
+  const {
+    draftForm,
+    selectedElementId,
+    setFormName,
+    addElement,
+    updateElement,
+  } = useFormBuilderStore();
+
+  const selectedElement =
+    draftForm.elements.find(element => element.id === selectedElementId) ||
+    null;
 
   const handleSelectElement = (type: 'text' | 'checkbox') => {
-    // TODO: Implement element addition logic
-    console.log('Selected element type:', type);
+    const newElement: ApiElement = {
+      id: `element_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      type,
+      label: `New ${type === 'text' ? 'Text Field' : 'Checkbox'}`,
+      isRequired: false,
+    };
+    addElement(newElement);
+  };
+
+  const handleUpdateElement = (id: string, updates: Partial<ApiElement>) => {
+    updateElement(id, updates);
   };
 
   return (
@@ -34,10 +56,17 @@ export const FormBuilderLayout: React.FC<{ children?: React.ReactNode }> = ({
           bgcolor: '#fafafa',
         }}
       >
-        <FormPropertiesPanel
-          formName={formName}
-          onFormNameChange={setFormName}
-        />
+        {selectedElement ? (
+          <ElementPropertiesEditor
+            element={selectedElement}
+            onUpdateElement={handleUpdateElement}
+          />
+        ) : (
+          <FormPropertiesPanel
+            formName={draftForm.name}
+            onFormNameChange={setFormName}
+          />
+        )}
       </Box>
     </Box>
   );
