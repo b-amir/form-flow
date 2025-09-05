@@ -27,9 +27,27 @@ export function makeServer({ environment = 'development' } = {}) {
 
     seeds(server) {
       if (environment === 'development') {
-        formFixtures.forEach(formData => {
-          server.create('form', formData);
-        });
+        try {
+          const storedFormsData = localStorage.getItem('form-builder-forms');
+
+          if (storedFormsData) {
+            const storedForms = JSON.parse(storedFormsData);
+            if (Array.isArray(storedForms) && storedForms.length > 0) {
+              storedForms.forEach(form => {
+                server.create('form', form);
+              });
+              return;
+            }
+          }
+
+          formFixtures.forEach(form => {
+            server.create('form', form);
+          });
+        } catch {
+          formFixtures.forEach(form => {
+            server.create('form', form);
+          });
+        }
       }
     },
   });

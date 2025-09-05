@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -11,7 +11,7 @@ import {
   Fab,
 } from '@mui/material';
 import { Add, Edit, Delete } from '@mui/icons-material';
-import { formApi } from '@/services/api';
+import { useFormStore } from '@/features/form-management/stores/formStore';
 import type { ApiForm } from '@/types/api';
 
 interface FormListViewProps {
@@ -23,27 +23,19 @@ export const FormListView: React.FC<FormListViewProps> = ({
   onCreateNew,
   onEditForm,
 }) => {
-  const [forms, setForms] = useState<ApiForm[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const {
+    forms,
+    isLoading: loading,
+    error,
+    fetchForms,
+    deleteForm,
+    clearError,
+  } = useFormStore();
+  const [deletingId, setDeletingId] = React.useState<string | null>(null);
 
   useEffect(() => {
-    loadForms();
-  }, []);
-
-  const loadForms = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const formsData = await formApi.fetchForms();
-      setForms(Array.isArray(formsData) ? formsData : []);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load forms');
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchForms();
+  }, [fetchForms]);
 
   const handleDeleteForm = async (formId: string) => {
     if (!window.confirm('Are you sure you want to delete this form?')) {
@@ -52,10 +44,9 @@ export const FormListView: React.FC<FormListViewProps> = ({
 
     try {
       setDeletingId(formId);
-      await formApi.deleteForm(formId);
-      setForms(forms.filter(form => form.id !== formId));
+      await deleteForm(formId);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete form');
+      console.error(err);
     } finally {
       setDeletingId(null);
     }
@@ -110,12 +101,12 @@ export const FormListView: React.FC<FormListViewProps> = ({
       </Box>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError(null)}>
+        <Alert severity="error" sx={{ mb: 3 }} onClose={clearError}>
           {error}
         </Alert>
       )}
 
-      {!forms || forms.length === 0 ? (
+      {!Array.isArray(forms) || forms.length === 0 ? (
         <Box
           sx={{
             display: 'flex',
@@ -153,62 +144,69 @@ export const FormListView: React.FC<FormListViewProps> = ({
             gap: 3,
           }}
         >
-          {(forms || []).map(form => (
-            <Card
-              sx={{
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-                '&:hover': {
-                  transform: 'translateY(-2px)',
-                  boxShadow: 4,
-                },
-              }}
-            >
-              <CardContent sx={{ flexGrow: 1 }}>
-                <Typography variant="h6" component="h2" gutterBottom>
-                  {form.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" gutterBottom>
-                  {form.elements.length} element
-                  {form.elements.length !== 1 ? 's' : ''}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Created: {formatDate(form.createdAt)}
-                </Typography>
-                {form.updatedAt !== form.createdAt && (
-                  <Typography
-                    variant="caption"
-                    color="text.secondary"
-                    display="block"
-                  >
-                    Updated: {formatDate(form.updatedAt)}
-                  </Typography>
-                )}
-              </CardContent>
-              <CardActions sx={{ justifyContent: 'space-between', p: 2 }}>
-                <Button
-                  startIcon={<Edit />}
-                  onClick={() => onEditForm(form)}
-                  variant="contained"
-                  size="small"
+          {Array.isArray(forms)
+            ? forms.map(form => (
+                <Card
+                  key={form.id}
+                  sx={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    '&:hover': {
+                      transform: 'translateY(-2px)',
+                      boxShadow: 4,
+                    },
+                  }}
                 >
-                  Edit
-                </Button>
-                <Button
-                  startIcon={<Delete />}
-                  onClick={() => handleDeleteForm(form.id)}
-                  variant="outlined"
-                  color="error"
-                  size="small"
-                  disabled={deletingId === form.id}
-                >
-                  {deletingId === form.id ? 'Deleting...' : 'Delete'}
-                </Button>
-              </CardActions>
-            </Card>
-          ))}
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" component="h2" gutterBottom>
+                      {form.name}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      {form.elements.length} element
+                      {form.elements.length !== 1 ? 's' : ''}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      Created: {formatDate(form.createdAt)}
+                    </Typography>
+                    {form.updatedAt !== form.createdAt && (
+                      <Typography
+                        variant="caption"
+                        color="text.secondary"
+                        display="block"
+                      >
+                        Updated: {formatDate(form.updatedAt)}
+                      </Typography>
+                    )}
+                  </CardContent>
+                  <CardActions sx={{ justifyContent: 'space-between', p: 2 }}>
+                    <Button
+                      startIcon={<Edit />}
+                      onClick={() => onEditForm(form)}
+                      variant="contained"
+                      size="small"
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      startIcon={<Delete />}
+                      onClick={() => handleDeleteForm(form.id)}
+                      variant="outlined"
+                      color="error"
+                      size="small"
+                      disabled={deletingId === form.id}
+                    >
+                      {deletingId === form.id ? 'Deleting...' : 'Delete'}
+                    </Button>
+                  </CardActions>
+                </Card>
+              ))
+            : []}
         </Box>
       )}
 

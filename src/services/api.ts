@@ -15,7 +15,8 @@ export const formApi = {
         const errorData: ApiError = await response.json();
         throw new Error(errorData.error || 'Failed to fetch forms');
       }
-      return await response.json();
+      const data = await response.json();
+      return Array.isArray(data) ? data : data.forms || [];
     } catch (error) {
       throw error instanceof Error
         ? error
