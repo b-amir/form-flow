@@ -18,6 +18,7 @@ export interface FormStore {
 
 export interface FormBuilderStore {
   draftForm: {
+    id: string;
     name: string;
     elements: ApiElement[];
   };

@@ -5,6 +5,7 @@ import { type ValidationError } from '@/types/validation';
 
 export const useFormBuilderStore = create<FormBuilderStore>(set => ({
   draftForm: {
+    id: 'draft',
     name: '',
     elements: [],
   },
@@ -93,6 +94,7 @@ export const useFormBuilderStore = create<FormBuilderStore>(set => ({
   clearDraftForm: () => {
     set({
       draftForm: {
+        id: 'draft',
         name: '',
         elements: [],
       },
@@ -106,6 +108,7 @@ export const useFormBuilderStore = create<FormBuilderStore>(set => ({
     if (form) {
       set({
         draftForm: {
+          id: form.id,
           name: form.name,
           elements: [...form.elements],
         },
@@ -116,6 +119,7 @@ export const useFormBuilderStore = create<FormBuilderStore>(set => ({
     } else {
       set({
         draftForm: {
+          id: 'draft',
           name: '',
           elements: [],
         },
