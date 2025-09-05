@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
-import { Visibility, Edit } from '@mui/icons-material';
+import { Box, Button, Typography, Snackbar, Alert } from '@mui/material';
+import { Visibility, Edit, Save } from '@mui/icons-material';
 import { ElementSelectionPanel } from './ElementSelectionPanel';
 import { FormPropertiesPanel } from './FormPropertiesPanel';
 import { ElementPropertiesEditor } from './ElementPropertiesEditor';
 import { ElementList } from './ElementList';
 import { FormRenderer } from './FormRenderer';
 import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
+import { formApi } from '@/services/api';
 import type { ApiElement } from '@/types/api';
 
 export const FormBuilderLayout: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
   const [isPreviewMode, setIsPreviewMode] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const {
     draftForm,
@@ -54,6 +58,43 @@ export const FormBuilderLayout: React.FC<{ children?: React.ReactNode }> = ({
     setIsPreviewMode(!isPreviewMode);
   };
 
+  const handleSaveForm = async () => {
+    if (!draftForm.name.trim()) {
+      setSaveError('Please enter a form name before saving.');
+      return;
+    }
+
+    if (draftForm.elements.length === 0) {
+      setSaveError('Please add at least one element before saving.');
+      return;
+    }
+
+    setIsSaving(true);
+    setSaveError(null);
+
+    try {
+      await formApi.createForm({
+        name: draftForm.name,
+        elements: draftForm.elements,
+      });
+      setShowSuccessMessage(true);
+    } catch (error) {
+      setSaveError(
+        error instanceof Error ? error.message : 'Failed to save form'
+      );
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleCloseSuccessMessage = () => {
+    setShowSuccessMessage(false);
+  };
+
+  const handleCloseErrorMessage = () => {
+    setSaveError(null);
+  };
+
   return (
     <Box sx={{ display: 'flex', height: '100vh', flexDirection: 'column' }}>
       <Box sx={{ p: 2, borderBottom: '1px solid #eee', bgcolor: '#f5f5f5' }}>
@@ -65,14 +106,25 @@ export const FormBuilderLayout: React.FC<{ children?: React.ReactNode }> = ({
           }}
         >
           <Typography variant="h6">Form Builder</Typography>
-          <Button
-            variant={isPreviewMode ? 'outlined' : 'contained'}
-            startIcon={isPreviewMode ? <Edit /> : <Visibility />}
-            onClick={togglePreviewMode}
-            color={isPreviewMode ? 'primary' : 'secondary'}
-          >
-            {isPreviewMode ? 'Edit Mode' : 'Preview Mode'}
-          </Button>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Button
+              variant="contained"
+              startIcon={<Save />}
+              onClick={handleSaveForm}
+              disabled={isSaving}
+              color="success"
+            >
+              {isSaving ? 'Saving...' : 'Save Form'}
+            </Button>
+            <Button
+              variant={isPreviewMode ? 'outlined' : 'contained'}
+              startIcon={isPreviewMode ? <Edit /> : <Visibility />}
+              onClick={togglePreviewMode}
+              color={isPreviewMode ? 'primary' : 'secondary'}
+            >
+              {isPreviewMode ? 'Edit Mode' : 'Preview Mode'}
+            </Button>
+          </Box>
         </Box>
       </Box>
 
@@ -131,6 +183,36 @@ export const FormBuilderLayout: React.FC<{ children?: React.ReactNode }> = ({
           </Box>
         )}
       </Box>
+
+      <Snackbar
+        open={showSuccessMessage}
+        autoHideDuration={4000}
+        onClose={handleCloseSuccessMessage}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={handleCloseSuccessMessage}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
+          Form saved successfully!
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={!!saveError}
+        autoHideDuration={6000}
+        onClose={handleCloseErrorMessage}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={handleCloseErrorMessage}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          {saveError}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
