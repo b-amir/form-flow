@@ -1,10 +1,25 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import path from 'path';
+import type { UserConfig } from 'vite';
+import type { InlineConfig } from 'vitest';
+
+type ViteVitestConfig = UserConfig & { test?: InlineConfig };
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tsconfigPaths()],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/setupTests.ts',
+    coverage: {
+      reporter: ['text', 'lcov'],
+      exclude: ['node_modules/', 'src/server/'],
+    },
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
+  } as InlineConfig,
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -28,4 +43,4 @@ export default defineConfig({
     port: 3000,
     open: true,
   },
-});
+} as ViteVitestConfig);
