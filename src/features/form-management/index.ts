@@ -1,1 +1,1 @@
-export { useFormStore } from './stores/formStore';
+export { useFormStore, useFormBuilderStore } from './stores';
