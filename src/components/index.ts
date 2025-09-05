@@ -6,3 +6,4 @@ export { ValidatedFormRenderer } from './ValidatedFormRenderer';
 export { LoadingFormRenderer } from './LoadingFormRenderer';
 export { FormBuilderLayout } from './FormBuilderLayout';
 export { ElementSelectionPanel } from './ElementSelectionPanel';
+export { FormPropertiesPanel } from './FormPropertiesPanel';
