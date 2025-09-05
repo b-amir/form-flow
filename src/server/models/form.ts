@@ -1,5 +1,5 @@
 import { Model } from 'miragejs';
-import { type ModelDefinition } from 'miragejs/-types';
+import type { ModelDefinition } from 'miragejs/-types';
 
 export interface FormData {
   id: string;
