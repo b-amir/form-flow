@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import { ElementSelectionPanel } from './ElementSelectionPanel';
 import { FormPropertiesPanel } from './FormPropertiesPanel';
 import { ElementPropertiesEditor } from './ElementPropertiesEditor';
+import { ElementList } from './ElementList';
 import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
 import type { ApiElement } from '@/types/api';
 
@@ -15,6 +16,8 @@ export const FormBuilderLayout: React.FC<{ children?: React.ReactNode }> = ({
     setFormName,
     addElement,
     updateElement,
+    removeElement,
+    selectElement,
   } = useFormBuilderStore();
 
   const selectedElement =
@@ -35,6 +38,14 @@ export const FormBuilderLayout: React.FC<{ children?: React.ReactNode }> = ({
     updateElement(id, updates);
   };
 
+  const handleDeleteElement = (id: string) => {
+    removeElement(id);
+  };
+
+  const handleSelectElementInList = (id: string) => {
+    selectElement(id);
+  };
+
   return (
     <Box sx={{ display: 'flex', height: '100vh' }}>
       <Box
@@ -47,7 +58,15 @@ export const FormBuilderLayout: React.FC<{ children?: React.ReactNode }> = ({
       >
         <ElementSelectionPanel onSelectElement={handleSelectElement} />
       </Box>
-      <Box sx={{ flex: 1, p: 2 }}>{children}</Box>
+      <Box sx={{ flex: 1, p: 2 }}>
+        <ElementList
+          elements={draftForm.elements}
+          selectedElementId={selectedElementId}
+          onSelectElement={handleSelectElementInList}
+          onDeleteElement={handleDeleteElement}
+        />
+        {children}
+      </Box>
       <Box
         sx={{
           width: 320,
