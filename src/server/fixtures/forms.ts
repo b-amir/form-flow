@@ -124,6 +124,7 @@ export const formFixtures: Partial<FormData>[] = [
           operator: 'OR',
           rules: [
             {
+              //@ts-expect-error: 3, 4, 5 are checkboxes
               operator: 'AND',
               rules: [
                 { dependsOn: '3', showWhen: true },
@@ -132,6 +133,7 @@ export const formFixtures: Partial<FormData>[] = [
               ],
             },
             {
+              //@ts-expect-error: 6, 7 are checkboxes
               operator: 'AND',
               rules: [
                 { dependsOn: '6', showWhen: true },

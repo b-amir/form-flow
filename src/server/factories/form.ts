@@ -30,8 +30,12 @@ export const formFactory = Factory.extend<FormData>({
         label: 'Email Address',
         isRequired: false,
         conditionalLogic: {
-          dependsOn: '2',
-          showWhen: true,
+          rules: [
+            {
+              dependsOn: '2',
+              showWhen: true,
+            },
+          ],
         },
       },
     ];

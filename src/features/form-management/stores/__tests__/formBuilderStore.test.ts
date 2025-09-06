@@ -6,6 +6,7 @@ describe('Form Builder Store', () => {
   beforeEach(() => {
     useFormBuilderStore.setState({
       draftForm: {
+        id: '',
         name: '',
         elements: [],
       },
@@ -51,6 +52,7 @@ describe('Form Builder Store', () => {
 
     useFormBuilderStore.setState({
       draftForm: {
+        id: '1',
         name: 'Test Form',
         elements: [element],
       },
@@ -85,6 +87,7 @@ describe('Form Builder Store', () => {
 
     useFormBuilderStore.setState({
       draftForm: {
+        id: '1',
         name: 'Test Form',
         elements: [element],
       },
@@ -124,6 +127,7 @@ describe('Form Builder Store', () => {
 
     useFormBuilderStore.setState({
       draftForm: {
+        id: 'test-form-id',
         name: 'Test Form',
         elements,
       },
@@ -163,6 +167,7 @@ describe('Form Builder Store', () => {
   it('should clear draft form', () => {
     useFormBuilderStore.setState({
       draftForm: {
+        id: '1',
         name: 'Test Form',
         elements: [
           {
@@ -218,6 +223,7 @@ describe('Form Builder Store', () => {
   it('should initialize empty draft form when no form is provided', () => {
     useFormBuilderStore.setState({
       draftForm: {
+        id: '1',
         name: 'Test Form',
         elements: [
           {
