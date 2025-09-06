@@ -8,8 +8,7 @@ import {
 } from '@mui/material';
 import { Save } from '@mui/icons-material';
 import React, { type RefObject } from 'react';
-
-const HEADER_HEIGHT = 80;
+import { HEADER_HEIGHT } from '@/constants';
 
 interface FormBuilderHeaderProps {
   formName: string;

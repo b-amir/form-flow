@@ -1,7 +1,6 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import logo from '@/assets/logo.svg';
-
-const HEADER_HEIGHT = 80;
+import { HEADER_HEIGHT } from '@/constants';
 
 export const FormsHeader = () => {
   const theme = useTheme();

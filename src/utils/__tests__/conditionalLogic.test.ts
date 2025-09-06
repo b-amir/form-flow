@@ -5,14 +5,14 @@ import {
   conditionalLogicHelpers,
   type FormValues,
 } from '../conditionalLogic';
-import type { ApiConditionalLogic, ApiElement } from '@/types';
+import type { ConditionalLogic, ApiElement } from '@/types';
 
 describe('conditionalLogic', () => {
   describe('evaluateConditionalLogic', () => {
     it('should return true when checkbox is checked and showWhen is true', () => {
-      const conditionalLogic: ApiConditionalLogic = {
-        dependsOn: 'checkbox1',
-        showWhen: true,
+      const conditionalLogic: ConditionalLogic = {
+        operator: 'AND',
+        rules: [{ dependsOn: 'checkbox1', showWhen: true }],
       };
       const formValues: FormValues = {
         checkbox1: true,
@@ -23,9 +23,9 @@ describe('conditionalLogic', () => {
     });
 
     it('should return false when checkbox is checked and showWhen is false', () => {
-      const conditionalLogic: ApiConditionalLogic = {
-        dependsOn: 'checkbox1',
-        showWhen: false,
+      const conditionalLogic: ConditionalLogic = {
+        operator: 'AND',
+        rules: [{ dependsOn: 'checkbox1', showWhen: false }],
       };
       const formValues: FormValues = {
         checkbox1: true,
@@ -36,9 +36,9 @@ describe('conditionalLogic', () => {
     });
 
     it('should return false when checkbox is unchecked and showWhen is true', () => {
-      const conditionalLogic: ApiConditionalLogic = {
-        dependsOn: 'checkbox1',
-        showWhen: true,
+      const conditionalLogic: ConditionalLogic = {
+        operator: 'AND',
+        rules: [{ dependsOn: 'checkbox1', showWhen: true }],
       };
       const formValues: FormValues = {
         checkbox1: false,
@@ -49,9 +49,9 @@ describe('conditionalLogic', () => {
     });
 
     it('should return true when checkbox is unchecked and showWhen is false', () => {
-      const conditionalLogic: ApiConditionalLogic = {
-        dependsOn: 'checkbox1',
-        showWhen: false,
+      const conditionalLogic: ConditionalLogic = {
+        operator: 'AND',
+        rules: [{ dependsOn: 'checkbox1', showWhen: false }],
       };
       const formValues: FormValues = {
         checkbox1: false,
@@ -62,9 +62,9 @@ describe('conditionalLogic', () => {
     });
 
     it('should handle missing field values as false', () => {
-      const conditionalLogic: ApiConditionalLogic = {
-        dependsOn: 'nonexistent',
-        showWhen: true,
+      const conditionalLogic: ConditionalLogic = {
+        operator: 'AND',
+        rules: [{ dependsOn: 'nonexistent', showWhen: true }],
       };
       const formValues: FormValues = {};
 
@@ -73,9 +73,9 @@ describe('conditionalLogic', () => {
     });
 
     it('should handle string values as false for checkbox logic', () => {
-      const conditionalLogic: ApiConditionalLogic = {
-        dependsOn: 'textField',
-        showWhen: true,
+      const conditionalLogic: ConditionalLogic = {
+        operator: 'AND',
+        rules: [{ dependsOn: 'textField', showWhen: true }],
       };
       const formValues: FormValues = {
         textField: 'some text',
@@ -83,6 +83,101 @@ describe('conditionalLogic', () => {
 
       const result = evaluateConditionalLogic(conditionalLogic, formValues);
       expect(result).toBe(false);
+    });
+
+    it('should handle AND operator with multiple rules - all true', () => {
+      const conditionalLogic: ConditionalLogic = {
+        operator: 'AND',
+        rules: [
+          { dependsOn: 'checkbox1', showWhen: true },
+          { dependsOn: 'checkbox2', showWhen: false },
+        ],
+      };
+      const formValues: FormValues = {
+        checkbox1: true,
+        checkbox2: false,
+      };
+
+      const result = evaluateConditionalLogic(conditionalLogic, formValues);
+      expect(result).toBe(true);
+    });
+
+    it('should handle AND operator with multiple rules - some false', () => {
+      const conditionalLogic: ConditionalLogic = {
+        operator: 'AND',
+        rules: [
+          { dependsOn: 'checkbox1', showWhen: true },
+          { dependsOn: 'checkbox2', showWhen: true },
+        ],
+      };
+      const formValues: FormValues = {
+        checkbox1: true,
+        checkbox2: false,
+      };
+
+      const result = evaluateConditionalLogic(conditionalLogic, formValues);
+      expect(result).toBe(false);
+    });
+
+    it('should handle OR operator with multiple rules - some true', () => {
+      const conditionalLogic: ConditionalLogic = {
+        operator: 'OR',
+        rules: [
+          { dependsOn: 'checkbox1', showWhen: true },
+          { dependsOn: 'checkbox2', showWhen: true },
+        ],
+      };
+      const formValues: FormValues = {
+        checkbox1: true,
+        checkbox2: false,
+      };
+
+      const result = evaluateConditionalLogic(conditionalLogic, formValues);
+      expect(result).toBe(true);
+    });
+
+    it('should handle OR operator with multiple rules - all false', () => {
+      const conditionalLogic: ConditionalLogic = {
+        operator: 'OR',
+        rules: [
+          { dependsOn: 'checkbox1', showWhen: true },
+          { dependsOn: 'checkbox2', showWhen: true },
+        ],
+      };
+      const formValues: FormValues = {
+        checkbox1: false,
+        checkbox2: false,
+      };
+
+      const result = evaluateConditionalLogic(conditionalLogic, formValues);
+      expect(result).toBe(false);
+    });
+
+    it('should default to AND operator when not specified', () => {
+      const conditionalLogic: ConditionalLogic = {
+        rules: [
+          { dependsOn: 'checkbox1', showWhen: true },
+          { dependsOn: 'checkbox2', showWhen: true },
+        ],
+      };
+      const formValues: FormValues = {
+        checkbox1: true,
+        checkbox2: false,
+      };
+
+      const result = evaluateConditionalLogic(conditionalLogic, formValues);
+      expect(result).toBe(false);
+    });
+
+    it('should return true for empty rules array', () => {
+      const conditionalLogic: ConditionalLogic = {
+        operator: 'AND',
+        rules: [],
+      };
+      const formValues: FormValues = {};
+
+      const result = evaluateConditionalLogic(conditionalLogic, formValues);
+      expect(result).toBe(true);
     });
   });
 
@@ -105,8 +200,8 @@ describe('conditionalLogic', () => {
         type: 'text',
         label: 'Test Element',
         conditionalLogic: {
-          dependsOn: 'checkbox1',
-          showWhen: true,
+          operator: 'AND',
+          rules: [{ dependsOn: 'checkbox1', showWhen: true }],
         },
       };
       const formValues: FormValues = {
@@ -123,8 +218,8 @@ describe('conditionalLogic', () => {
         type: 'text',
         label: 'Test Element',
         conditionalLogic: {
-          dependsOn: 'checkbox1',
-          showWhen: true,
+          operator: 'AND',
+          rules: [{ dependsOn: 'checkbox1', showWhen: true }],
         },
       };
       const formValues: FormValues = {
@@ -158,8 +253,8 @@ describe('conditionalLogic', () => {
         type: 'text',
         label: 'Element 1',
         conditionalLogic: {
-          dependsOn: 'checkbox1',
-          showWhen: true,
+          operator: 'AND',
+          rules: [{ dependsOn: 'checkbox1', showWhen: true }],
         },
       };
 
@@ -168,8 +263,8 @@ describe('conditionalLogic', () => {
         type: 'text',
         label: 'Element 2',
         conditionalLogic: {
-          dependsOn: 'checkbox2',
-          showWhen: false,
+          operator: 'AND',
+          rules: [{ dependsOn: 'checkbox2', showWhen: false }],
         },
       };
 
@@ -178,8 +273,8 @@ describe('conditionalLogic', () => {
         type: 'text',
         label: 'Element 3',
         conditionalLogic: {
-          dependsOn: 'checkbox3',
-          showWhen: false,
+          operator: 'AND',
+          rules: [{ dependsOn: 'checkbox3', showWhen: false }],
         },
       };
 
@@ -199,8 +294,8 @@ describe('conditionalLogic', () => {
         type: 'text',
         label: 'Text Element',
         conditionalLogic: {
-          dependsOn: 'checkbox1',
-          showWhen: true,
+          operator: 'AND',
+          rules: [{ dependsOn: 'checkbox1', showWhen: true }],
         },
       };
 
@@ -209,13 +304,50 @@ describe('conditionalLogic', () => {
         type: 'checkbox',
         label: 'Checkbox Element',
         conditionalLogic: {
-          dependsOn: 'checkbox1',
-          showWhen: false,
+          operator: 'AND',
+          rules: [{ dependsOn: 'checkbox1', showWhen: false }],
         },
       };
 
       expect(shouldShowElement(textElement, formValues)).toBe(true);
       expect(shouldShowElement(checkboxElement, formValues)).toBe(false);
+    });
+
+    it('should handle complex AND/OR combinations', () => {
+      const formValues: FormValues = {
+        checkbox1: true,
+        checkbox2: false,
+        checkbox3: true,
+      };
+
+      const andElement: ApiElement = {
+        id: 'and-element',
+        type: 'text',
+        label: 'AND Element',
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [
+            { dependsOn: 'checkbox1', showWhen: true },
+            { dependsOn: 'checkbox2', showWhen: false },
+          ],
+        },
+      };
+
+      const orElement: ApiElement = {
+        id: 'or-element',
+        type: 'text',
+        label: 'OR Element',
+        conditionalLogic: {
+          operator: 'OR',
+          rules: [
+            { dependsOn: 'checkbox1', showWhen: true },
+            { dependsOn: 'checkbox3', showWhen: true },
+          ],
+        },
+      };
+
+      expect(shouldShowElement(andElement, formValues)).toBe(true);
+      expect(shouldShowElement(orElement, formValues)).toBe(true);
     });
   });
 });

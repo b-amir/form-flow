@@ -21,8 +21,8 @@ describe('FormRenderer - Conditional Logic Integration', () => {
         label: 'Additional Text Field',
         isRequired: false,
         conditionalLogic: {
-          dependsOn: 'checkbox1',
-          showWhen: true,
+          operator: 'AND',
+          rules: [{ dependsOn: 'checkbox1', showWhen: true }],
         },
       },
       {
@@ -31,8 +31,8 @@ describe('FormRenderer - Conditional Logic Integration', () => {
         label: 'Hidden When Checked',
         isRequired: false,
         conditionalLogic: {
-          dependsOn: 'checkbox1',
-          showWhen: false,
+          operator: 'AND',
+          rules: [{ dependsOn: 'checkbox1', showWhen: false }],
         },
       },
       {
@@ -105,8 +105,8 @@ describe('FormRenderer - Conditional Logic Integration', () => {
           type: 'text',
           label: 'Depends on Trigger 1',
           conditionalLogic: {
-            dependsOn: 'checkbox1',
-            showWhen: true,
+            operator: 'AND',
+            rules: [{ dependsOn: 'checkbox1', showWhen: true }],
           },
         },
         {
@@ -114,8 +114,8 @@ describe('FormRenderer - Conditional Logic Integration', () => {
           type: 'text',
           label: 'Depends on Trigger 2',
           conditionalLogic: {
-            dependsOn: 'checkbox2',
-            showWhen: true,
+            operator: 'AND',
+            rules: [{ dependsOn: 'checkbox2', showWhen: true }],
           },
         },
       ],

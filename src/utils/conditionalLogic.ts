@@ -1,17 +1,30 @@
-import type { ApiConditionalLogic, ApiElement } from '@/types';
+import type { ConditionalLogic, ConditionalRule, ApiElement } from '@/types';
 
 export interface FormValues {
   [fieldId: string]: boolean | string;
 }
 
+function evaluateRule(rule: ConditionalRule, formValues: FormValues): boolean {
+  const fieldValue = formValues[rule.dependsOn];
+  const isChecked = fieldValue === true;
+  return isChecked === rule.showWhen;
+}
+
 export function evaluateConditionalLogic(
-  conditionalLogic: ApiConditionalLogic,
+  conditionalLogic: ConditionalLogic,
   formValues: FormValues
 ): boolean {
-  const fieldValue = formValues[conditionalLogic.dependsOn];
-  const isChecked = fieldValue === true;
+  const { operator = 'AND', rules } = conditionalLogic;
 
-  return isChecked === conditionalLogic.showWhen;
+  if (rules.length === 0) {
+    return true;
+  }
+
+  if (operator === 'OR') {
+    return rules.some(rule => evaluateRule(rule, formValues));
+  } else {
+    return rules.every(rule => evaluateRule(rule, formValues));
+  }
 }
 
 export function shouldShowElement(

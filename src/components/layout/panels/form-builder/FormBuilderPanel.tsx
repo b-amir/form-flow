@@ -74,6 +74,7 @@ export const FormBuilderPanel = () => {
       <FormContent
         elements={draftForm.elements}
         selectedElementId={selectedElementId}
+        isLoading={false}
         onSelectElement={id => useFormBuilderStore.getState().selectElement(id)}
         onDeleteElement={id => useFormBuilderStore.getState().removeElement(id)}
         onReorderElements={(startIndex, endIndex) => {

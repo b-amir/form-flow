@@ -1,13 +1,19 @@
 import { Box, Collapse, useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
-import { ElementList } from '../../../form/builder/ElementList';
-import { ElementPropertiesEditor } from '../../../form/builder/ElementPropertiesEditor';
-import { EmptyIndicator } from '../../../common/EmptyIndicator';
+import { ElementList } from '@/components/form/builder/ElementList';
+import { ElementPropertiesEditor } from '@/components/form/builder/ElementPropertiesEditor';
+import { LoadingIndicator } from '@/components/common/LoadingIndicator';
+import { EmptyIndicator } from '@/components/common/EmptyIndicator';
 import type { ApiElement } from '@/types/api';
+import {
+  MEDIUM_SCREEN_BREAKPOINT,
+  ELEMENT_PROPERTIES_WIDTH,
+} from '@/constants';
 
 interface FormContentProps {
   elements: ApiElement[];
   selectedElementId: string | null;
+  isLoading?: boolean;
   onSelectElement: (id: string | null) => void;
   onDeleteElement: (id: string) => void;
   onReorderElements: (startIndex: number, endIndex: number) => void;
@@ -18,6 +24,7 @@ interface FormContentProps {
 export const FormContent: React.FC<FormContentProps> = ({
   elements,
   selectedElementId,
+  isLoading = false,
   onSelectElement,
   onDeleteElement,
   onReorderElements,
@@ -26,7 +33,7 @@ export const FormContent: React.FC<FormContentProps> = ({
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isMediumScreen = useMediaQuery('(max-width:1390px)');
+  const isMediumScreen = useMediaQuery(MEDIUM_SCREEN_BREAKPOINT);
 
   const handleBackgroundClick = () => {
     if (onBackgroundClick) {
@@ -35,6 +42,14 @@ export const FormContent: React.FC<FormContentProps> = ({
       onSelectElement(null);
     }
   };
+
+  if (isLoading) {
+    return (
+      <Box sx={{ flexGrow: 1 }}>
+        <LoadingIndicator message="Loading form elements..." />
+      </Box>
+    );
+  }
 
   if (elements.length === 0) {
     return (
@@ -83,7 +98,9 @@ export const FormContent: React.FC<FormContentProps> = ({
         >
           <Box
             sx={{
-              width: isMediumScreen ? 250 : 300,
+              width: isMediumScreen
+                ? ELEMENT_PROPERTIES_WIDTH.COMPACT
+                : ELEMENT_PROPERTIES_WIDTH.NORMAL,
               height: '100%',
               borderLeft: 1,
               borderColor: 'divider',

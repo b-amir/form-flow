@@ -3,8 +3,7 @@ import { Fullscreen, FullscreenExit } from '@mui/icons-material';
 import { FormRenderer } from '../../../form/renderer/FormRenderer';
 import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
 import { useState } from 'react';
-
-const HEADER_HEIGHT = 80;
+import { HEADER_HEIGHT } from '@/constants';
 
 export const FormPreviewPanel = () => {
   const { draftForm } = useFormBuilderStore();
