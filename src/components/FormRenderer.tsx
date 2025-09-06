@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Paper } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import type { Form } from '@/types/form';
 import type { ApiElement } from '@/types/api';
 import { FieldFactory } from './FieldFactory';
@@ -26,7 +26,7 @@ export const FormRenderer: React.FC<FormRendererProps> = ({ form }) => {
   };
 
   return (
-    <Paper elevation={2} sx={{ p: 3, maxWidth: 600, mx: 'auto' }}>
+    <Box sx={{ p: 3, maxWidth: 600, mx: 'auto' }}>
       <Typography variant="h4" component="h1" gutterBottom>
         {form.name}
       </Typography>
@@ -53,6 +53,6 @@ export const FormRenderer: React.FC<FormRendererProps> = ({ form }) => {
           );
         })}
       </Box>
-    </Paper>
+    </Box>
   );
 };

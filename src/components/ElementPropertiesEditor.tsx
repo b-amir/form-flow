@@ -47,7 +47,13 @@ export const ElementPropertiesEditor: React.FC<
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+      }}
+    >
       <Typography variant="h6" gutterBottom>
         Element Properties
       </Typography>

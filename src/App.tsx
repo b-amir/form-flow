@@ -1,41 +1,52 @@
-import { useState } from 'react';
 import './App.css';
-import { FormBuilderLayout, FormListView } from './components';
-import { useFormBuilderStore } from './features/form-management/stores/formBuilderStore';
-import type { ApiForm } from './types/api';
+import { Box } from '@mui/material';
+import {
+  FormBuilderPanel,
+  FormPreviewPanel,
+  FormsListPanel,
+} from './components/layout';
 
-type AppView = 'list' | 'builder';
-
-function App() {
-  const [currentView, setCurrentView] = useState<AppView>('list');
-  const { updateFormName, updateElements, clearForm } = useFormBuilderStore();
-
-  const handleCreateNew = () => {
-    clearForm();
-    setCurrentView('builder');
-  };
-
-  const handleEditForm = (form: ApiForm) => {
-    updateFormName(form.name);
-    updateElements(form.elements);
-    setCurrentView('builder');
-  };
-
-  const handleBackToList = () => {
-    setCurrentView('list');
-  };
-
-  if (currentView === 'list') {
-    return (
-      <FormListView onCreateNew={handleCreateNew} onEditForm={handleEditForm} />
-    );
-  }
-
+const App = () => {
   return (
-    <FormBuilderLayout onBackToList={handleBackToList}>
-      Form Builder Canvas
-    </FormBuilderLayout>
+    <Box
+      sx={{
+        display: 'flex',
+        width: '100vw',
+        height: '100vh',
+        overflow: 'hidden',
+      }}
+    >
+      <Box
+        component="aside"
+        sx={{
+          width: '16.67%',
+          borderRight: 1,
+          borderColor: 'divider',
+        }}
+      >
+        <FormsListPanel />
+      </Box>
+      <Box
+        component="main"
+        sx={{
+          width: '50%',
+          borderRight: 1,
+          borderColor: 'divider',
+        }}
+      >
+        <FormBuilderPanel />
+      </Box>
+
+      <Box
+        component="aside"
+        sx={{
+          width: '33.33%',
+        }}
+      >
+        <FormPreviewPanel />
+      </Box>
+    </Box>
   );
-}
+};
 
 export default App;
