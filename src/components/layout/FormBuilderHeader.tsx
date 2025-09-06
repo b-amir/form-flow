@@ -18,7 +18,6 @@ export const FormBuilderHeader: React.FC<FormBuilderHeaderProps> = ({
   inputRef,
   onFormNameChange,
   onSave,
-  isSaveDisabled = !formName.trim(),
   isDirty = false,
 }) => {
   return (
@@ -47,7 +46,7 @@ export const FormBuilderHeader: React.FC<FormBuilderHeaderProps> = ({
       />
       <IconButton
         onClick={onSave}
-        disabled={isSaveDisabled || !isDirty}
+        disabled={!isDirty}
         sx={{
           opacity: isDirty ? 1 : 0.3,
         }}

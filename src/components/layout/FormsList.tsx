@@ -11,6 +11,7 @@ interface FormsListProps {
   currentFormId: string | null;
   draftFormId: string | null;
   deletingId: string | null;
+  updatingFormId: string | null;
   onSelectForm: (formId: string) => void;
   onDeleteClick: (event: React.MouseEvent, formId: string) => void;
 }
@@ -22,6 +23,7 @@ export const FormsList: React.FC<FormsListProps> = ({
   currentFormId,
   draftFormId,
   deletingId,
+  updatingFormId,
   onSelectForm,
   onDeleteClick,
 }) => {
@@ -36,7 +38,7 @@ export const FormsList: React.FC<FormsListProps> = ({
     >
       {forms.length === 0 ? (
         <EmptyIndicator
-          message="No forms available"
+          message="No forms yet"
           subtitle="Click the + button to create a new form"
         />
       ) : (
@@ -50,6 +52,7 @@ export const FormsList: React.FC<FormsListProps> = ({
               isDeletingThis={deletingId === form.id}
               currentFormId={currentFormId}
               draftFormId={draftFormId}
+              updatingFormId={updatingFormId}
               onSelect={onSelectForm}
               onDelete={onDeleteClick}
             />

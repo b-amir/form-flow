@@ -37,17 +37,18 @@ export const EmptyIndicator: React.FC<EmptyIndicatorProps> = ({
           width: '100%',
         }}
       >
-        <Box sx={{ mb: 2 }}>{icon}</Box>
+        <Box sx={{ mb: 0.5 }}>{icon}</Box>
         <Typography
           variant="body1"
           color="text.secondary"
           align="center"
+          fontWeight={500}
           sx={{ mb: subtitle ? 1 : 0 }}
         >
           {message}
         </Typography>
         {subtitle && (
-          <Typography variant="caption" color="text.secondary" align="center">
+          <Typography variant="caption" color="textDisabled" align="center">
             {subtitle}
           </Typography>
         )}

@@ -8,16 +8,18 @@ export const useFormStore = create<FormStore>()(set => ({
   currentForm: null,
   isLoading: false,
   error: null,
+  updatingFormId: null,
 
   fetchForms: async () => {
     set({ isLoading: true, error: null });
     try {
       const forms = await formApi.fetchForms();
-      set({ forms, isLoading: false });
+      set({ forms, isLoading: false, updatingFormId: null });
     } catch (error) {
       set({
         error: error instanceof Error ? error.message : 'Failed to fetch forms',
         isLoading: false,
+        updatingFormId: null,
       });
     }
   },
@@ -26,7 +28,7 @@ export const useFormStore = create<FormStore>()(set => ({
     set({ isLoading: true, error: null });
     try {
       const form = await formApi.fetchFormById(id);
-      set({ currentForm: form, isLoading: false });
+      set({ currentForm: form, isLoading: false, updatingFormId: null });
     } catch (error) {
       set({
         error:
@@ -34,29 +36,32 @@ export const useFormStore = create<FormStore>()(set => ({
             ? error.message
             : `Failed to fetch form with id ${id}`,
         isLoading: false,
+        updatingFormId: null,
       });
     }
   },
 
   createForm: async (name: string, elements: ApiElement[]) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true, error: null, updatingFormId: 'draft' });
     try {
       const newForm = await formApi.createForm({ name, elements });
       set(state => ({
         forms: [...state.forms, newForm],
         currentForm: newForm,
         isLoading: false,
+        updatingFormId: null,
       }));
     } catch (error) {
       set({
         error: error instanceof Error ? error.message : 'Failed to create form',
         isLoading: false,
+        updatingFormId: null,
       });
     }
   },
 
   updateForm: async (id: string, updates: Partial<ApiForm>) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true, error: null, updatingFormId: id });
     try {
       const updatedForm = await formApi.updateForm(id, updates);
       set(state => ({
@@ -64,6 +69,7 @@ export const useFormStore = create<FormStore>()(set => ({
         currentForm:
           state.currentForm?.id === id ? updatedForm : state.currentForm,
         isLoading: false,
+        updatingFormId: null,
       }));
     } catch (error) {
       set({
@@ -72,18 +78,20 @@ export const useFormStore = create<FormStore>()(set => ({
             ? error.message
             : `Failed to update form with id ${id}`,
         isLoading: false,
+        updatingFormId: null,
       });
     }
   },
 
   deleteForm: async (id: string) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true, error: null, updatingFormId: id });
     try {
       await formApi.deleteForm(id);
       set(state => ({
         forms: state.forms.filter(form => form.id !== id),
         currentForm: state.currentForm?.id === id ? null : state.currentForm,
         isLoading: false,
+        updatingFormId: null,
       }));
     } catch (error) {
       set({
@@ -92,6 +100,7 @@ export const useFormStore = create<FormStore>()(set => ({
             ? error.message
             : `Failed to delete form with id ${id}`,
         isLoading: false,
+        updatingFormId: null,
       });
     }
   },

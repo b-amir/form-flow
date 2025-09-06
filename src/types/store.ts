@@ -6,6 +6,7 @@ export interface FormStore {
   currentForm: ApiForm | null;
   isLoading: boolean;
   error: string | null;
+  updatingFormId: string | null;
 
   fetchForms: () => Promise<void>;
   fetchFormById: (id: string) => Promise<void>;

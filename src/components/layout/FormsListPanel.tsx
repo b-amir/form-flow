@@ -7,8 +7,14 @@ import { FormsHeader } from './FormsHeader';
 import { FormsList } from './FormsList';
 
 export const FormsListPanel = () => {
-  const { forms, deleteForm, fetchForms, isLoading, currentForm } =
-    useFormStore();
+  const {
+    forms,
+    deleteForm,
+    fetchForms,
+    isLoading,
+    currentForm,
+    updatingFormId,
+  } = useFormStore();
   const { draftForm } = useFormBuilderStore();
   const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -82,6 +88,7 @@ export const FormsListPanel = () => {
         currentFormId={currentForm?.id || null}
         draftFormId={draftForm.id}
         deletingId={deletingId}
+        updatingFormId={updatingFormId}
         onSelectForm={handleSelectForm}
         onDeleteClick={handleDeleteClick}
       />

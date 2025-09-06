@@ -16,6 +16,7 @@ interface FormListItemProps {
   isDeletingThis: boolean;
   currentFormId: string | null;
   draftFormId: string | null;
+  updatingFormId: string | null;
   onSelect: (formId: string) => void;
   onDelete: (event: React.MouseEvent, formId: string) => void;
 }
@@ -26,13 +27,14 @@ export const FormListItem: React.FC<FormListItemProps> = ({
   isLoading,
   isDeletingThis,
   currentFormId,
-  draftFormId,
+  updatingFormId,
   onSelect,
   onDelete,
 }) => {
   const isUpdatingOrDeleting =
-    (isLoading && (currentFormId === form.id || draftFormId === form.id)) ||
-    isDeletingThis;
+    isDeletingThis ||
+    updatingFormId === form.id ||
+    (isLoading && currentFormId === form.id);
 
   return (
     <ListItem

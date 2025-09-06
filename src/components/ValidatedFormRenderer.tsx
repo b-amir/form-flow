@@ -10,7 +10,6 @@ import {
 import { FormField } from './form/FormField';
 import { FormHeader } from './form/FormHeader';
 import { FormButtons } from './form/FormButtons';
-import { EmptyIndicator } from './EmptyIndicator';
 
 interface ValidatedFormRendererProps {
   form: Form;
@@ -48,7 +47,7 @@ export const ValidatedFormRenderer: React.FC<ValidatedFormRendererProps> = ({
     <Box sx={{ p: 3, maxWidth: 600, mx: 'auto', height: '100%' }}>
       <FormHeader title={form.name} />
 
-      {hasElements ? (
+      {hasElements && (
         <Box
           component="form"
           onSubmit={handleSubmit(onFormSubmit)}
@@ -65,11 +64,6 @@ export const ValidatedFormRenderer: React.FC<ValidatedFormRendererProps> = ({
 
           <FormButtons onReset={handleReset} />
         </Box>
-      ) : (
-        <EmptyIndicator
-          message="Nothing to preview"
-          subtitle="Add elements to start building your form"
-        />
       )}
     </Box>
   );
