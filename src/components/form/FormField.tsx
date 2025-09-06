@@ -23,7 +23,6 @@ export const FormField: React.FC<FormFieldProps> = ({
         <FieldFactory
           element={{
             ...element,
-            label: element.isRequired ? `${element.label} **` : element.label,
           }}
           value={
             element.type === 'checkbox'
