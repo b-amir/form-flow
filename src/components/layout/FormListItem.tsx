@@ -41,6 +41,7 @@ export const FormListItem: React.FC<FormListItemProps> = ({
       key={form.id}
       onClick={isUpdatingOrDeleting ? undefined : () => onSelect(form.id)}
       sx={{
+        borderRadius: 0.5,
         cursor: isUpdatingOrDeleting ? 'default' : 'pointer',
         opacity: isUpdatingOrDeleting ? 0.7 : 1,
         backgroundColor: isSelected ? 'rgba(0, 0, 0, 0.04)' : 'transparent',

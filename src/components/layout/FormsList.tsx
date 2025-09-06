@@ -42,7 +42,16 @@ export const FormsList: React.FC<FormsListProps> = ({
           subtitle="Click the + button to create a new form"
         />
       ) : (
-        <List>
+        <List
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            p: 1,
+            gap: 0.5,
+          }}
+        >
           {forms.map(form => (
             <FormListItem
               key={form.id}
