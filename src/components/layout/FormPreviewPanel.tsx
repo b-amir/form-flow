@@ -1,6 +1,6 @@
 import { Box, Typography, IconButton, Alert, Snackbar } from '@mui/material';
 import { Fullscreen, FullscreenExit } from '@mui/icons-material';
-import { ValidatedFormRenderer } from '../ValidatedFormRenderer';
+import { FormRenderer } from '../FormRenderer';
 import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
 import { useState } from 'react';
 
@@ -75,7 +75,7 @@ export const FormPreviewPanel = () => {
           }),
         }}
       >
-        <ValidatedFormRenderer form={draftForm} onSubmit={handleFormSubmit} />
+        <FormRenderer form={draftForm} onSubmit={handleFormSubmit} />
 
         <Snackbar
           open={!!successMessage}
