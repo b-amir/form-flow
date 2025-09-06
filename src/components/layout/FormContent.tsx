@@ -26,6 +26,7 @@ export const FormContent: React.FC<FormContentProps> = ({
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMediumScreen = useMediaQuery('(max-width:1390px)');
 
   const handleBackgroundClick = () => {
     if (onBackgroundClick) {
@@ -82,11 +83,11 @@ export const FormContent: React.FC<FormContentProps> = ({
         >
           <Box
             sx={{
-              width: 300,
+              width: isMediumScreen ? 250 : 300,
               height: '100%',
               borderLeft: 1,
               borderColor: 'divider',
-              p: 2,
+              p: isMediumScreen ? 1.5 : 2,
               overflow: 'auto',
               backgroundColor: 'neutral.darkerPale',
             }}
@@ -115,7 +116,7 @@ export const FormContent: React.FC<FormContentProps> = ({
               height: '100%',
               borderTop: 1,
               borderColor: 'divider',
-              p: 2,
+              p: isMediumScreen ? 1.5 : 2,
               overflow: 'auto',
               backgroundColor: 'neutral.darkerPale',
             }}

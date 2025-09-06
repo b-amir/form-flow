@@ -27,7 +27,10 @@ export const BasicProperties: React.FC<BasicPropertiesProps> = ({
         onChange={handleLabelChange}
         variant="outlined"
         size="small"
+        margin="dense"
         fullWidth
+        InputLabelProps={{ style: { fontSize: '0.85rem' } }}
+        inputProps={{ style: { fontSize: '0.85rem' } }}
       />
 
       <FormControlLabel
@@ -35,12 +38,18 @@ export const BasicProperties: React.FC<BasicPropertiesProps> = ({
           <Switch
             checked={element.isRequired ?? false}
             onChange={handleRequiredChange}
+            size="small"
           />
         }
         label="Required"
+        sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.85rem' } }}
       />
 
-      <Typography variant="caption" color="text.secondary">
+      <Typography
+        variant="caption"
+        color="text.secondary"
+        sx={{ fontSize: '0.75rem' }}
+      >
         Element Type: {element.type === 'text' ? 'Text Field' : 'Checkbox'}
       </Typography>
     </>

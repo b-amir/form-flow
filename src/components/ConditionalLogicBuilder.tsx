@@ -67,9 +67,13 @@ export const ConditionalLogicBuilder: React.FC<
 
   if (checkboxElements.length === 0) {
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <InfoOutlineIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-        <Typography variant="caption" color="text.secondary">
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+        <InfoOutlineIcon sx={{ fontSize: 14, color: 'text.secondary' }} />
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{ fontSize: '0.75rem' }}
+        >
           Add checkbox fields to <br />
           enable conditional logic
         </Typography>
@@ -78,9 +82,13 @@ export const ConditionalLogicBuilder: React.FC<
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <Divider sx={{ my: 2 }} />
-      <Typography variant="h6" gutterBottom>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+      <Divider sx={{ my: 1 }} />
+      <Typography
+        variant="subtitle2"
+        sx={{ fontSize: '0.9rem', fontWeight: 500 }}
+        gutterBottom
+      >
         Conditional Logic
       </Typography>
 
@@ -89,14 +97,23 @@ export const ConditionalLogicBuilder: React.FC<
           <Switch
             checked={!!conditionalLogic}
             onChange={e => handleEnableConditionalLogic(e.target.checked)}
+            size="small"
           />
         }
         label="Enable conditional logic"
+        sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.85rem' } }}
       />
 
       {conditionalLogic && (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <FormControl size="small" fullWidth>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+          <FormControl
+            size="small"
+            fullWidth
+            sx={{
+              '& .MuiInputLabel-root': { fontSize: '0.85rem' },
+              '& .MuiSelect-select': { fontSize: '0.85rem' },
+            }}
+          >
             <InputLabel>Depends On</InputLabel>
             <Select
               value={conditionalLogic.dependsOn}
@@ -111,7 +128,14 @@ export const ConditionalLogicBuilder: React.FC<
             </Select>
           </FormControl>
 
-          <FormControl size="small" fullWidth>
+          <FormControl
+            size="small"
+            fullWidth
+            sx={{
+              '& .MuiInputLabel-root': { fontSize: '0.85rem' },
+              '& .MuiSelect-select': { fontSize: '0.85rem' },
+            }}
+          >
             <InputLabel>Show When</InputLabel>
             <Select
               value={conditionalLogic.showWhen ? 'checked' : 'unchecked'}

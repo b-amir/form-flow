@@ -54,28 +54,38 @@ export const ValidationSettings: React.FC<ValidationSettingsProps> = ({
   const validation = textElement.validation || {};
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
       <TextField
         label="Minimum Length"
         type="number"
-        InputProps={{ inputProps: { min: 0 } }}
+        InputProps={{ inputProps: { min: 0, style: { fontSize: '0.85rem' } } }}
         value={validation.minLength ?? ''}
         onChange={handleMinLengthChange}
         variant="outlined"
         size="small"
+        margin="dense"
         fullWidth
-        helperText="Minimum number of characters required"
+        InputLabelProps={{ style: { fontSize: '0.85rem' } }}
+        FormHelperTextProps={{
+          style: { fontSize: '0.75rem', marginTop: '2px' },
+        }}
+        helperText="Min number of chars"
       />
       <TextField
         label="Maximum Length"
         type="number"
-        InputProps={{ inputProps: { min: 0 } }}
+        InputProps={{ inputProps: { min: 0, style: { fontSize: '0.85rem' } } }}
         value={validation.maxLength ?? ''}
         onChange={handleMaxLengthChange}
         variant="outlined"
         size="small"
+        margin="dense"
         fullWidth
-        helperText="Maximum number of characters allowed"
+        InputLabelProps={{ style: { fontSize: '0.85rem' } }}
+        FormHelperTextProps={{
+          style: { fontSize: '0.75rem', marginTop: '2px' },
+        }}
+        helperText="Max number of chars"
       />
     </Box>
   );

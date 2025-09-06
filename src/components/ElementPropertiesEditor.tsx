@@ -17,11 +17,19 @@ export const ElementPropertiesEditor: React.FC<
 > = ({ element, allElements, onUpdateElement }) => {
   if (!element) {
     return (
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <Typography variant="h6" gutterBottom>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+        <Typography
+          variant="subtitle1"
+          gutterBottom
+          sx={{ fontSize: '0.95rem' }}
+        >
           Element Properties
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ fontSize: '0.85rem' }}
+        >
           Select an element to edit its properties
         </Typography>
       </Box>
@@ -39,10 +47,16 @@ export const ElementPropertiesEditor: React.FC<
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 2,
+        gap: 1,
+        p: 1,
+        fontSize: '0.9rem',
       }}
     >
-      <Typography variant="h6" gutterBottom>
+      <Typography
+        variant="subtitle2"
+        gutterBottom
+        sx={{ fontSize: '0.8rem', fontWeight: 500 }}
+      >
         Element Properties
       </Typography>
 
@@ -50,8 +64,12 @@ export const ElementPropertiesEditor: React.FC<
 
       {element.type === 'text' ? (
         <>
-          <Divider sx={{ my: 2 }} />
-          <Typography variant="h6" gutterBottom>
+          <Divider sx={{ my: 1 }} />
+          <Typography
+            variant="subtitle2"
+            gutterBottom
+            sx={{ fontSize: '0.9rem', fontWeight: 500 }}
+          >
             Validation Settings
           </Typography>
           <ValidationSettings
@@ -60,7 +78,7 @@ export const ElementPropertiesEditor: React.FC<
           />
         </>
       ) : (
-        <Divider sx={{ my: 2 }} />
+        <Divider sx={{ my: 1 }} />
       )}
 
       <ConditionalLogicBuilder

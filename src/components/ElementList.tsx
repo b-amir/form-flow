@@ -75,7 +75,7 @@ const SortableItem: React.FC<SortableItemProps> = ({
           ? 'secondary.lighter'
           : 'background.default',
         cursor: 'pointer',
-        border: isSelected ? 2 : 1,
+        border: 1,
         borderColor: isSelected ? 'secondary.main' : 'divider',
         '&:hover': {
           borderColor: 'secondary.main',
@@ -115,8 +115,9 @@ const SortableItem: React.FC<SortableItemProps> = ({
           <Typography
             variant="subtitle1"
             sx={{
-              fontWeight: isSelected ? 600 : 400,
+              fontWeight: isSelected ? 700 : 500,
               color: isSelected ? 'secondary.dark' : 'text.primary',
+              fontSize: 14,
             }}
           >
             {element.label || `Untitled ${element.type}`}
