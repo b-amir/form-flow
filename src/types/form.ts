@@ -32,35 +32,6 @@ export interface Condition {
   value: boolean;
 }
 
-export interface ConditionalLogic {
-  conditions: Condition[];
-  action: 'show' | 'hide';
-}
-
-export interface BaseElementWithConditions extends BaseElement {
-  conditionalLogic?: ConditionalLogic;
-}
-
-export interface TextElementWithConditions extends BaseElementWithConditions {
-  type: 'text';
-  validation?: {
-    minLength?: number;
-    maxLength?: number;
-  };
-}
-
-export interface CheckboxElementWithConditions
-  extends BaseElementWithConditions {
-  type: 'checkbox';
-  validation?: {
-    required?: boolean;
-  };
-}
-
-export type ElementWithConditions =
-  | TextElementWithConditions
-  | CheckboxElementWithConditions;
-
 export interface Form {
   id: string;
   name: string;
