@@ -95,7 +95,7 @@ export const ConditionalLogicBuilder: React.FC<
       />
 
       {conditionalLogic && (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, pl: 2 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <FormControl size="small" fullWidth>
             <InputLabel>Depends On</InputLabel>
             <Select
