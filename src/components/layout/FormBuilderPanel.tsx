@@ -73,7 +73,10 @@ export const FormBuilderPanel = () => {
         selectedElementId={selectedElementId}
         onSelectElement={id => useFormBuilderStore.getState().selectElement(id)}
         onDeleteElement={id => useFormBuilderStore.getState().removeElement(id)}
-        onReorderElements={reorderElements}
+        onReorderElements={(startIndex, endIndex) => {
+          reorderElements(startIndex, endIndex);
+          setIsDirty(true);
+        }}
         onUpdateElement={(id, updates) =>
           useFormBuilderStore.getState().updateElement(id, updates)
         }
