@@ -15,7 +15,8 @@ import { useEffect, useRef } from 'react';
 const HEADER_HEIGHT = 64;
 
 export const FormBuilderPanel = () => {
-  const { draftForm, selectedElementId, setFormName } = useFormBuilderStore();
+  const { draftForm, selectedElementId, setFormName, reorderElements } =
+    useFormBuilderStore();
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -93,6 +94,7 @@ export const FormBuilderPanel = () => {
               onDeleteElement={id =>
                 useFormBuilderStore.getState().removeElement(id)
               }
+              onReorderElements={reorderElements}
               onClick={e => e.stopPropagation()}
             />
           </Box>
