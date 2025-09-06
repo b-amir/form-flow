@@ -139,11 +139,28 @@ interface Form {
   elements: Element[];
 }
 
-interface Element {
+type Element = TextElement | CheckboxElement;
+
+interface BaseElement {
   id: string;
   type: 'text' | 'checkbox';
   label: string;
   isRequired?: boolean;
+}
+
+interface TextElement extends BaseElement {
+  type: 'text';
+  validation?: {
+    minLength?: number;
+    maxLength?: number;
+  };
+}
+
+interface CheckboxElement extends BaseElement {
+  type: 'checkbox';
+  validation?: {
+    required?: boolean;
+  };
 }
 ```
 
@@ -158,21 +175,20 @@ Conditional logic supports advanced show/hide operations with multiple rules and
 - **Logic**: Complex condition evaluation with `showWhen` boolean flags
 
 ```typescript
-interface ConditionalRule {
-  dependsOn: string;  // ID of the checkbox field
-  showWhen: boolean;  // Show when checkbox is true/false
-}
+type ConditionOperator = 'equals' | 'not_equals';
 
-interface ConditionalLogic {
-  operator?: 'AND' | 'OR';  // How to combine multiple rules
-  rules: ConditionalRule[];  // Array of conditional rules
+interface Condition {
+  fieldId: string; // ID of the field this condition depends on
+  operator: ConditionOperator; // Comparison operator
+  value: boolean; // Value to compare against
 }
 ```
 
 **Examples:**
-- Show field when checkbox A is checked: `{ operator: 'AND', rules: [{ dependsOn: 'checkboxA', showWhen: true }] }`
-- Show field when checkbox A is checked AND checkbox B is unchecked: `{ operator: 'AND', rules: [{ dependsOn: 'checkboxA', showWhen: true }, { dependsOn: 'checkboxB', showWhen: false }] }`
-- Show field when checkbox A OR checkbox B is checked: `{ operator: 'OR', rules: [{ dependsOn: 'checkboxA', showWhen: true }, { dependsOn: 'checkboxB', showWhen: true }] }`
+
+- Show field when checkbox A is checked: `{ fieldId: 'checkboxA', operator: 'equals', value: true }`
+- Show field when checkbox A is unchecked: `{ fieldId: 'checkboxA', operator: 'not_equals', value: true }`
+- Multiple conditions can be combined using the form builder interface to create complex conditional logic
 
 ## 📁 Project Structure
 
