@@ -1,6 +1,7 @@
 import { Box, List } from '@mui/material';
 import React from 'react';
 import type { Form } from '@/types/form';
+import { LoadingIndicator } from '../../../common/LoadingIndicator';
 import { EmptyIndicator } from '../../../common/EmptyIndicator';
 import { FormListItem } from './FormListItem';
 
@@ -36,7 +37,9 @@ export const FormsList: React.FC<FormsListProps> = ({
         p: forms.length === 0 ? 2 : 0,
       }}
     >
-      {forms.length === 0 ? (
+      {isLoading && forms.length === 0 ? (
+        <LoadingIndicator message="Loading forms..." />
+      ) : forms.length === 0 ? (
         <EmptyIndicator
           message="No forms yet"
           subtitle="Click the + button to create a new form"

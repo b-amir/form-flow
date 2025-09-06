@@ -79,6 +79,10 @@ const SortableItem: React.FC<SortableItemProps> = ({
         borderColor: isSelected ? 'secondary.main' : 'divider',
         '&:hover': {
           borderColor: 'secondary.main',
+          '& .delete-button': {
+            opacity: 1,
+            visibility: 'visible',
+          },
         },
         ...style,
       }}
@@ -125,12 +129,18 @@ const SortableItem: React.FC<SortableItemProps> = ({
         </Box>
         <Tooltip title="Delete element">
           <IconButton
+            className="delete-button"
             size="small"
             onClick={e => {
               e.stopPropagation();
               onDelete(element.id);
             }}
-            sx={{ color: 'error.main' }}
+            sx={{
+              color: 'error.main',
+              opacity: 0,
+              visibility: 'hidden',
+              transition: 'opacity 0.2s ease, visibility 0.2s ease',
+            }}
           >
             <Delete fontSize="small" />
           </IconButton>
@@ -215,9 +225,8 @@ export const ElementList: React.FC<ElementListProps> = ({
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 1,
-                maxHeight: 'calc(100vh - 200px)',
-                overflow: 'auto',
-                pr: 1,
+                flex: 1,
+                minHeight: 0, // Allow flex item to shrink
               }}
             >
               {elements.map(element => (
