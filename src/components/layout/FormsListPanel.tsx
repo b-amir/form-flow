@@ -93,7 +93,7 @@ export const FormsListPanel = () => {
           boxShadow: 4,
         }}
       >
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
           Forms
         </Typography>
         <IconButton onClick={handleAddForm}>

@@ -177,8 +177,11 @@ const theme = createTheme({
           style: {
             background: palette.gradients.greenGradient,
             color: base.background,
+            transition: 'all 0.2s ease-in-out',
             '&:hover': {
-              backgroundColor: green[600],
+              background: `linear-gradient(to top right, ${green[600]} 30%, ${green[500]})`,
+              transform: 'translateY(-1px)',
+              boxShadow: `0 4px 8px ${alpha(green[500], 0.25)}`,
             },
           },
         },

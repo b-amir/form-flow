@@ -49,8 +49,8 @@ export const FormBuilderPanel = () => {
           onChange={e => setFormName(e.target.value)}
           placeholder="Form Name"
           sx={{
-            fontSize: 'h6.fontSize',
-            fontWeight: 'h6.fontWeight',
+            fontSize: 'h3.fontSize',
+            fontWeight: 'h3.fontWeight',
             flexGrow: 1,
           }}
         />
