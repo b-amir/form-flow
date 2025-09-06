@@ -209,7 +209,16 @@ export const ElementList: React.FC<ElementListProps> = ({
             items={elements.map(element => element.id)}
             strategy={verticalListSortingStrategy}
           >
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 1,
+                maxHeight: 'calc(100vh - 200px)',
+                overflow: 'auto',
+                pr: 1,
+              }}
+            >
               {elements.map(element => (
                 <SortableItem
                   key={element.id}
