@@ -62,10 +62,23 @@ const Layout = ({
           width: '100vw',
           height: '100vh',
           overflow: 'hidden',
+          position: 'relative',
         }}
       >
         {!isDesktop && (
-          <Box sx={{ p: 1, borderBottom: 1, borderColor: 'divider' }}>
+          <Box
+            sx={{
+              p: 1,
+              borderTop: 1,
+              borderColor: 'divider',
+              position: 'fixed',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              bgcolor: 'white',
+              zIndex: 1200,
+            }}
+          >
             <ToggleButtonGroup
               value={activePanel}
               exclusive
@@ -94,10 +107,11 @@ const Layout = ({
           component="aside"
           sx={{
             width: isDesktop ? '16.67%' : '100%',
-            height: isDesktop ? '100%' : 'calc(100% - 48px)',
+            height: isDesktop ? '100%' : 'calc(100% - 64px)',
             borderRight: isDesktop ? 1 : 0,
             borderColor: 'divider',
             display: isDesktop || activePanel === 'forms' ? 'block' : 'none',
+            marginBottom: !isDesktop ? '48px' : 0,
           }}
         >
           {formsListPanel}
@@ -107,10 +121,11 @@ const Layout = ({
           component="main"
           sx={{
             width: isDesktop ? (isWideScreen ? '50%' : '83.33%') : '100%',
-            height: isDesktop ? '100%' : 'calc(100% - 48px)',
+            height: isDesktop ? '100%' : 'calc(100% - 64px)',
             borderRight: isDesktop ? 1 : 0,
             borderColor: 'divider',
             display: isDesktop || activePanel === 'builder' ? 'block' : 'none',
+            marginBottom: !isDesktop ? '48px' : 0,
           }}
         >
           {formBuilderPanel}
@@ -120,11 +135,12 @@ const Layout = ({
           component="aside"
           sx={{
             width: isDesktop ? '33.33%' : '100%',
-            height: isDesktop ? '100%' : 'calc(100% - 48px)',
+            height: isDesktop ? '100%' : 'calc(100% - 64px)',
             display:
               (isDesktop && isWideScreen) || activePanel === 'preview'
                 ? 'block'
                 : 'none',
+            marginBottom: !isDesktop ? '48px' : 0,
           }}
         >
           {formPreviewPanel}

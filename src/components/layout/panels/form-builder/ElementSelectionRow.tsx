@@ -20,6 +20,7 @@ export const ElementSelectionRow = () => {
   const { addElement, draftForm } = useFormBuilderStore();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const isSmallScreen = useMediaQuery(`(max-width:1390px)`);
+  const isMobile = useMediaQuery(`(max-width:600px)`);
 
   const handleSelectElement = (type: 'text' | 'checkbox') => {
     const newElement: ApiElement = {
@@ -56,17 +57,31 @@ export const ElementSelectionRow = () => {
             variant="contained"
             size="small"
             onClick={() => handleSelectElement('text')}
+            sx={{
+              minWidth: isMobile ? '40px' : 'auto',
+              '& .MuiButton-startIcon': {
+                margin: isMobile ? 0 : undefined,
+              },
+            }}
             startIcon={<TextFields />}
+            aria-label="Add Text Field"
           >
-            Add Text Field
+            {!isMobile && 'Add Text Field'}
           </Button>
           <Button
             variant="contained"
             size="small"
             onClick={() => handleSelectElement('checkbox')}
+            sx={{
+              minWidth: isMobile ? '40px' : 'auto',
+              '& .MuiButton-startIcon': {
+                margin: isMobile ? 0 : undefined,
+              },
+            }}
             startIcon={<CheckBox />}
+            aria-label="Add Checkbox"
           >
-            Add Checkbox
+            {!isMobile && 'Add Checkbox'}
           </Button>
         </Box>
         {isSmallScreen && (
@@ -74,10 +89,16 @@ export const ElementSelectionRow = () => {
             variant="outlined"
             size="small"
             onClick={handleFullscreenToggle}
+            sx={{
+              minWidth: isMobile ? '40px' : 'auto',
+              '& .MuiButton-startIcon': {
+                margin: isMobile ? 0 : undefined,
+              },
+            }}
             startIcon={<Visibility />}
             aria-label="Preview form"
           >
-            Preview
+            {!isMobile && 'Preview'}
           </Button>
         )}
       </Box>

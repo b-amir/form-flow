@@ -200,7 +200,16 @@ export const ElementList: React.FC<ElementListProps> = ({
   };
 
   return (
-    <Box sx={{ pb: 2, px: 2 }} onClick={onClick}>
+    <Box
+      sx={{
+        pb: 2,
+        px: 2,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+      onClick={onClick}
+    >
       <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
         Form Elements
       </Typography>
@@ -226,7 +235,10 @@ export const ElementList: React.FC<ElementListProps> = ({
                 flexDirection: 'column',
                 gap: 1,
                 flex: 1,
-                minHeight: 0, // Allow flex item to shrink
+                minHeight: 0,
+                overflowY: 'auto',
+                maxHeight: '78dvh',
+                pb: { xs: 16, sm: 2 },
               }}
             >
               {elements.map(element => (
