@@ -25,11 +25,13 @@ export const FormPreviewPanel = () => {
       <Box
         sx={{
           height: HEADER_HEIGHT,
+          minHeight: HEADER_HEIGHT,
           display: 'flex',
           alignItems: 'center',
           px: 2,
           borderBottom: 1,
           borderColor: 'divider',
+          boxShadow: 4,
           ...(isFullscreen && {
             position: 'fixed',
             top: 0,

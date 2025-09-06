@@ -25,8 +25,9 @@ export const ElementSelectionRow = () => {
         borderBottom: 1,
         borderColor: 'divider',
         px: 4,
-        boxShadow: 2,
         zIndex: 2,
+        minHeight: 64,
+        boxShadow: 2,
       }}
     >
       <Button
