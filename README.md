@@ -149,11 +149,30 @@ interface Element {
 
 ### Conditional Logic
 
-Conditional logic supports simple show/hide operations:
+Conditional logic supports advanced show/hide operations with multiple rules and operators:
 
 - **Trigger**: Checkbox field values
 - **Action**: Show or hide target fields
-- **Logic**: Single condition evaluation (checkbox checked/unchecked)
+- **Operators**: AND/OR logic for combining multiple conditions
+- **Rules**: Multiple conditional rules per element
+- **Logic**: Complex condition evaluation with `showWhen` boolean flags
+
+```typescript
+interface ConditionalRule {
+  dependsOn: string;  // ID of the checkbox field
+  showWhen: boolean;  // Show when checkbox is true/false
+}
+
+interface ConditionalLogic {
+  operator?: 'AND' | 'OR';  // How to combine multiple rules
+  rules: ConditionalRule[];  // Array of conditional rules
+}
+```
+
+**Examples:**
+- Show field when checkbox A is checked: `{ operator: 'AND', rules: [{ dependsOn: 'checkboxA', showWhen: true }] }`
+- Show field when checkbox A is checked AND checkbox B is unchecked: `{ operator: 'AND', rules: [{ dependsOn: 'checkboxA', showWhen: true }, { dependsOn: 'checkboxB', showWhen: false }] }`
+- Show field when checkbox A OR checkbox B is checked: `{ operator: 'OR', rules: [{ dependsOn: 'checkboxA', showWhen: true }, { dependsOn: 'checkboxB', showWhen: true }] }`
 
 ## 📁 Project Structure
 
