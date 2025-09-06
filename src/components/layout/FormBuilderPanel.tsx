@@ -14,6 +14,7 @@ export const FormBuilderPanel = () => {
     setFormName,
     reorderElements,
     setIsDirty,
+    isDirty,
   } = useFormBuilderStore();
   const { updateForm, createForm } = useFormStore();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -64,6 +65,7 @@ export const FormBuilderPanel = () => {
         onFormNameChange={setFormName}
         onSave={handleSave}
         isSaveDisabled={!draftForm.name.trim()}
+        isDirty={isDirty}
       />
 
       <ElementSelectionRow />

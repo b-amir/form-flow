@@ -10,6 +10,7 @@ interface FormBuilderHeaderProps {
   onFormNameChange: (name: string) => void;
   onSave: () => void;
   isSaveDisabled?: boolean;
+  isDirty?: boolean;
 }
 
 export const FormBuilderHeader: React.FC<FormBuilderHeaderProps> = ({
@@ -18,6 +19,7 @@ export const FormBuilderHeader: React.FC<FormBuilderHeaderProps> = ({
   onFormNameChange,
   onSave,
   isSaveDisabled = !formName.trim(),
+  isDirty = false,
 }) => {
   return (
     <Box
@@ -43,7 +45,13 @@ export const FormBuilderHeader: React.FC<FormBuilderHeaderProps> = ({
           flexGrow: 1,
         }}
       />
-      <IconButton onClick={onSave} disabled={isSaveDisabled}>
+      <IconButton
+        onClick={onSave}
+        disabled={isSaveDisabled || !isDirty}
+        sx={{
+          opacity: isDirty ? 1 : 0.3,
+        }}
+      >
         <Save />
       </IconButton>
     </Box>
