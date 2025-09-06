@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Collapse } from '@mui/material';
 import type { Form } from '@/types/form';
 import type { ApiElement } from '@/types/api';
@@ -6,36 +8,48 @@ import { FormHeader } from '../ui/FormHeader';
 import { FormButtons } from '../ui/FormButtons';
 import { shouldShowElement } from '@/utils/conditionalLogic';
 import { FieldFactory } from '../../fields/FieldFactory';
+import {
+  createValidationSchema,
+  createDefaultValues,
+} from '@/utils/formValidation';
 
 interface FormRendererProps {
   form: Form;
-  onSubmit?: (data: Record<string, string | boolean>) => void;
+  onSubmit?: (data: Record<string, unknown>) => void;
 }
 
 export const FormRenderer: React.FC<FormRendererProps> = ({
   form,
   onSubmit,
 }) => {
-  const [formValues, setFormValues] = useState<
-    Record<string, string | boolean>
-  >({});
+  const validationSchema = createValidationSchema(form);
+  const defaultValues = createDefaultValues(form);
 
-  const handleFieldChange = (fieldId: string, value: string | boolean) => {
-    setFormValues(prev => ({
-      ...prev,
-      [fieldId]: value,
-    }));
-  };
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    watch,
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues,
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const formValues = watch();
+
+  useEffect(() => {
+    reset(createDefaultValues(form));
+  }, [form, reset]);
+
+  const onFormSubmit = (data: Record<string, unknown>) => {
     if (onSubmit) {
-      onSubmit(formValues);
+      onSubmit(data as Record<string, string | boolean>);
     }
   };
 
   const handleReset = () => {
-    setFormValues({});
+    reset(createDefaultValues(form));
   };
 
   const hasElements = form.elements.length > 0;
@@ -45,7 +59,11 @@ export const FormRenderer: React.FC<FormRendererProps> = ({
       <FormHeader title={form.name} />
 
       {hasElements && (
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onFormSubmit)}
+          sx={{ mt: 2 }}
+        >
           {form.elements.map(element => {
             const shouldShow =
               'conditionalLogic' in element
@@ -55,18 +73,24 @@ export const FormRenderer: React.FC<FormRendererProps> = ({
                   )
                 : true;
 
+            const fieldError = errors[element.id]?.message;
+
             return (
               <Collapse key={element.id} in={shouldShow} timeout={300}>
                 <FieldFactory
                   element={element}
                   value={
-                    formValues[element.id] ??
-                    (element.type === 'checkbox' ? false : '')
+                    formValues[element.id] != null
+                      ? element.type === 'checkbox'
+                        ? Boolean(formValues[element.id])
+                        : String(formValues[element.id])
+                      : element.type === 'checkbox'
+                        ? false
+                        : ''
                   }
-                  onChange={(value: string | boolean) =>
-                    handleFieldChange(element.id, value)
-                  }
-                  error={undefined}
+                  onChange={() => {}}
+                  error={fieldError}
+                  control={control}
                 />
               </Collapse>
             );

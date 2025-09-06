@@ -19,6 +19,26 @@ export const TextInputField: React.FC<TextInputFieldProps> = ({
     onChange(event.target.value);
   };
 
+  const validation = element.validation;
+  const currentLength = value?.length || 0;
+
+  let helperText = error;
+  if (!error && validation) {
+    const hints = [];
+    if (validation.minLength) {
+      hints.push(`Min: ${validation.minLength} chars`);
+    }
+    if (validation.maxLength) {
+      hints.push(`Max: ${validation.maxLength} chars`);
+    }
+    if (validation.maxLength) {
+      hints.push(`${currentLength}/${validation.maxLength}`);
+    }
+    if (hints.length > 0) {
+      helperText = hints.join(' • ');
+    }
+  }
+
   return (
     <TextField
       id={element.id}
@@ -27,10 +47,14 @@ export const TextInputField: React.FC<TextInputFieldProps> = ({
       onChange={handleChange}
       required={element.isRequired ?? false}
       error={!!error}
-      helperText={error}
+      helperText={helperText}
       fullWidth
       variant="outlined"
       margin="normal"
+      inputProps={{
+        minLength: validation?.minLength,
+        maxLength: validation?.maxLength,
+      }}
     />
   );
 };

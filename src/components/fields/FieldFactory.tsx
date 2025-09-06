@@ -1,4 +1,5 @@
 import React from 'react';
+import { Controller, type Control } from 'react-hook-form';
 import type { Element } from '@/types/form';
 import { TextInputField } from './TextInputField';
 import { CheckboxField } from './CheckboxField';
@@ -8,6 +9,7 @@ interface FieldFactoryProps {
   value: string | boolean;
   onChange: (value: string | boolean) => void;
   error?: string | undefined;
+  control?: Control<Record<string, unknown>>;
 }
 
 export const FieldFactory: React.FC<FieldFactoryProps> = ({
@@ -15,7 +17,42 @@ export const FieldFactory: React.FC<FieldFactoryProps> = ({
   value,
   onChange,
   error,
+  control,
 }) => {
+  if (control) {
+    return (
+      <Controller
+        name={element.id}
+        control={control}
+        render={({ field, fieldState }) => {
+          const fieldError = fieldState.error?.message || error;
+          switch (element.type) {
+            case 'text':
+              return (
+                <TextInputField
+                  element={element}
+                  value={field.value != null ? String(field.value) : ''}
+                  onChange={field.onChange}
+                  error={fieldError}
+                />
+              );
+            case 'checkbox':
+              return (
+                <CheckboxField
+                  element={element}
+                  value={field.value != null ? Boolean(field.value) : false}
+                  onChange={field.onChange}
+                  error={fieldError}
+                />
+              );
+            default:
+              return <div />;
+          }
+        }}
+      />
+    );
+  }
+
   switch (element.type) {
     case 'text':
       return (
