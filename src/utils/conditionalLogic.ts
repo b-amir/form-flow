@@ -1,11 +1,11 @@
-import type { ConditionalLogic, ApiElement } from '@/types/api';
+import type { ApiConditionalLogic, ApiElement } from '@/types';
 
 export interface FormValues {
   [fieldId: string]: boolean | string;
 }
 
 export function evaluateConditionalLogic(
-  conditionalLogic: ConditionalLogic,
+  conditionalLogic: ApiConditionalLogic,
   formValues: FormValues
 ): boolean {
   const fieldValue = formValues[conditionalLogic.dependsOn];

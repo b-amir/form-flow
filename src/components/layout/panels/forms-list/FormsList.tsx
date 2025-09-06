@@ -1,7 +1,7 @@
 import { Box, List } from '@mui/material';
 import React from 'react';
 import type { Form } from '@/types/form';
-import { EmptyIndicator } from '../EmptyIndicator';
+import { EmptyIndicator } from '../../../common/EmptyIndicator';
 import { FormListItem } from './FormListItem';
 
 interface FormsListProps {

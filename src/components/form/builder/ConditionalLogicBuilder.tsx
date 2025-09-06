@@ -10,15 +10,14 @@ import {
   Switch,
   Divider,
 } from '@mui/material';
-import type { ApiElement } from '@/types/api';
-import type { ConditionalLogic } from '@/types/api';
+import type { ApiElement, ApiConditionalLogic } from '@/types';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 
 interface ConditionalLogicBuilderProps {
   element: ApiElement;
   allElements: ApiElement[];
   onUpdateConditionalLogic: (
-    conditionalLogic: ConditionalLogic | undefined
+    conditionalLogic: ApiConditionalLogic | undefined
   ) => void;
 }
 
@@ -26,7 +25,7 @@ export const ConditionalLogicBuilder: React.FC<
   ConditionalLogicBuilderProps
 > = ({ element, allElements, onUpdateConditionalLogic }) => {
   const conditionalLogic = (
-    element as ApiElement & { conditionalLogic?: ConditionalLogic }
+    element as ApiElement & { conditionalLogic?: ApiConditionalLogic }
   ).conditionalLogic;
   const checkboxElements = allElements.filter(
     el => el.type === 'checkbox' && el.id !== element.id
@@ -36,7 +35,7 @@ export const ConditionalLogicBuilder: React.FC<
     if (enabled) {
       const firstCheckbox = checkboxElements[0];
       if (firstCheckbox) {
-        const newConditionalLogic: ConditionalLogic = {
+        const newConditionalLogic: ApiConditionalLogic = {
           dependsOn: firstCheckbox.id,
           showWhen: true,
         };

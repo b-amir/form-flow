@@ -1,8 +1,8 @@
 import { Box, Collapse, useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
-import { ElementList } from '../ElementList';
-import { ElementPropertiesEditor } from '../ElementPropertiesEditor';
-import { EmptyIndicator } from '../EmptyIndicator';
+import { ElementList } from '../../../form/builder/ElementList';
+import { ElementPropertiesEditor } from '../../../form/builder/ElementPropertiesEditor';
+import { EmptyIndicator } from '../../../common/EmptyIndicator';
 import type { ApiElement } from '@/types/api';
 
 interface FormContentProps {

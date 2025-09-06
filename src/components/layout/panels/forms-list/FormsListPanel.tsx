@@ -2,7 +2,7 @@ import { Box, Button, useTheme, keyframes } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useFormStore } from '@/features/form-management/stores/formStore';
 import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
-import { ConfirmationDialog } from '../ConfirmationDialog';
+import { ConfirmationDialog } from '../../../common/ConfirmationDialog';
 import { FormsHeader } from './FormsHeader';
 import { FormsList } from './FormsList';
 import { Add } from '@mui/icons-material';

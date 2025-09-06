@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@/utils/test-utils';
-import { FormRenderer } from '../FormRenderer';
-import type { ApiForm } from '@/types/api';
+import { FormRenderer } from '../form/renderer/FormRenderer';
+import type { ApiForm } from '@/types';
 
 describe('FormRenderer - Conditional Logic Integration', () => {
   const mockFormWithConditionalLogic: ApiForm = {

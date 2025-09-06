@@ -5,7 +5,7 @@ import { ElementSelectionRow } from './ElementSelectionRow';
 import { useEffect, useState } from 'react';
 import { FormBuilderHeader } from './FormBuilderHeader';
 import { FormContent } from './FormContent';
-import { FormNotifications } from './FormNotifications';
+import { FormNotifications } from '../../../form/ui/FormNotifications';
 import { useFormNameInputRef } from '@/hooks';
 
 export const FormBuilderPanel = () => {

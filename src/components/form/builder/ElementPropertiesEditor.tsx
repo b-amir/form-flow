@@ -1,10 +1,9 @@
 import React from 'react';
 import { Box, Typography, Divider } from '@mui/material';
-import type { ApiElement } from '@/types/api';
-import type { ConditionalLogic } from '@/types/api';
+import type { ApiElement, ApiConditionalLogic } from '@/types';
 import { ConditionalLogicBuilder } from './ConditionalLogicBuilder';
-import { BasicProperties } from './element-properties/BasicProperties';
-import { ValidationSettings } from './element-properties/ValidationSettings';
+import { BasicProperties } from '../../element-properties/BasicProperties';
+import { ValidationSettings } from '../../element-properties/ValidationSettings';
 
 interface ElementPropertiesEditorProps {
   element: ApiElement | null;
@@ -37,7 +36,7 @@ export const ElementPropertiesEditor: React.FC<
   }
 
   const handleConditionalLogicChange = (
-    conditionalLogic: ConditionalLogic | undefined
+    conditionalLogic: ApiConditionalLogic | undefined
   ) => {
     onUpdateElement(element.id, { conditionalLogic } as Partial<ApiElement>);
   };

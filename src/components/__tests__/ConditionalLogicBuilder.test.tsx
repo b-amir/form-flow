@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { ConditionalLogicBuilder } from '../ConditionalLogicBuilder';
-import type { ApiElement } from '@/types/api';
+import { ConditionalLogicBuilder } from '../form/builder/ConditionalLogicBuilder';
+import type { ApiElement } from '@/types';
 
 const mockTextElement: ApiElement = {
   id: 'text1',

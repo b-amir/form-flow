@@ -5,12 +5,12 @@ import {
   conditionalLogicHelpers,
   type FormValues,
 } from '../conditionalLogic';
-import type { ConditionalLogic, ApiElement } from '@/types/api';
+import type { ApiConditionalLogic, ApiElement } from '@/types';
 
 describe('conditionalLogic', () => {
   describe('evaluateConditionalLogic', () => {
     it('should return true when checkbox is checked and showWhen is true', () => {
-      const conditionalLogic: ConditionalLogic = {
+      const conditionalLogic: ApiConditionalLogic = {
         dependsOn: 'checkbox1',
         showWhen: true,
       };
@@ -23,7 +23,7 @@ describe('conditionalLogic', () => {
     });
 
     it('should return false when checkbox is checked and showWhen is false', () => {
-      const conditionalLogic: ConditionalLogic = {
+      const conditionalLogic: ApiConditionalLogic = {
         dependsOn: 'checkbox1',
         showWhen: false,
       };
@@ -36,7 +36,7 @@ describe('conditionalLogic', () => {
     });
 
     it('should return false when checkbox is unchecked and showWhen is true', () => {
-      const conditionalLogic: ConditionalLogic = {
+      const conditionalLogic: ApiConditionalLogic = {
         dependsOn: 'checkbox1',
         showWhen: true,
       };
@@ -49,7 +49,7 @@ describe('conditionalLogic', () => {
     });
 
     it('should return true when checkbox is unchecked and showWhen is false', () => {
-      const conditionalLogic: ConditionalLogic = {
+      const conditionalLogic: ApiConditionalLogic = {
         dependsOn: 'checkbox1',
         showWhen: false,
       };
@@ -62,7 +62,7 @@ describe('conditionalLogic', () => {
     });
 
     it('should handle missing field values as false', () => {
-      const conditionalLogic: ConditionalLogic = {
+      const conditionalLogic: ApiConditionalLogic = {
         dependsOn: 'nonexistent',
         showWhen: true,
       };
@@ -73,7 +73,7 @@ describe('conditionalLogic', () => {
     });
 
     it('should handle string values as false for checkbox logic', () => {
-      const conditionalLogic: ConditionalLogic = {
+      const conditionalLogic: ApiConditionalLogic = {
         dependsOn: 'textField',
         showWhen: true,
       };

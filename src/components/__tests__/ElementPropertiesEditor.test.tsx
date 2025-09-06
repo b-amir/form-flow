@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@/utils/test-utils';
-import { ElementPropertiesEditor } from '../ElementPropertiesEditor';
+import { ElementPropertiesEditor } from '../form/builder/ElementPropertiesEditor';
 
 describe('ElementPropertiesEditor', () => {
   const mockElement = {

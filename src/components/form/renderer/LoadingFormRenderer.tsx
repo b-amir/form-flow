@@ -7,9 +7,9 @@ import {
   createValidationSchema,
   createDefaultValues,
 } from '@/utils/formValidation';
-import { FormField } from './form/FormField';
-import { FormHeader } from './form/FormHeader';
-import { FormButtons } from './form/FormButtons';
+import { FormField } from '../ui/FormField';
+import { FormHeader } from '../ui/FormHeader';
+import { FormButtons } from '../ui/FormButtons';
 
 interface LoadingFormRendererProps {
   form: Form;

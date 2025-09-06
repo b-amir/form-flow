@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Box, Collapse } from '@mui/material';
 import type { Form } from '@/types/form';
 import type { ApiElement } from '@/types/api';
-import { FormHeader } from './form/FormHeader';
-import { FormButtons } from './form/FormButtons';
+import { FormHeader } from '../ui/FormHeader';
+import { FormButtons } from '../ui/FormButtons';
 import { shouldShowElement } from '@/utils/conditionalLogic';
-import { FieldFactory } from './FieldFactory';
+import { FieldFactory } from '../../fields/FieldFactory';
 
 interface FormRendererProps {
   form: Form;
