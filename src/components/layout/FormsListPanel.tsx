@@ -11,6 +11,7 @@ import { useFormStore } from '@/features/form-management/stores/formStore';
 import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
 import React, { useEffect, useState } from 'react';
 import { ConfirmationDialog } from '../ConfirmationDialog';
+import { EmptyIndicator } from '../EmptyIndicator';
 
 const HEADER_HEIGHT = 64;
 
@@ -101,71 +102,85 @@ export const FormsListPanel = () => {
         </IconButton>
       </Box>
 
-      <Box sx={{ flexGrow: 1, overflow: 'auto', position: 'relative' }}>
-        <List>
-          {forms.map(form => (
-            <ListItem
-              key={form.id}
-              onClick={() => handleSelectForm(form.id)}
-              sx={{
-                cursor: 'pointer',
-                backgroundColor:
-                  selectedFormId === form.id
-                    ? 'rgba(0, 0, 0, 0.04)'
-                    : 'transparent',
-                '&:hover': {
+      <Box
+        sx={{
+          flexGrow: 1,
+          overflow: 'auto',
+          position: 'relative',
+          p: forms.length === 0 ? 2 : 0,
+        }}
+      >
+        {forms.length === 0 ? (
+          <EmptyIndicator
+            message="No forms available"
+            subtitle="Click the + button to create a new form"
+          />
+        ) : (
+          <List>
+            {forms.map(form => (
+              <ListItem
+                key={form.id}
+                onClick={() => handleSelectForm(form.id)}
+                sx={{
+                  cursor: 'pointer',
                   backgroundColor:
                     selectedFormId === form.id
-                      ? 'rgba(0, 0, 0, 0.08)'
-                      : 'rgba(0, 0, 0, 0.04)',
-                },
-                '& .delete-button': {
-                  display: 'none',
-                },
-                '&:hover .delete-button': {
-                  display: 'flex',
-                },
-              }}
-            >
-              <ListItemText
-                primary={form.name}
-                primaryTypographyProps={{
-                  noWrap: true,
-                  title: form.name,
-                }}
-              />
-              <Box
-                sx={{
-                  visibility: 'hidden',
-                  '.MuiListItem-root:hover &': {
-                    visibility: 'visible',
+                      ? 'rgba(0, 0, 0, 0.04)'
+                      : 'transparent',
+                  '&:hover': {
+                    backgroundColor:
+                      selectedFormId === form.id
+                        ? 'rgba(0, 0, 0, 0.08)'
+                        : 'rgba(0, 0, 0, 0.04)',
+                  },
+                  '& .delete-button': {
+                    display: 'none',
+                  },
+                  '&:hover .delete-button': {
+                    display: 'flex',
                   },
                 }}
               >
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={e => handleDeleteClick(e, form.id)}
-                  disabled={deletingId === form.id}
-                  size="small"
+                <ListItemText
+                  primary={form.name}
+                  primaryTypographyProps={{
+                    noWrap: true,
+                    title: form.name,
+                  }}
+                />
+                <Box
                   sx={{
-                    color: 'error.main',
-                    opacity: 0,
-                    '.MuiBox-root:hover &': {
-                      opacity: 1,
-                    },
-                    '&:hover': {
-                      color: 'error.main',
-                      opacity: 0.9,
+                    visibility: 'hidden',
+                    '.MuiListItem-root:hover &': {
+                      visibility: 'visible',
                     },
                   }}
                 >
-                  <Delete fontSize="small" />
-                </IconButton>
-              </Box>
-            </ListItem>
-          ))}
-        </List>
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={e => handleDeleteClick(e, form.id)}
+                    disabled={deletingId === form.id}
+                    size="small"
+                    sx={{
+                      color: 'error.main',
+                      opacity: 0,
+                      '.MuiBox-root:hover &': {
+                        opacity: 1,
+                      },
+                      '&:hover': {
+                        color: 'error.main',
+                        opacity: 0.9,
+                      },
+                    }}
+                  >
+                    <Delete fontSize="small" />
+                  </IconButton>
+                </Box>
+              </ListItem>
+            ))}
+          </List>
+        )}
       </Box>
 
       <ConfirmationDialog

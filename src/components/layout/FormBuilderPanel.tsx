@@ -1,16 +1,11 @@
-import {
-  Box,
-  IconButton,
-  InputBase,
-  Typography,
-  Collapse,
-} from '@mui/material';
+import { Box, IconButton, InputBase, Collapse } from '@mui/material';
 import { Save } from '@mui/icons-material';
 import { ElementList } from '../ElementList';
 import { ElementPropertiesEditor } from '../ElementPropertiesEditor';
 import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
 import { ElementSelectionRow } from './ElementSelectionRow';
 import { useEffect, useRef } from 'react';
+import { EmptyIndicator } from '../EmptyIndicator';
 
 const HEADER_HEIGHT = 64;
 
@@ -65,14 +60,12 @@ export const FormBuilderPanel = () => {
         <Box
           sx={{
             flexGrow: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
           }}
         >
-          <Typography color="text.secondary">
-            Click an element type above to start building your form
-          </Typography>
+          <EmptyIndicator
+            message="No elements added yet"
+            subtitle="Click an element type above to start building your form"
+          />
         </Box>
       ) : (
         <Box
