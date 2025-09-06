@@ -2,392 +2,527 @@ import { type FormData } from '../models';
 
 export const formFixtures: Partial<FormData>[] = [
   {
-    name: 'Contact Form',
+    name: "Geralt's Adventures",
     elements: [
       {
         id: '1',
         type: 'text',
-        label: 'Full Name',
+        label: 'Witcher Name',
         isRequired: true,
       },
       {
         id: '2',
-        type: 'text',
-        label: 'Email Address',
-        isRequired: true,
+        type: 'checkbox',
+        label: '🍯 Swallow (Healing)',
+        isRequired: false,
       },
       {
         id: '3',
         type: 'checkbox',
-        label: 'I want to receive marketing updates',
+        label: '🐱 Cat (Night Vision)',
         isRequired: false,
       },
       {
         id: '4',
         type: 'checkbox',
-        label: 'I prefer phone contact',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '3',
-          showWhen: true,
-        },
-      },
-      {
-        id: '5',
-        type: 'text',
-        label: 'Phone Number',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '4',
-          showWhen: true,
-        },
-      },
-      {
-        id: '6',
-        type: 'text',
-        label: 'Best time to call',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '5',
-          showWhen: true,
-        },
-      },
-      {
-        id: '7',
-        type: 'checkbox',
-        label: 'I prefer email contact',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '3',
-          showWhen: true,
-        },
-      },
-      {
-        id: '8',
-        type: 'text',
-        label: 'Alternate Email',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '7',
-          showWhen: true,
-        },
-      },
-    ],
-  },
-  {
-    name: 'Registration Form',
-    elements: [
-      {
-        id: '1',
-        type: 'text',
-        label: 'Username',
-        isRequired: true,
-      },
-      {
-        id: '2',
-        type: 'text',
-        label: 'Password',
-        isRequired: true,
-      },
-      {
-        id: '3',
-        type: 'text',
-        label: 'Confirm Password',
-        isRequired: true,
-      },
-      {
-        id: '4',
-        type: 'checkbox',
-        label: 'I am a business user',
+        label: '⚡ Thunderbolt (Attack)',
         isRequired: false,
       },
       {
         id: '5',
-        type: 'text',
-        label: 'Company Name',
+        type: 'checkbox',
+        label: '🦉 Tawny Owl (Stamina)',
         isRequired: false,
-        conditionalLogic: {
-          dependsOn: '4',
-          showWhen: true,
-        },
       },
       {
         id: '6',
-        type: 'text',
-        label: 'Business Email',
+        type: 'checkbox',
+        label: '🔥 Igni Potion (Fire Magic)',
         isRequired: false,
-        conditionalLogic: {
-          dependsOn: '4',
-          showWhen: true,
-        },
       },
       {
         id: '7',
         type: 'checkbox',
-        label: 'I need multi-user access',
+        label: '🧊 Quen Elixir (Shield)',
         isRequired: false,
-        conditionalLogic: {
-          dependsOn: '4',
-          showWhen: true,
-        },
       },
       {
         id: '8',
         type: 'text',
-        label: 'Number of users needed',
+        label: '💚 Healing warmth flows through you',
         isRequired: false,
         conditionalLogic: {
-          dependsOn: '7',
-          showWhen: true,
+          operator: 'AND',
+          rules: [
+            { dependsOn: '2', showWhen: true },
+            { dependsOn: '3', showWhen: false },
+            { dependsOn: '4', showWhen: false },
+          ],
         },
       },
       {
         id: '9',
-        type: 'checkbox',
-        label: 'I agree to terms and conditions',
-        isRequired: true,
-      },
-    ],
-  },
-  {
-    name: 'Event Registration Survey',
-    elements: [
-      {
-        id: '1',
         type: 'text',
-        label: 'Full Name',
-        isRequired: true,
-      },
-      {
-        id: '2',
-        type: 'text',
-        label: 'Email Address',
-        isRequired: true,
-      },
-      {
-        id: '3',
-        type: 'checkbox',
-        label: 'I will attend in person',
-        isRequired: false,
-      },
-      {
-        id: '4',
-        type: 'checkbox',
-        label: 'I need accommodation',
+        label: '⚡ Enhanced senses! Describe your power',
         isRequired: false,
         conditionalLogic: {
-          dependsOn: '3',
-          showWhen: true,
-        },
-      },
-      {
-        id: '5',
-        type: 'text',
-        label: 'Check-in date',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '4',
-          showWhen: true,
-        },
-      },
-      {
-        id: '6',
-        type: 'text',
-        label: 'Check-out date',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '4',
-          showWhen: true,
-        },
-      },
-      {
-        id: '7',
-        type: 'checkbox',
-        label: 'I will attend virtually',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '3',
-          showWhen: false,
-        },
-      },
-      {
-        id: '8',
-        type: 'text',
-        label: 'Preferred video platform',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '7',
-          showWhen: true,
-        },
-      },
-      {
-        id: '9',
-        type: 'checkbox',
-        label: 'I have dietary restrictions',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '3',
-          showWhen: true,
+          operator: 'OR',
+          rules: [
+            { dependsOn: '3', showWhen: true },
+            { dependsOn: '4', showWhen: true },
+            { dependsOn: '5', showWhen: true },
+          ],
         },
       },
       {
         id: '10',
         type: 'text',
-        label: 'Please specify dietary needs',
+        label: '🔥 Magical fire courses through your veins',
         isRequired: false,
         conditionalLogic: {
-          dependsOn: '9',
-          showWhen: true,
-        },
-      },
-      {
-        id: '11',
-        type: 'checkbox',
-        label: 'I will bring a guest',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '3',
-          showWhen: true,
-        },
-      },
-      {
-        id: '12',
-        type: 'text',
-        label: 'Guest name',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '11',
-          showWhen: true,
-        },
-      },
-    ],
-  },
-  {
-    name: 'Product Feedback Survey',
-    elements: [
-      {
-        id: '1',
-        type: 'text',
-        label: 'Your Name',
-        isRequired: true,
-      },
-      {
-        id: '2',
-        type: 'text',
-        label: 'Email Address',
-        isRequired: true,
-      },
-      {
-        id: '3',
-        type: 'checkbox',
-        label: 'Have you used our product before?',
-        isRequired: true,
-      },
-      {
-        id: '4',
-        type: 'checkbox',
-        label: 'Did you purchase the product directly from us?',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '3',
-          showWhen: true,
-        },
-      },
-      {
-        id: '5',
-        type: 'text',
-        label: 'Order Number',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '4',
-          showWhen: true,
-        },
-      },
-      {
-        id: '6',
-        type: 'text',
-        label: 'Where did you purchase the product?',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '4',
-          showWhen: false,
-        },
-      },
-      {
-        id: '7',
-        type: 'checkbox',
-        label: 'Are you satisfied with the product quality?',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '3',
-          showWhen: true,
-        },
-      },
-      {
-        id: '8',
-        type: 'text',
-        label: 'What aspects did you like most?',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '7',
-          showWhen: true,
-        },
-      },
-      {
-        id: '9',
-        type: 'text',
-        label: 'What issues did you encounter?',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '7',
-          showWhen: false,
-        },
-      },
-      {
-        id: '10',
-        type: 'checkbox',
-        label: 'Would you recommend our product to others?',
-        isRequired: false,
-        conditionalLogic: {
-          dependsOn: '3',
-          showWhen: true,
+          operator: 'AND',
+          rules: [
+            { dependsOn: '6', showWhen: true },
+            { dependsOn: '7', showWhen: false },
+          ],
         },
       },
       {
         id: '11',
         type: 'text',
-        label: 'Why would you recommend our product?',
+        label: '🛡️ Protected by magical barriers',
         isRequired: false,
         conditionalLogic: {
-          dependsOn: '10',
-          showWhen: true,
+          operator: 'AND',
+          rules: [
+            { dependsOn: '7', showWhen: true },
+            { dependsOn: '6', showWhen: false },
+          ],
         },
       },
       {
         id: '12',
-        type: 'text',
-        label: 'Why would you not recommend our product?',
+        type: 'checkbox',
+        label: '⚠️ Mild toxicity - feeling dizzy',
         isRequired: false,
         conditionalLogic: {
-          dependsOn: '10',
-          showWhen: false,
+          operator: 'AND',
+          rules: [
+            { dependsOn: '3', showWhen: true },
+            { dependsOn: '4', showWhen: true },
+            { dependsOn: '5', showWhen: false },
+            { dependsOn: '6', showWhen: false },
+          ],
         },
       },
       {
         id: '13',
         type: 'checkbox',
-        label: 'Are you interested in our upcoming products?',
+        label: '🤢 Severe toxicity - vomiting blood',
         isRequired: false,
+        conditionalLogic: {
+          operator: 'OR',
+          rules: [
+            {
+              operator: 'AND',
+              rules: [
+                { dependsOn: '3', showWhen: true },
+                { dependsOn: '4', showWhen: true },
+                { dependsOn: '5', showWhen: true },
+              ],
+            },
+            {
+              operator: 'AND',
+              rules: [
+                { dependsOn: '6', showWhen: true },
+                { dependsOn: '7', showWhen: true },
+              ],
+            },
+          ],
+        },
       },
       {
         id: '14',
         type: 'text',
-        label: 'Which product categories interest you most?',
+        label:
+          '☠️ DEATH: Your body cannot handle the toxicity. You collapse and die.',
         isRequired: false,
         conditionalLogic: {
-          dependsOn: '13',
-          showWhen: true,
+          operator: 'AND',
+          rules: [
+            { dependsOn: '3', showWhen: true },
+            { dependsOn: '4', showWhen: true },
+            { dependsOn: '5', showWhen: true },
+            { dependsOn: '6', showWhen: true },
+          ],
         },
+      },
+      {
+        id: '15',
+        type: 'text',
+        label: '💀 MAGICAL OVERLOAD: Fire and ice tear you apart from within.',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [
+            { dependsOn: '6', showWhen: true },
+            { dependsOn: '7', showWhen: true },
+            { dependsOn: '4', showWhen: true },
+          ],
+        },
+      },
+      {
+        id: '16',
+        type: 'checkbox',
+        label: '🍯 White Honey (Emergency Antidote)',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'OR',
+          rules: [
+            { dependsOn: '12', showWhen: true },
+            { dependsOn: '13', showWhen: true },
+          ],
+        },
+      },
+      {
+        id: '17',
+        type: 'text',
+        label: '✨ Antidote saves you! What lesson did you learn?',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [
+            { dependsOn: '16', showWhen: true },
+            { dependsOn: '14', showWhen: false },
+            { dependsOn: '15', showWhen: false },
+          ],
+        },
+      },
+      {
+        id: '18',
+        type: 'text',
+        label: '🏆 MASTER ALCHEMIST: Perfect balance achieved!',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [
+            { dependsOn: '2', showWhen: true },
+            { dependsOn: '12', showWhen: false },
+            { dependsOn: '13', showWhen: false },
+            { dependsOn: '14', showWhen: false },
+            { dependsOn: '15', showWhen: false },
+          ],
+        },
+      },
+      {
+        id: '19',
+        type: 'text',
+        label: '⚔️ BATTLE READY: Enhanced but stable. Describe your next hunt.',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [
+            { dependsOn: '9', showWhen: true },
+            { dependsOn: '12', showWhen: false },
+            { dependsOn: '13', showWhen: false },
+          ],
+        },
+      },
+    ],
+  },
+  {
+    name: "Royal Employment Questionnaire - His Majesty's Service",
+    elements: [
+      {
+        id: '1',
+        type: 'text',
+        label: 'Full Name',
+        isRequired: true,
+      },
+      {
+        id: '2',
+        type: 'text',
+        label: 'Noble Title',
+        isRequired: false,
+      },
+      {
+        id: '3',
+        type: 'checkbox',
+        label: '🇬🇧 British citizen',
+        isRequired: true,
+      },
+      {
+        id: '4',
+        type: 'checkbox',
+        label: '🔒 Security clearance',
+        isRequired: false,
+      },
+      {
+        id: '5',
+        type: 'text',
+        label: 'Clearance level & authority',
+        isRequired: true,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [{ dependsOn: '4', showWhen: true }],
+        },
+      },
+      {
+        id: '6',
+        type: 'checkbox',
+        label: '🏛️ Diplomatic position',
+        isRequired: false,
+      },
+      {
+        id: '7',
+        type: 'checkbox',
+        label: '⚔️ Military position',
+        isRequired: false,
+      },
+      {
+        id: '8',
+        type: 'checkbox',
+        label: '📋 Civil service position',
+        isRequired: false,
+      },
+      {
+        id: '9',
+        type: 'text',
+        label: 'Languages spoken',
+        isRequired: true,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [{ dependsOn: '6', showWhen: true }],
+        },
+      },
+      {
+        id: '10',
+        type: 'text',
+        label: 'Previous postings',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [{ dependsOn: '6', showWhen: true }],
+        },
+      },
+      {
+        id: '11',
+        type: 'text',
+        label: 'Rank & regiment',
+        isRequired: true,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [{ dependsOn: '7', showWhen: true }],
+        },
+      },
+      {
+        id: '12',
+        type: 'text',
+        label: 'Combat experience',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [{ dependsOn: '7', showWhen: true }],
+        },
+      },
+      {
+        id: '13',
+        type: 'text',
+        label: 'University degree',
+        isRequired: true,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [{ dependsOn: '8', showWhen: true }],
+        },
+      },
+      {
+        id: '14',
+        type: 'checkbox',
+        label: '🔍 Enhanced vetting required',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'OR',
+          rules: [
+            { dependsOn: '6', showWhen: true },
+            { dependsOn: '7', showWhen: true },
+          ],
+        },
+      },
+      {
+        id: '15',
+        type: 'text',
+        label: 'Vetting reason',
+        isRequired: true,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [{ dependsOn: '14', showWhen: true }],
+        },
+      },
+      {
+        id: '16',
+        type: 'checkbox',
+        label: '👑 Oath of Allegiance',
+        isRequired: true,
+        conditionalLogic: {
+          operator: 'OR',
+          rules: [
+            { dependsOn: '6', showWhen: true },
+            { dependsOn: '7', showWhen: true },
+            { dependsOn: '8', showWhen: true },
+          ],
+        },
+      },
+      {
+        id: '17',
+        type: 'text',
+        label: '🏰 Eligible! When can you start?',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [
+            { dependsOn: '3', showWhen: true },
+            { dependsOn: '16', showWhen: true },
+          ],
+        },
+      },
+    ],
+  },
+  {
+    name: 'Newsletter Subscription',
+    elements: [
+      {
+        id: '1',
+        type: 'text',
+        label: '📧 Email Address',
+        isRequired: true,
+      },
+      {
+        id: '2',
+        type: 'text',
+        label: '👤 First Name',
+        isRequired: false,
+      },
+      {
+        id: '3',
+        type: 'checkbox',
+        label: '💻 Technology news',
+        isRequired: false,
+      },
+      {
+        id: '4',
+        type: 'checkbox',
+        label: '💼 Business updates',
+        isRequired: false,
+      },
+      {
+        id: '5',
+        type: 'checkbox',
+        label: '🌟 Lifestyle content',
+        isRequired: false,
+      },
+      {
+        id: '6',
+        type: 'checkbox',
+        label: '📅 Weekly digest',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'OR',
+          rules: [
+            { dependsOn: '3', showWhen: true },
+            { dependsOn: '4', showWhen: true },
+            { dependsOn: '5', showWhen: true },
+          ],
+        },
+      },
+      {
+        id: '7',
+        type: 'checkbox',
+        label: '📰 Daily updates',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [
+            { dependsOn: '3', showWhen: true },
+            { dependsOn: '4', showWhen: true },
+          ],
+        },
+      },
+      {
+        id: '8',
+        type: 'text',
+        label: 'Specific topics of interest',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'OR',
+          rules: [
+            { dependsOn: '6', showWhen: true },
+            { dependsOn: '7', showWhen: true },
+          ],
+        },
+      },
+      {
+        id: '9',
+        type: 'checkbox',
+        label: '⭐ Premium subscriber',
+        isRequired: false,
+      },
+      {
+        id: '10',
+        type: 'text',
+        label: 'Premium ID',
+        isRequired: true,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [{ dependsOn: '9', showWhen: true }],
+        },
+      },
+      {
+        id: '11',
+        type: 'checkbox',
+        label: '🔔 Premium content alerts',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [{ dependsOn: '9', showWhen: true }],
+        },
+      },
+      {
+        id: '12',
+        type: 'checkbox',
+        label: '🎁 Promotional offers',
+        isRequired: false,
+      },
+      {
+        id: '13',
+        type: 'text',
+        label: '🎉 Perfect! Best content & offers',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [
+            { dependsOn: '9', showWhen: true },
+            { dependsOn: '12', showWhen: true },
+          ],
+        },
+      },
+      {
+        id: '14',
+        type: 'text',
+        label: '📧 Thanks! Quality content, no spam',
+        isRequired: false,
+        conditionalLogic: {
+          operator: 'AND',
+          rules: [
+            { dependsOn: '9', showWhen: false },
+            { dependsOn: '12', showWhen: false },
+          ],
+        },
+      },
+      {
+        id: '15',
+        type: 'checkbox',
+        label: '✅ Privacy policy & terms',
+        isRequired: true,
       },
     ],
   },
