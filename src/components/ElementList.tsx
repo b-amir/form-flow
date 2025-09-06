@@ -25,6 +25,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { EmptyIndicator } from './EmptyIndicator';
 
 interface ElementListProps {
   elements: ApiElement[];
@@ -105,51 +106,34 @@ const SortableItem: React.FC<SortableItemProps> = ({
             <DragIndicator fontSize="small" />
           </Box>
           {element.type === 'text' ? (
-            <TextFields fontSize="small" color="secondary" />
+            <TextFields fontSize="small" color="primary" />
+          ) : element.type === 'checkbox' ? (
+            <CheckBox fontSize="small" color="primary" />
           ) : (
-            <CheckBox fontSize="small" color="secondary" />
+            <Emergency fontSize="small" color="error" />
           )}
-          <Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <Typography variant="body2" fontWeight="medium">
-                {element.label}
-              </Typography>
-              {element.isRequired && (
-                <Tooltip title="Required field">
-                  <Emergency
-                    fontSize="small"
-                    color="error"
-                    sx={{ width: 16, height: 16 }}
-                  />
-                </Tooltip>
-              )}
-            </Box>
-            <Typography variant="caption" color="text.secondary">
-              {element.type === 'text' ? 'Text Field' : 'Checkbox'}
-            </Typography>
-          </Box>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontWeight: isSelected ? 600 : 400,
+              color: isSelected ? 'secondary.dark' : 'text.primary',
+            }}
+          >
+            {element.label || `Untitled ${element.type}`}
+          </Typography>
         </Box>
-
-        <IconButton
-          size="small"
-          onClick={e => {
-            e.stopPropagation();
-            onDelete(element.id);
-          }}
-          sx={{
-            color: 'error.main',
-            opacity: 0,
-            '.MuiPaper-root:hover &': {
-              opacity: 1,
-            },
-            '&:hover': {
-              color: 'error.main',
-              opacity: 0.9,
-            },
-          }}
-        >
-          <Delete fontSize="small" />
-        </IconButton>
+        <Tooltip title="Delete element">
+          <IconButton
+            size="small"
+            onClick={e => {
+              e.stopPropagation();
+              onDelete(element.id);
+            }}
+            sx={{ color: 'error.main' }}
+          >
+            <Delete fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </Box>
     </Paper>
   );
@@ -174,14 +158,14 @@ export const ElementList: React.FC<ElementListProps> = ({
   const handleConfirmDelete = () => {
     if (elementToDelete) {
       onDeleteElement(elementToDelete);
-      setDeleteDialogOpen(false);
       setElementToDelete(null);
+      setDeleteDialogOpen(false);
     }
   };
 
   const handleCancelDelete = () => {
-    setDeleteDialogOpen(false);
     setElementToDelete(null);
+    setDeleteDialogOpen(false);
   };
 
   const sensors = useSensors(
@@ -211,9 +195,10 @@ export const ElementList: React.FC<ElementListProps> = ({
       </Typography>
 
       {elements.length === 0 ? (
-        <Typography variant="body2" color="text.secondary">
-          No elements added yet. Select an element type from the left panel.
-        </Typography>
+        <EmptyIndicator
+          message="No elements added yet"
+          subtitle="Select an element type from the toolbar above"
+        />
       ) : (
         <DndContext
           sensors={sensors}

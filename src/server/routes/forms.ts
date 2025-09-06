@@ -117,4 +117,43 @@ export function formRoutes(this: Server<AppRegistry>) {
 
     return new Response(204);
   });
+
+  this.post(
+    '/forms/:id/submissions',
+    (schema: Schema<AppRegistry>, request: Request) => {
+      const id = request.params.id;
+      if (!id) {
+        return new Response(400, {}, { error: 'Form ID is required' });
+      }
+
+      const form = schema.find('form', id);
+      if (!form) {
+        return new Response(404, {}, { error: 'Form not found' });
+      }
+
+      const submissionData = JSON.parse(request.requestBody);
+
+      try {
+        const storageKey = `form-submission-${id}`;
+        const existingSubmissions = JSON.parse(
+          localStorage.getItem(storageKey) || '[]'
+        );
+        existingSubmissions.push({
+          id: `submission-${Date.now()}`,
+          formId: id,
+          data: submissionData,
+          submittedAt: new Date().toISOString(),
+        });
+        localStorage.setItem(storageKey, JSON.stringify(existingSubmissions));
+      } catch (error) {
+        console.error('Failed to save submission to localStorage:', error);
+      }
+
+      return new Response(
+        201,
+        {},
+        { success: true, message: 'Form submitted successfully' }
+      );
+    }
+  );
 }

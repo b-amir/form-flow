@@ -9,10 +9,17 @@ export interface BaseElement {
 
 export interface TextElement extends BaseElement {
   type: 'text';
+  validation?: {
+    minLength?: number;
+    maxLength?: number;
+  };
 }
 
 export interface CheckboxElement extends BaseElement {
   type: 'checkbox';
+  validation?: {
+    required?: boolean;
+  };
 }
 
 export type Element = TextElement | CheckboxElement;
@@ -36,11 +43,18 @@ export interface BaseElementWithConditions extends BaseElement {
 
 export interface TextElementWithConditions extends BaseElementWithConditions {
   type: 'text';
+  validation?: {
+    minLength?: number;
+    maxLength?: number;
+  };
 }
 
 export interface CheckboxElementWithConditions
   extends BaseElementWithConditions {
   type: 'checkbox';
+  validation?: {
+    required?: boolean;
+  };
 }
 
 export type ElementWithConditions =

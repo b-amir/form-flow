@@ -1,14 +1,10 @@
 import React from 'react';
-import {
-  Box,
-  Typography,
-  TextField,
-  FormControlLabel,
-  Switch,
-} from '@mui/material';
+import { Box, Typography, Divider } from '@mui/material';
 import type { ApiElement } from '@/types/api';
 import type { ConditionalLogic } from '@/types/api';
 import { ConditionalLogicBuilder } from './ConditionalLogicBuilder';
+import { BasicProperties } from './element-properties/BasicProperties';
+import { ValidationSettings } from './element-properties/ValidationSettings';
 
 interface ElementPropertiesEditorProps {
   element: ApiElement | null;
@@ -32,14 +28,6 @@ export const ElementPropertiesEditor: React.FC<
     );
   }
 
-  const handleLabelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onUpdateElement(element.id, { label: e.target.value });
-  };
-
-  const handleRequiredChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onUpdateElement(element.id, { isRequired: e.target.checked });
-  };
-
   const handleConditionalLogicChange = (
     conditionalLogic: ConditionalLogic | undefined
   ) => {
@@ -58,28 +46,22 @@ export const ElementPropertiesEditor: React.FC<
         Element Properties
       </Typography>
 
-      <TextField
-        label="Label"
-        value={element.label}
-        onChange={handleLabelChange}
-        variant="outlined"
-        size="small"
-        fullWidth
-      />
+      <BasicProperties element={element} onUpdateElement={onUpdateElement} />
 
-      <FormControlLabel
-        control={
-          <Switch
-            checked={element.isRequired ?? false}
-            onChange={handleRequiredChange}
+      {element.type === 'text' ? (
+        <>
+          <Divider sx={{ my: 2 }} />
+          <Typography variant="h6" gutterBottom>
+            Validation Settings
+          </Typography>
+          <ValidationSettings
+            element={element}
+            onUpdateElement={onUpdateElement}
           />
-        }
-        label="Required"
-      />
-
-      <Typography variant="caption" color="text.secondary">
-        Element Type: {element.type === 'text' ? 'Text Field' : 'Checkbox'}
-      </Typography>
+        </>
+      ) : (
+        <Divider sx={{ my: 2 }} />
+      )}
 
       <ConditionalLogicBuilder
         element={element}

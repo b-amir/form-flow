@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import type { ApiElement } from '@/types/api';
 import type { ConditionalLogic } from '@/types/api';
+import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 
 interface ConditionalLogicBuilderProps {
   element: ApiElement;
@@ -66,9 +67,11 @@ export const ConditionalLogicBuilder: React.FC<
 
   if (checkboxElements.length === 0) {
     return (
-      <Box>
-        <Typography variant="body2" color="text.secondary">
-          Add checkbox fields to enable conditional logic
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <InfoOutlineIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+        <Typography variant="caption" color="text.secondary">
+          Add checkbox fields to <br />
+          enable conditional logic
         </Typography>
       </Box>
     );
@@ -76,7 +79,7 @@ export const ConditionalLogicBuilder: React.FC<
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <Divider />
+      <Divider sx={{ my: 2 }} />
       <Typography variant="h6" gutterBottom>
         Conditional Logic
       </Typography>

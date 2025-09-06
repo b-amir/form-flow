@@ -8,6 +8,35 @@ import {
 const API_BASE_URL = '/api';
 
 export const formApi = {
+  async submitFormData(
+    formId: string,
+    formData: Record<string, string | number | boolean | null>
+  ): Promise<{ success: boolean; message: string }> {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/forms/${formId}/submissions`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData: ApiError = await response.json();
+        throw new Error(errorData.error || 'Failed to submit form');
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw error instanceof Error
+        ? error
+        : new Error('An unknown error occurred');
+    }
+  },
+
   async fetchForms(): Promise<ApiForm[]> {
     try {
       const response = await fetch(`${API_BASE_URL}/forms`);

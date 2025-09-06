@@ -1,6 +1,6 @@
-import { Box, Typography, IconButton } from '@mui/material';
+import { Box, Typography, IconButton, Alert, Snackbar } from '@mui/material';
 import { Fullscreen, FullscreenExit } from '@mui/icons-material';
-import { FormRenderer } from '../FormRenderer';
+import { ValidatedFormRenderer } from '../ValidatedFormRenderer';
 import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
 import { useState } from 'react';
 
@@ -9,9 +9,18 @@ const HEADER_HEIGHT = 64;
 export const FormPreviewPanel = () => {
   const { draftForm } = useFormBuilderStore();
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleFullscreenToggle = () => {
     setIsFullscreen(!isFullscreen);
+  };
+
+  const handleFormSubmit = () => {
+    setSuccessMessage('Form submitted successfully!');
+  };
+
+  const handleCloseSnackbar = () => {
+    setSuccessMessage(null);
   };
 
   return (
@@ -66,7 +75,22 @@ export const FormPreviewPanel = () => {
           }),
         }}
       >
-        <FormRenderer form={draftForm} />
+        <ValidatedFormRenderer form={draftForm} onSubmit={handleFormSubmit} />
+
+        <Snackbar
+          open={!!successMessage}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity="success"
+            sx={{ width: '100%' }}
+          >
+            {successMessage}
+          </Alert>
+        </Snackbar>
       </Box>
     </Box>
   );
