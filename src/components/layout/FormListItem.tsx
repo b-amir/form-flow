@@ -63,6 +63,8 @@ export const FormListItem: React.FC<FormListItemProps> = ({
           noWrap: true,
           title: form.name,
           color: isUpdatingOrDeleting ? 'text.disabled' : 'inherit',
+          fontSize: 14,
+          fontWeight: 600,
         }}
       />
       {isUpdatingOrDeleting && (
