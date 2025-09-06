@@ -4,8 +4,7 @@ import type Schema from 'miragejs/orm/schema';
 import { formModel } from '../models';
 import { formFactory } from '../factories';
 import type { Form } from '@/types/form';
-
-const STORAGE_KEY = 'form-builder-forms';
+import { STORAGE_KEY } from '@/constants';
 
 const saveFormsToStorage = (forms: Form[]) => {
   try {

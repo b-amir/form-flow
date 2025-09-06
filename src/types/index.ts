@@ -19,5 +19,6 @@ export type {
   CreateFormRequest,
   UpdateFormRequest,
   ApiError,
+  ConditionalLogic,
+  ConditionalRule,
 } from './api';
-export { type ConditionalLogic as ApiConditionalLogic } from './api';

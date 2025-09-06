@@ -4,8 +4,7 @@ import {
   type CreateFormRequest,
   type UpdateFormRequest,
 } from '@/types/api';
-
-const API_BASE_URL = '/api';
+import { API_BASE_URL } from '@/constants';
 
 export const formApi = {
   async submitFormData(

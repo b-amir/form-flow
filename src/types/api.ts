@@ -1,8 +1,13 @@
 import { type Form, type BaseElement } from './form';
 
-export interface ConditionalLogic {
+export interface ConditionalRule {
   dependsOn: string;
   showWhen: boolean;
+}
+
+export interface ConditionalLogic {
+  operator?: 'AND' | 'OR';
+  rules: ConditionalRule[];
 }
 
 export interface ApiElement extends BaseElement {

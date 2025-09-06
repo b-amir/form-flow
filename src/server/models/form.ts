@@ -17,9 +17,14 @@ export interface ElementData {
   conditionalLogic?: ConditionalLogic;
 }
 
-export interface ConditionalLogic {
+export interface ConditionalRule {
   dependsOn: string;
   showWhen: boolean;
+}
+
+export interface ConditionalLogic {
+  operator?: 'AND' | 'OR';
+  rules: ConditionalRule[];
 }
 
 export const formModel: ModelDefinition<FormData> = Model.extend({});
