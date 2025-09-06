@@ -216,6 +216,56 @@ const theme = createTheme({
         },
       },
     },
+
+    MuiAlert: {
+      styleOverrides: {
+        root: {
+          backgroundColor: gray[600],
+          color: base.background,
+          '& .MuiAlert-icon': {
+            color: base.background,
+          },
+        },
+        standardSuccess: {
+          backgroundColor: green[600],
+          color: base.background,
+          '& .MuiAlert-icon': {
+            color: base.background,
+          },
+        },
+        standardError: {
+          backgroundColor: pink[500],
+          color: base.background,
+          '& .MuiAlert-icon': {
+            color: base.background,
+          },
+        },
+        standardWarning: {
+          backgroundColor: pink[300],
+          color: base.background,
+          '& .MuiAlert-icon': {
+            color: base.background,
+          },
+        },
+        standardInfo: {
+          backgroundColor: gray[500],
+          color: base.background,
+          '& .MuiAlert-icon': {
+            color: base.background,
+          },
+        },
+      },
+    },
+
+    MuiSnackbar: {
+      styleOverrides: {
+        root: {
+          '& .MuiPaper-root': {
+            boxShadow: `0 4px 8px ${alpha(gray[600], 0.5)}`,
+          },
+        },
+      },
+    },
   },
 });
 
