@@ -2,7 +2,7 @@ import { Box, IconButton, InputBase } from '@mui/material';
 import { Save } from '@mui/icons-material';
 import React, { type RefObject } from 'react';
 
-const HEADER_HEIGHT = 64;
+const HEADER_HEIGHT = 80;
 
 interface FormBuilderHeaderProps {
   formName: string;

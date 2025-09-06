@@ -1,14 +1,16 @@
-import { Box, Typography, IconButton } from '@mui/material';
+import { Box, Typography, IconButton, useTheme } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import React from 'react';
+import logo from '@/assets/logo.svg';
 
-const HEADER_HEIGHT = 64;
+const HEADER_HEIGHT = 80;
 
 interface FormsHeaderProps {
   onAddForm: () => void;
 }
 
 export const FormsHeader: React.FC<FormsHeaderProps> = ({ onAddForm }) => {
+  const theme = useTheme();
   return (
     <Box
       sx={{
@@ -20,11 +22,41 @@ export const FormsHeader: React.FC<FormsHeaderProps> = ({ onAddForm }) => {
         borderBottom: 1,
         borderColor: 'divider',
         boxShadow: 4,
+        background: `linear-gradient(135deg, ${theme.palette.error.light}20 0%, #fff 100%)`,
       }}
     >
-      <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
-        Forms
-      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexGrow: 1,
+        }}
+      >
+        <Typography
+          variant="h3"
+          component="div"
+          fontWeight={700}
+          color="textPrimary"
+          fontSize={17}
+        >
+          Form
+        </Typography>{' '}
+        <img
+          src={logo}
+          alt="FormFlow Logo"
+          style={{ height: '68px', marginRight: '-6px' }}
+        />
+        <Typography
+          variant="h3"
+          component="div"
+          fontWeight={700}
+          color="textPrimary"
+          fontSize={17}
+        >
+          Flow
+        </Typography>{' '}
+      </Box>
       <IconButton onClick={onAddForm}>
         <Add />
       </IconButton>

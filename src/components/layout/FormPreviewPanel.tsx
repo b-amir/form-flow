@@ -4,7 +4,7 @@ import { ValidatedFormRenderer } from '../ValidatedFormRenderer';
 import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
 import { useState } from 'react';
 
-const HEADER_HEIGHT = 64;
+const HEADER_HEIGHT = 80;
 
 export const FormPreviewPanel = () => {
   const { draftForm } = useFormBuilderStore();
