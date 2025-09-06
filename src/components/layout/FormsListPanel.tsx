@@ -1,24 +1,15 @@
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-  IconButton,
-} from '@mui/material';
-import { Add, Delete } from '@mui/icons-material';
+import { Box } from '@mui/material';
+import React, { useState, useEffect } from 'react';
 import { useFormStore } from '@/features/form-management/stores/formStore';
 import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
-import React, { useEffect, useState } from 'react';
 import { ConfirmationDialog } from '../ConfirmationDialog';
-import { EmptyIndicator } from '../EmptyIndicator';
-
-const HEADER_HEIGHT = 64;
+import { FormsHeader } from './FormsHeader';
+import { FormsList } from './FormsList';
 
 export const FormsListPanel = () => {
-  const { forms, fetchForms, createForm, deleteForm } = useFormStore();
-  const { updateFormName, updateElements, clearDraftForm } =
-    useFormBuilderStore();
+  const { forms, deleteForm, fetchForms, isLoading, currentForm } =
+    useFormStore();
+  const { draftForm } = useFormBuilderStore();
   const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
@@ -31,15 +22,14 @@ export const FormsListPanel = () => {
   const handleSelectForm = (formId: string) => {
     const form = forms.find(f => f.id === formId);
     if (form) {
-      updateFormName(form.name);
-      updateElements(form.elements);
+      useFormBuilderStore.getState().initDraftForm(form);
       setSelectedFormId(formId);
     }
   };
 
   const handleAddForm = () => {
-    clearDraftForm();
-    createForm('New Form', []);
+    useFormBuilderStore.getState().initDraftForm();
+    setSelectedFormId(null);
   };
 
   const handleDeleteClick = (event: React.MouseEvent, formId: string) => {
@@ -56,8 +46,9 @@ export const FormsListPanel = () => {
 
         if (selectedFormId === formToDelete) {
           setSelectedFormId(null);
-          clearDraftForm();
+          useFormBuilderStore.getState().initDraftForm();
         }
+        await fetchForms();
       } catch (err) {
         console.error(err);
       } finally {
@@ -82,106 +73,18 @@ export const FormsListPanel = () => {
         zIndex: 6,
       }}
     >
-      <Box
-        sx={{
-          height: HEADER_HEIGHT,
-          minHeight: HEADER_HEIGHT,
-          display: 'flex',
-          alignItems: 'center',
-          px: 2,
-          borderBottom: 1,
-          borderColor: 'divider',
-          boxShadow: 4,
-        }}
-      >
-        <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
-          Forms
-        </Typography>
-        <IconButton onClick={handleAddForm}>
-          <Add />
-        </IconButton>
-      </Box>
+      <FormsHeader onAddForm={handleAddForm} />
 
-      <Box
-        sx={{
-          flexGrow: 1,
-          overflow: 'auto',
-          position: 'relative',
-          p: forms.length === 0 ? 2 : 0,
-        }}
-      >
-        {forms.length === 0 ? (
-          <EmptyIndicator
-            message="No forms available"
-            subtitle="Click the + button to create a new form"
-          />
-        ) : (
-          <List>
-            {forms.map(form => (
-              <ListItem
-                key={form.id}
-                onClick={() => handleSelectForm(form.id)}
-                sx={{
-                  cursor: 'pointer',
-                  backgroundColor:
-                    selectedFormId === form.id
-                      ? 'rgba(0, 0, 0, 0.04)'
-                      : 'transparent',
-                  '&:hover': {
-                    backgroundColor:
-                      selectedFormId === form.id
-                        ? 'rgba(0, 0, 0, 0.08)'
-                        : 'rgba(0, 0, 0, 0.04)',
-                  },
-                  '& .delete-button': {
-                    display: 'none',
-                  },
-                  '&:hover .delete-button': {
-                    display: 'flex',
-                  },
-                }}
-              >
-                <ListItemText
-                  primary={form.name}
-                  primaryTypographyProps={{
-                    noWrap: true,
-                    title: form.name,
-                  }}
-                />
-                <Box
-                  sx={{
-                    visibility: 'hidden',
-                    '.MuiListItem-root:hover &': {
-                      visibility: 'visible',
-                    },
-                  }}
-                >
-                  <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    onClick={e => handleDeleteClick(e, form.id)}
-                    disabled={deletingId === form.id}
-                    size="small"
-                    sx={{
-                      color: 'error.main',
-                      opacity: 0,
-                      '.MuiBox-root:hover &': {
-                        opacity: 1,
-                      },
-                      '&:hover': {
-                        color: 'error.main',
-                        opacity: 0.9,
-                      },
-                    }}
-                  >
-                    <Delete fontSize="small" />
-                  </IconButton>
-                </Box>
-              </ListItem>
-            ))}
-          </List>
-        )}
-      </Box>
+      <FormsList
+        forms={forms}
+        selectedFormId={selectedFormId}
+        isLoading={isLoading}
+        currentFormId={currentForm?.id || null}
+        draftFormId={draftForm.id}
+        deletingId={deletingId}
+        onSelectForm={handleSelectForm}
+        onDeleteClick={handleDeleteClick}
+      />
 
       <ConfirmationDialog
         open={confirmDialogOpen}

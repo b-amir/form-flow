@@ -1,18 +1,24 @@
-import { Box, IconButton, InputBase, Collapse } from '@mui/material';
-import { Save } from '@mui/icons-material';
-import { ElementList } from '../ElementList';
-import { ElementPropertiesEditor } from '../ElementPropertiesEditor';
+import { Box } from '@mui/material';
 import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
+import { useFormStore } from '@/features/form-management/stores/formStore';
 import { ElementSelectionRow } from './ElementSelectionRow';
-import { useEffect, useRef } from 'react';
-import { EmptyIndicator } from '../EmptyIndicator';
-
-const HEADER_HEIGHT = 64;
+import { useEffect, useRef, useState } from 'react';
+import { FormBuilderHeader } from './FormBuilderHeader';
+import { FormContent } from './FormContent';
+import { FormNotifications } from './FormNotifications';
 
 export const FormBuilderPanel = () => {
-  const { draftForm, selectedElementId, setFormName, reorderElements } =
-    useFormBuilderStore();
+  const {
+    draftForm,
+    selectedElementId,
+    setFormName,
+    reorderElements,
+    setIsDirty,
+  } = useFormBuilderStore();
+  const { updateForm, createForm } = useFormStore();
   const inputRef = useRef<HTMLInputElement>(null);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     if (draftForm.name === '' && draftForm.elements.length === 0) {
@@ -24,106 +30,63 @@ export const FormBuilderPanel = () => {
     useFormBuilderStore.getState().selectElement(null);
   };
 
+  const handleSave = async () => {
+    try {
+      if (!draftForm.name.trim()) {
+        setSaveError('Form name is required');
+        return;
+      }
+
+      if (draftForm.id === 'draft') {
+        await createForm(draftForm.name, draftForm.elements);
+      } else {
+        await updateForm(draftForm.id, {
+          name: draftForm.name,
+          elements: draftForm.elements,
+        });
+      }
+
+      await useFormStore.getState().fetchForms();
+      setIsDirty(false);
+      setSaveSuccess(true);
+    } catch (error) {
+      setSaveError(
+        error instanceof Error ? error.message : 'Failed to save form'
+      );
+    }
+  };
+
   return (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <Box
-        sx={{
-          height: HEADER_HEIGHT,
-          minHeight: HEADER_HEIGHT,
-          display: 'flex',
-          alignItems: 'center',
-          px: 2,
-          borderBottom: 1,
-          borderColor: 'divider',
-          boxShadow: 4,
-        }}
-      >
-        <InputBase
-          inputRef={inputRef}
-          value={draftForm.name}
-          onChange={e => setFormName(e.target.value)}
-          placeholder="Form Name"
-          sx={{
-            fontSize: 'h3.fontSize',
-            fontWeight: 'h3.fontWeight',
-            flexGrow: 1,
-          }}
-        />
-        <IconButton>
-          <Save />
-        </IconButton>
-      </Box>
+      <FormBuilderHeader
+        formName={draftForm.name}
+        inputRef={inputRef}
+        onFormNameChange={setFormName}
+        onSave={handleSave}
+        isSaveDisabled={!draftForm.name.trim()}
+      />
 
       <ElementSelectionRow />
 
-      {draftForm.elements.length === 0 ? (
-        <Box
-          sx={{
-            flexGrow: 1,
-          }}
-        >
-          <EmptyIndicator
-            message="No elements added yet"
-            subtitle="Click an element type above to start building your form"
-          />
-        </Box>
-      ) : (
-        <Box
-          sx={{ flexGrow: 1, display: 'flex' }}
-          onClick={handleBackgroundClick}
-        >
-          <Box
-            sx={{
-              flexGrow: 1,
-              overflow: 'auto',
-              p: 2,
-              backgroundColor: 'neutral.pale',
-            }}
-          >
-            <ElementList
-              elements={draftForm.elements}
-              selectedElementId={selectedElementId}
-              onSelectElement={id =>
-                useFormBuilderStore.getState().selectElement(id)
-              }
-              onDeleteElement={id =>
-                useFormBuilderStore.getState().removeElement(id)
-              }
-              onReorderElements={reorderElements}
-              onClick={e => e.stopPropagation()}
-            />
-          </Box>
-          <Collapse
-            in={Boolean(selectedElementId)}
-            orientation="horizontal"
-            sx={{ display: 'flex' }}
-          >
-            <Box
-              sx={{
-                width: 300,
-                height: '100%',
-                borderLeft: 1,
-                borderColor: 'divider',
-                p: 2,
-                overflow: 'auto',
-                backgroundColor: 'neutral.darkerPale',
-              }}
-              onClick={e => e.stopPropagation()}
-            >
-              <ElementPropertiesEditor
-                element={
-                  draftForm.elements.find(el => el.id === selectedElementId) ||
-                  null
-                }
-                allElements={draftForm.elements}
-                onUpdateElement={(id, updates) =>
-                  useFormBuilderStore.getState().updateElement(id, updates)
-                }
-              />
-            </Box>
-          </Collapse>
-        </Box>
-      )}
+      <FormContent
+        elements={draftForm.elements}
+        selectedElementId={selectedElementId}
+        onSelectElement={id => useFormBuilderStore.getState().selectElement(id)}
+        onDeleteElement={id => useFormBuilderStore.getState().removeElement(id)}
+        onReorderElements={reorderElements}
+        onUpdateElement={(id, updates) =>
+          useFormBuilderStore.getState().updateElement(id, updates)
+        }
+        onBackgroundClick={handleBackgroundClick}
+      />
+
+      <FormNotifications
+        saveSuccess={saveSuccess}
+        saveError={saveError}
+        onSaveSuccessClose={() => setSaveSuccess(false)}
+        onSaveErrorClose={() => setSaveError(null)}
+        errorMessage={saveError}
+      />
     </Box>
   );
 };
