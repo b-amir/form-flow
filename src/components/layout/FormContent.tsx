@@ -1,4 +1,4 @@
-import { Box, Collapse } from '@mui/material';
+import { Box, Collapse, useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
 import { ElementList } from '../ElementList';
 import { ElementPropertiesEditor } from '../ElementPropertiesEditor';
@@ -24,6 +24,9 @@ export const FormContent: React.FC<FormContentProps> = ({
   onUpdateElement,
   onBackgroundClick,
 }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const handleBackgroundClick = () => {
     if (onBackgroundClick) {
       onBackgroundClick();
@@ -44,13 +47,21 @@ export const FormContent: React.FC<FormContentProps> = ({
   }
 
   return (
-    <Box sx={{ flexGrow: 1, display: 'flex' }} onClick={handleBackgroundClick}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: isMobile ? 'column' : 'row',
+      }}
+      onClick={handleBackgroundClick}
+    >
       <Box
         sx={{
           flexGrow: 1,
           overflow: 'auto',
           p: 2,
           backgroundColor: 'neutral.pale',
+          height: isMobile && selectedElementId ? '50%' : '100%',
         }}
       >
         <ElementList
@@ -62,30 +73,62 @@ export const FormContent: React.FC<FormContentProps> = ({
           onClick={e => e.stopPropagation()}
         />
       </Box>
-      <Collapse
-        in={Boolean(selectedElementId)}
-        orientation="horizontal"
-        sx={{ display: 'flex' }}
-      >
-        <Box
-          sx={{
-            width: 300,
-            height: '100%',
-            borderLeft: 1,
-            borderColor: 'divider',
-            p: 2,
-            overflow: 'auto',
-            backgroundColor: 'neutral.darkerPale',
-          }}
-          onClick={e => e.stopPropagation()}
+
+      {!isMobile && (
+        <Collapse
+          in={Boolean(selectedElementId)}
+          orientation="horizontal"
+          sx={{ display: 'flex' }}
         >
-          <ElementPropertiesEditor
-            element={elements.find(el => el.id === selectedElementId) || null}
-            allElements={elements}
-            onUpdateElement={onUpdateElement}
-          />
-        </Box>
-      </Collapse>
+          <Box
+            sx={{
+              width: 300,
+              height: '100%',
+              borderLeft: 1,
+              borderColor: 'divider',
+              p: 2,
+              overflow: 'auto',
+              backgroundColor: 'neutral.darkerPale',
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <ElementPropertiesEditor
+              element={elements.find(el => el.id === selectedElementId) || null}
+              allElements={elements}
+              onUpdateElement={onUpdateElement}
+            />
+          </Box>
+        </Collapse>
+      )}
+
+      {isMobile && (
+        <Collapse
+          in={Boolean(selectedElementId)}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: selectedElementId ? '50%' : 0,
+          }}
+        >
+          <Box
+            sx={{
+              height: '100%',
+              borderTop: 1,
+              borderColor: 'divider',
+              p: 2,
+              overflow: 'auto',
+              backgroundColor: 'neutral.darkerPale',
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <ElementPropertiesEditor
+              element={elements.find(el => el.id === selectedElementId) || null}
+              allElements={elements}
+              onUpdateElement={onUpdateElement}
+            />
+          </Box>
+        </Collapse>
+      )}
     </Box>
   );
 };
