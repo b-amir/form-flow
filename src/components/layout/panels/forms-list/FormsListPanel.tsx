@@ -195,7 +195,7 @@ export const FormsListPanel = () => {
                 animation: noForms ? `${pulse} 2s infinite` : 'none',
               }}
             >
-              Add form
+              Create form{' '}
             </Button>
           );
         })()}

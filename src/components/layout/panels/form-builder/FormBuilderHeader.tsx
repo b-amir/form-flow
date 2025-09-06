@@ -70,7 +70,7 @@ export const FormBuilderHeader: React.FC<FormBuilderHeaderProps> = ({
         inputRef={inputRef}
         value={formName}
         onChange={e => onFormNameChange(e.target.value)}
-        placeholder="Form Name"
+        placeholder="Type Form Name Here..."
         sx={{
           fontSize: 'h3.fontSize',
           fontWeight: 'h3.fontWeight',
