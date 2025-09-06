@@ -1,15 +1,9 @@
-import { Box, Typography, IconButton, useTheme } from '@mui/material';
-import { Add } from '@mui/icons-material';
-import React from 'react';
+import { Box, Typography, useTheme } from '@mui/material';
 import logo from '@/assets/logo.svg';
 
 const HEADER_HEIGHT = 80;
 
-interface FormsHeaderProps {
-  onAddForm: () => void;
-}
-
-export const FormsHeader: React.FC<FormsHeaderProps> = ({ onAddForm }) => {
+export const FormsHeader = () => {
   const theme = useTheme();
   return (
     <Box
@@ -57,9 +51,6 @@ export const FormsHeader: React.FC<FormsHeaderProps> = ({ onAddForm }) => {
           Flow
         </Typography>{' '}
       </Box>
-      <IconButton onClick={onAddForm}>
-        <Add />
-      </IconButton>
     </Box>
   );
 };

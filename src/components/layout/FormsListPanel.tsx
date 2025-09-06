@@ -1,10 +1,12 @@
-import { Box } from '@mui/material';
+import { Box, Button, useTheme, keyframes } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useFormStore } from '@/features/form-management/stores/formStore';
 import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { FormsHeader } from './FormsHeader';
 import { FormsList } from './FormsList';
+import { Add } from '@mui/icons-material';
+import { useFormNameInputRef } from '@/hooks';
 
 export const FormsListPanel = () => {
   const {
@@ -29,6 +31,8 @@ export const FormsListPanel = () => {
   useEffect(() => {
     fetchForms();
   }, [fetchForms]);
+
+  const theme = useTheme();
 
   const handleSelectForm = (formId: string) => {
     if (isDirty) {
@@ -56,9 +60,15 @@ export const FormsListPanel = () => {
     }
   };
 
+  const formNameInputRef = useFormNameInputRef();
+
   const executeAddForm = () => {
     useFormBuilderStore.getState().initDraftForm();
     setSelectedFormId(null);
+
+    setTimeout(() => {
+      formNameInputRef.current?.focus();
+    }, 100);
   };
 
   const handleConfirmUnsavedChanges = () => {
@@ -117,7 +127,7 @@ export const FormsListPanel = () => {
         zIndex: 6,
       }}
     >
-      <FormsHeader onAddForm={handleAddForm} />
+      <FormsHeader />
 
       <FormsList
         forms={forms}
@@ -130,6 +140,66 @@ export const FormsListPanel = () => {
         onSelectForm={handleSelectForm}
         onDeleteClick={handleDeleteClick}
       />
+
+      <Box sx={{ p: 2 }}>
+        {(() => {
+          const pulse = keyframes`
+            0% {
+              box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.4);
+            }
+            70% {
+              box-shadow: 0 0 0 10px rgba(233, 30, 99, 0);
+            }
+            100% {
+              box-shadow: 0 0 0 0 rgba(233, 30, 99, 0);
+            }
+          `;
+
+          const noForms = forms.length === 0;
+
+          return (
+            <Button
+              fullWidth
+              onClick={handleAddForm}
+              startIcon={<Add />}
+              sx={{
+                borderRadius: 1,
+                border: '1px solid',
+                borderColor: noForms ? 'error.light' : 'divider',
+                color: noForms ? 'white' : 'text.secondary',
+                justifyContent: 'flex-start',
+                boxShadow: noForms ? 3 : 2,
+                px: 2,
+                py: 1,
+                backgroundColor: 'transparent',
+                background: noForms
+                  ? theme.palette.gradients.pinkGradient
+                  : 'transparent',
+                '&:hover': {
+                  backgroundColor: noForms
+                    ? 'transparent'
+                    : 'rgba(0, 0, 0, 0.04)',
+                  background: noForms
+                    ? theme.palette.gradients.pinkGradient
+                    : 'transparent',
+                  border: '1px solid',
+                  borderColor: noForms ? 'error.main' : 'divider',
+                  boxShadow: 4,
+                  transform: noForms ? 'translateY(-2px)' : 'none',
+                },
+                textTransform: 'none',
+                fontWeight: 600,
+                fontSize: 14,
+                transition: 'all 0.3s ease-in-out',
+                transform: noForms ? 'translateY(-2px)' : 'none',
+                animation: noForms ? `${pulse} 2s infinite` : 'none',
+              }}
+            >
+              Add form
+            </Button>
+          );
+        })()}
+      </Box>
 
       <ConfirmationDialog
         open={confirmDialogOpen}

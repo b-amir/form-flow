@@ -2,10 +2,11 @@ import { Box } from '@mui/material';
 import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
 import { useFormStore } from '@/features/form-management/stores/formStore';
 import { ElementSelectionRow } from './ElementSelectionRow';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormBuilderHeader } from './FormBuilderHeader';
 import { FormContent } from './FormContent';
 import { FormNotifications } from './FormNotifications';
+import { useFormNameInputRef } from '@/hooks';
 
 export const FormBuilderPanel = () => {
   const {
@@ -17,7 +18,7 @@ export const FormBuilderPanel = () => {
     isDirty,
   } = useFormBuilderStore();
   const { updateForm, createForm } = useFormStore();
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useFormNameInputRef();
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
@@ -25,7 +26,7 @@ export const FormBuilderPanel = () => {
     if (draftForm.name === '' && draftForm.elements.length === 0) {
       inputRef.current?.focus();
     }
-  }, [draftForm.name, draftForm.elements.length]);
+  }, [draftForm.name, draftForm.elements.length, inputRef]);
 
   const handleBackgroundClick = () => {
     useFormBuilderStore.getState().selectElement(null);
