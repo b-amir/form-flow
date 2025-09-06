@@ -19,6 +19,7 @@ describe('ElementPropertiesEditor', () => {
     render(
       <ElementPropertiesEditor
         element={null}
+        allElements={[]}
         onUpdateElement={mockUpdateElement}
       />
     );
@@ -34,6 +35,7 @@ describe('ElementPropertiesEditor', () => {
     render(
       <ElementPropertiesEditor
         element={mockElement}
+        allElements={[mockElement]}
         onUpdateElement={mockUpdateElement}
       />
     );
@@ -48,6 +50,7 @@ describe('ElementPropertiesEditor', () => {
     render(
       <ElementPropertiesEditor
         element={mockElement}
+        allElements={[mockElement]}
         onUpdateElement={mockUpdateElement}
       />
     );
@@ -64,6 +67,7 @@ describe('ElementPropertiesEditor', () => {
     render(
       <ElementPropertiesEditor
         element={mockElement}
+        allElements={[mockElement]}
         onUpdateElement={mockUpdateElement}
       />
     );
@@ -85,6 +89,7 @@ describe('ElementPropertiesEditor', () => {
     render(
       <ElementPropertiesEditor
         element={checkboxElement}
+        allElements={[checkboxElement]}
         onUpdateElement={mockUpdateElement}
       />
     );

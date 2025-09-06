@@ -1,46 +1,60 @@
 import { render, screen, fireEvent } from '@/utils/test-utils';
-import { ElementSelectionPanel } from '../ElementSelectionPanel';
+import { ElementSelectionRow } from '../layout/panels/form-builder/ElementSelectionRow';
+import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
 
-describe('ElementSelectionPanel', () => {
-  const mockOnSelectElement = vi.fn();
+vi.mock('@/features/form-management/stores/formBuilderStore');
+
+describe('ElementSelectionRow', () => {
+  const mockAddElement = vi.fn();
 
   beforeEach(() => {
-    mockOnSelectElement.mockClear();
-  });
-
-  it('should render the component with correct title', () => {
-    render(<ElementSelectionPanel onSelectElement={mockOnSelectElement} />);
-
-    expect(screen.getByText('Add Element')).toBeInTheDocument();
+    mockAddElement.mockClear();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (useFormBuilderStore as any).mockReturnValue({
+      addElement: mockAddElement,
+      draftForm: { name: 'Test Form', elements: [] },
+    });
   });
 
   it('should render text field button', () => {
-    render(<ElementSelectionPanel onSelectElement={mockOnSelectElement} />);
+    render(<ElementSelectionRow />);
 
-    expect(screen.getByText('Text Field')).toBeInTheDocument();
+    expect(screen.getByText('Add Text Field')).toBeInTheDocument();
   });
 
   it('should render checkbox button', () => {
-    render(<ElementSelectionPanel onSelectElement={mockOnSelectElement} />);
+    render(<ElementSelectionRow />);
 
-    expect(screen.getByText('Checkbox')).toBeInTheDocument();
+    expect(screen.getByText('Add Checkbox')).toBeInTheDocument();
   });
 
-  it('should call onSelectElement with text type when text field button is clicked', () => {
-    render(<ElementSelectionPanel onSelectElement={mockOnSelectElement} />);
+  it('should call addElement with text type when text field button is clicked', () => {
+    render(<ElementSelectionRow />);
 
-    const textFieldButton = screen.getByText('Text Field');
+    const textFieldButton = screen.getByText('Add Text Field');
     fireEvent.click(textFieldButton);
 
-    expect(mockOnSelectElement).toHaveBeenCalledWith('text');
+    expect(mockAddElement).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'text',
+        label: 'New Text Field',
+        isRequired: false,
+      })
+    );
   });
 
-  it('should call onSelectElement with checkbox type when checkbox button is clicked', () => {
-    render(<ElementSelectionPanel onSelectElement={mockOnSelectElement} />);
+  it('should call addElement with checkbox type when checkbox button is clicked', () => {
+    render(<ElementSelectionRow />);
 
-    const checkboxButton = screen.getByText('Checkbox');
+    const checkboxButton = screen.getByText('Add Checkbox');
     fireEvent.click(checkboxButton);
 
-    expect(mockOnSelectElement).toHaveBeenCalledWith('checkbox');
+    expect(mockAddElement).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'checkbox',
+        label: 'New Checkbox',
+        isRequired: false,
+      })
+    );
   });
 });

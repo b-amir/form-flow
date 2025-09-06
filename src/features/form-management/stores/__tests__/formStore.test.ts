@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useFormStore } from '../formStore';
-import { formApi } from '@/services';
+import { formApi } from '@/services/api';
 
-vi.mock('@/services', () => ({
+vi.mock('@/services/api', () => ({
   formApi: {
     fetchForms: vi.fn(),
     fetchFormById: vi.fn(),
