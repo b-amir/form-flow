@@ -1,76 +1,218 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, alpha } from '@mui/material/styles';
+import { base, pink, green, gray } from './colors';
+import shadows from './shadows';
+import typography from './typography';
+import type { PaletteColorOptions, Shadows } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
-  interface Palette {
-    tertiary: {
-      main: string;
-      light: string;
-      dark: string;
-    };
+  interface GradientOptions {
+    [key: string]: string;
   }
 
   interface PaletteOptions {
-    tertiary?: {
-      main: string;
-      light: string;
-      dark: string;
-    };
+    neutral?: PaletteColorOptions;
+    gradients?: GradientOptions;
+  }
+
+  interface SimplePaletteColorOptions {
+    lighter?: string;
+    darker?: string;
+  }
+
+  interface Palette {
+    neutral: PaletteColor;
+    gradients: PaletteGradients;
+  }
+
+  interface PaletteColor {
+    lighter: string;
+    darker: string;
+  }
+
+  interface PaletteGradients {
+    pinkGradient: string;
+    greenGradient: string;
   }
 }
 
-const colors = {
+const palette = {
+  action: {
+    active: gray[500],
+    hover: alpha(gray[600], 0.13),
+    selected: green[100],
+    disabled: gray[400],
+    disabledBackground: gray[200],
+    focus: green[50],
+    hoverOpacity: 0.05,
+  },
+
+  background: { paper: gray[50], default: base.background },
+
+  neutral: {
+    light: gray[100],
+    main: gray[500],
+    dark: gray[600],
+    contrastText: base.background,
+    pale: gray[10],
+    darkerPale: gray[20],
+  },
+
   primary: {
-    main: '#543ca6', // rebecca-purple
-    light: '#a17ced', // tropical-indigo
-    dark: '#3d2b7a',
+    lighter: green[50],
+    light: green[100],
+    main: green[500],
+    dark: green[600],
+    darker: green[600],
+    contrastText: base.background,
   },
+
   secondary: {
-    main: '#fec601', // mikado-yellow
-    light: '#ffdb4d',
-    dark: '#cc9e01',
+    lighter: green[50],
+    light: green[100],
+    main: green[500],
+    dark: green[600],
+    darker: green[600],
+    contrastText: base.background,
   },
-  tertiary: {
-    main: '#a17ced', // tropical-indigo
-    light: '#c4a8f0',
-    dark: '#7a5bc7',
+
+  error: { main: pink[500], light: pink[400] },
+  warning: {
+    light: pink[100],
+    main: pink[300],
+    dark: pink[500],
+    contrastText: base.background,
   },
-  background: {
-    default: '#ffffff', // white
-    paper: '#ffffff', // white
+  success: {
+    lighter: green[50],
+    light: green[100],
+    main: green[500],
+    dark: green[600],
+    darker: green[600],
+    contrastText: base.background,
   },
+
+  gray,
+
   text: {
-    primary: '#66635b', // dim-gray
-    secondary: '#543ca6', // rebecca-purple
+    primary: base.foreground,
+    secondary: gray[300],
+    disabled: gray[100],
   },
+
+  divider: gray[50],
+
+  gradients: {
+    pinkGradient: `linear-gradient(to top right, ${pink[500]} 30%, ${pink[400]})`,
+    greenGradient: `linear-gradient(to top right, ${green[500]} 30%, ${green[400]})`,
+  },
+};
+
+const commonFocusStyle = {
+  outline: `2px solid ${green[100]}`,
+  outlineOffset: 2,
+};
+
+const commonHoverStyle = {
+  backgroundColor: alpha(green[500], 0.08),
 };
 
 const theme = createTheme({
   cssVariables: true,
-  palette: {
-    ...colors,
-  },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    h1: {
-      fontSize: '2.5rem',
-      fontWeight: 600,
-    },
-    h2: {
-      fontSize: '2rem',
-      fontWeight: 600,
-    },
-    h3: {
-      fontSize: '1.5rem',
-      fontWeight: 500,
-    },
-    body1: {
-      fontSize: '1rem',
-      lineHeight: 1.5,
-    },
-  },
+  palette,
+  typography,
+  shadows: shadows as Shadows,
   spacing: 8,
   shape: {
     borderRadius: 8,
+  },
+
+  components: {
+    MuiSwitch: {
+      styleOverrides: {
+        root: {
+          width: 36,
+          height: 20,
+          padding: 0,
+          margin: '8px',
+          '& .MuiSwitch-switchBase': {
+            padding: 1,
+            '&.Mui-checked': {
+              transform: 'translateX(16px)',
+              color: base.background,
+              '& + .MuiSwitch-track': {
+                opacity: 1,
+                background: palette.gradients.greenGradient,
+                borderColor: green[500],
+              },
+            },
+          },
+          '& .MuiSwitch-thumb': {
+            width: 18,
+            height: 18,
+            borderRadius: 6,
+            boxShadow: 'none',
+          },
+          '& .MuiSwitch-track': {
+            opacity: 1,
+            backgroundColor: gray[100],
+            borderRadius: 7,
+            border: `1px solid ${gray[200]}`,
+          },
+        },
+      },
+    },
+
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focusVisible': commonFocusStyle,
+          '&.Mui-selected': {
+            backgroundColor: green[500],
+          },
+        },
+      },
+      variants: [
+        {
+          props: { variant: 'contained' },
+          style: {
+            background: palette.gradients.greenGradient,
+            color: base.background,
+            '&:hover': {
+              backgroundColor: green[600],
+            },
+          },
+        },
+        {
+          props: { variant: 'outlined' },
+          style: {
+            color: green[500],
+            borderColor: green[500],
+            '&:hover': {
+              ...commonHoverStyle,
+              borderColor: green[600],
+            },
+          },
+        },
+        {
+          props: { variant: 'text' },
+          style: {
+            color: green[500],
+            '&:hover': commonHoverStyle,
+          },
+        },
+      ],
+    },
+
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focusVisible': commonFocusStyle,
+          '&.Mui-selected': {
+            backgroundColor: green[50],
+          },
+        },
+      },
+    },
   },
 });
 
