@@ -157,7 +157,7 @@ describe('ConditionalLogicBuilder', () => {
     expect(screen.getByText('ALL')).toBeInTheDocument();
     expect(screen.getByText('ANY')).toBeInTheDocument();
     expect(screen.getByText('Show when')).toBeInTheDocument();
-    expect(screen.getByText('conditions are met:')).toBeInTheDocument();
+    expect(screen.getByText('conditions are met')).toBeInTheDocument();
   });
 
   it('should not show operator chips when only one rule exists', () => {
