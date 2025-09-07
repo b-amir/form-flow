@@ -12,7 +12,7 @@
   
   **[👉 Try the Demo](https://zs65t7-3000.csb.app)**
   
-  <img src="./public/screenshots/scr-home.png" alt="Form Flow Screenshot" width="600">
+  <img src="./public/screenshots/scr-home.png" alt="Form Flow Screenshot" width="1000">
 </div>
 
 ## 📋 Table of Contents
