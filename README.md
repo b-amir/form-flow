@@ -22,16 +22,13 @@
 - [🛠️ Tech Stack](#️-tech-stack)
 - [🚀 Getting Started](#-getting-started)
 - [📖 Usage](#-usage)
-- [📁 Project Structure](#-project-structure)
-- [🏗️ Architecture Decisions](#️-architecture-decisions)
+- [🏗️ Architecture](#️-architecture)
 - [🧪 Testing](#-testing)
-- [📋 Development Guidelines](#-development-guidelines)
-- [🤝 Contributing](#-contributing)
 - [✅ To do list](#-to-do-list)
 
 ## 🎯 Overview
 
-Form Flow is a dynamic form generator application built with React and TypeScript that enables users to create interactive forms with text and checkbox fields, conditional logic, and yup validation. The application provides an intuitive drag-and-drop interface for form building and real-time form rendering capabilities.
+Form Flow is a dynamic form generator application built with **React** and **TypeScript** that enables users to create interactive forms with text and checkbox fields, conditional logic, and yup validation. The application provides an intuitive drag-and-drop interface for form building and real-time form rendering capabilities.
 
 ## ✨ Features
 
@@ -47,11 +44,11 @@ Form Flow is a dynamic form generator application built with React and TypeScrip
 ### Technical Features
 
 - **TypeScript**: Fully typed codebase for enhanced development experience
-- **Responsive Design**: Mobile-friendly interface using Material-UI
-- **State Management**: Efficient state handling with Zustand
-- **Form Handling**: Robust form management with React Hook Form + Yup
-- **Testing**: Comprehensive test coverage with React Testing Library
-- **API Mocking**: Development API simulation with MirageJS
+- **Responsive Design**: Mobile-friendly interface using **Material-UI**
+- **State Management**: Efficient state handling with **Zustand**
+- **Form Handling**: Robust form management with **React Hook Form + Yup**
+- **Testing**: Comprehensive test coverage with **React Testing Library**
+- **API Mocking**: Development API simulation with **MirageJS**
 
 ## 🛠️ Tech Stack
 
@@ -81,7 +78,7 @@ Form Flow is a dynamic form generator application built with React and TypeScrip
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/b-amir/form-flow.git
    cd form-flow
    ```
 
@@ -124,15 +121,16 @@ npm run test:coverage # Run tests with coverage
 
 ### Creating a Form
 
-1. **Start Building**: Click "Add Text Field" or "Add Checkbox" to add elements
-2. **Configure Elements**: Select elements to edit their properties (label, required status)
-3. **Add Conditional Logic**: Set up show/hide conditions based on checkbox values
-4. **Preview Form**: Use the preview panel to test your form in real-time
-5. **Save Form**: Forms are automatically saved to local storage
+1. **Create a form**: Click "Create form" to make a new form
+2. **Start Building**: Click "Add Text Field" or "Add Checkbox" to add elements
+3. **Configure Elements**: Select elements to edit their properties (label, required status)
+4. **Add Conditional Logic**: Set up show/hide conditions based on checkbox values
+5. **Preview Form**: Use the preview panel to test your form in real-time
+6. **Save Form**: Forms are automatically saved to local storage
 
 ### Form Schema
 
-The application uses a structured schema for form definitions:
+The application uses a structured schema for form definitions with TypeScript interfaces:
 
 ```typescript
 interface Form {
@@ -168,240 +166,161 @@ interface CheckboxElement extends BaseElement {
 
 ### Conditional Logic
 
-Conditional logic supports advanced show/hide operations with multiple rules and operators:
+Conditional logic supports advanced show/hide operations with AND/OR operators:
 
 - **Trigger**: Checkbox field values
-- **Action**: Show or hide target fields
+- **Action**: Show or hide target fields based on conditions
 - **Operators**: AND/OR logic for combining multiple conditions
-- **Rules**: Multiple conditional rules per element
-- **Logic**: Complex condition evaluation with `showWhen` boolean flags
+- **Rules**: Multiple conditional rules per element with `showWhen` boolean flags
 
 ```typescript
-type ConditionOperator = 'equals' | 'not_equals';
+interface ConditionalRule {
+  dependsOn: string; // ID of the field this condition depends on
+  showWhen: boolean; // Show element when field value equals this
+}
 
-interface Condition {
-  fieldId: string; // ID of the field this condition depends on
-  operator: ConditionOperator; // Comparison operator
-  value: boolean; // Value to compare against
+interface ConditionalLogic {
+  operator?: 'AND' | 'OR'; // How to combine multiple rules
+  rules: ConditionalRule[]; // Array of conditions to evaluate
 }
 ```
 
 **Examples:**
 
-- Show field when checkbox A is checked: `{ fieldId: 'checkboxA', operator: 'equals', value: true }`
-- Show field when checkbox A is unchecked: `{ fieldId: 'checkboxA', operator: 'not_equals', value: true }`
-- Multiple conditions can be combined using the form builder interface to create complex conditional logic
+- Show field when checkbox A is checked: `{ dependsOn: 'checkboxA', showWhen: true }`
+- Show field when checkbox A is unchecked: `{ dependsOn: 'checkboxA', showWhen: false }`
+- AND logic: All conditions must be true
+- OR logic: Any condition can be true
 
-## 📁 Project Structure
-
-```
-src/
-├── components/           # Reusable UI components
-│   ├── common/          # Shared components
-│   ├── element-properties/ # Element configuration panels
-│   ├── fields/          # Form field components
-│   ├── form/            # Form-related components
-│   └── layout/          # Layout components
-├── features/            # Feature-specific modules
-│   └── form-management/ # Form CRUD operations
-├── hooks/               # Custom React hooks
-├── server/              # MirageJS API mocking
-│   ├── factories/       # Data factories
-│   ├── fixtures/        # Sample data
-│   ├── models/          # Data models
-│   └── routes/          # API routes
-├── services/            # External service integrations
-├── styles/              # Theme and styling
-├── types/               # TypeScript type definitions
-└── utils/               # Utility functions
-```
-
-## 🏗️ Architecture Decisions
+## 🏗️ Architecture
 
 ### Application Architecture
 
 ```mermaid
-graph TB
-    A[React App] --> B[Material-UI Theme]
-    A --> C[Zustand Store]
-    A --> D[React Hook Form]
+graph TD
+    A[⚛️ React App]
 
-    C --> E[Form Store]
-    C --> F[UI Store]
-    C --> G[Form Builder Store]
+    A --> B[🎨 Material-UI Components]
+    A --> C[📦 Zustand Stores]
+    A --> D[📝 React Hook Form + Yup]
+    A --> J[🔌 API Service]
+    A --> K[📱 Layout Components]
 
-    D --> H[Yup Validation]
+    C --> E[📋 Form Store<br/>CRUD Operations]
+    C --> F[🔧 Form Builder Store<br/>Draft Management]
+    C --> G[🔔 UI Store<br/>Notifications & Modals]
 
-    A --> I[MirageJS Server]
-    I --> J[localStorage]
+    J --> H[🔄 MirageJS API]
+    H --> I[💾 localStorage]
 
-    K[Components] --> L[Layout]
-    K --> M[Form Fields]
-    K --> N[Element Properties]
-    K --> O[Common UI]
+    K --> L[🛠️ Form Builder Panel]
+    K --> M[📄 Forms List Panel]
+    K --> N[👁️ Preview Panel]
 
-    P[Features] --> Q[Form Management]
+    L --> O[➕ Element Selection]
+    L --> P[🎯 Form Canvas]
+    L --> Q[⚙️ Properties Editor]
 
-    R[Services] --> S[API Client]
+    N --> R[📋 Form Renderer]
+    R --> S[🧠 Conditional Logic Engine]
 
-    style A fill:#e1f5fe
-    style C fill:#f3e5f5
-    style I fill:#fff3e0
-    style K fill:#e8f5e8
+    C --> J
+
+    style A fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
+    style C fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    style H fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style K fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    style S fill:#fce4ec,stroke:#c2185b,stroke-width:2px
 ```
 
 ### Component Hierarchy
 
 ```mermaid
 graph TD
-    A[App] --> B[ThemeProvider]
-    B --> C[FormBuilderLayout]
+    A[🏠 App]
+    A --> B[🎨 ThemeProvider]
+    B --> C[📱 Layout]
 
-    C --> D[FormElementsPanel]
-    C --> E[FormCanvas]
-    C --> F[FormPropertiesPanel]
-    C --> G[FormPreview]
+    C --> D[📄 Forms List Panel]
+    C --> E[🛠️ Form Builder Panel]
+    C --> F[👁️ Preview Panel]
 
-    D --> H[AddTextFieldButton]
-    D --> I[AddCheckboxButton]
+    D --> G[📋 Forms List]
+    G --> H[📝 Form List Items]
 
-    E --> J[DragDropContext]
-    J --> K[SortableContext]
-    K --> L[FormElement]
+    E --> I[📌 Form Builder Header]
+    E --> J[➕ Element Selection Row]
+    E --> K[🎯 Form Content]
+    E --> L[⚙️ Element Properties Editor]
 
-    F --> M[FormNameInput]
-    F --> N[ElementProperties]
+    K --> M[🔄 Drag & Drop Context]
+    M --> N[📋 Element List]
+    N --> O[🧩 Form Elements]
 
-    G --> O[PreviewForm]
-    O --> P[TextField]
-    O --> Q[CheckboxField]
+    F --> P[📋 Form Renderer]
+    P --> Q[📝 Form Fields]
+    Q --> R[📝 Text Input Field]
+    Q --> S[☑️ Checkbox Field]
 
-    style A fill:#e3f2fd
-    style C fill:#f1f8e9
-    style J fill:#fff8e1
-    style O fill:#fce4ec
+    L --> T[🔧 Basic Properties]
+    L --> U[✅ Validation Settings]
+    L --> V[🧠 Conditional Logic Builder]
+
+    style A fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
+    style C fill:#f1f8e9,stroke:#388e3c,stroke-width:2px
+    style M fill:#fff8e1,stroke:#f57c00,stroke-width:2px
+    style P fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    style V fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
 ```
 
 ### Data Flow
 
 ```mermaid
 sequenceDiagram
-    participant U as User
-    participant C as Component
-    participant S as Zustand Store
-    participant A as API (MirageJS)
-    participant L as localStorage
+    participant 👤 as User
+    participant 🛠️ as Form Builder
+    participant 📋 as Form Store
+    participant 🔧 as Form Builder Store
+    participant 🔄 as MirageJS API
+    participant 💾 as localStorage
 
-    U->>C: Add Form Element
-    C->>S: updateForm()
-    S->>A: POST /forms
-    A->>L: Save to localStorage
-    L-->>A: Confirm Save
-    A-->>S: Return Updated Form
-    S-->>C: Update UI State
-    C-->>U: Show Updated Form
+    Note over 👤,💾: 📝 Form Creation Flow
+    👤->>🛠️: ➕ Add Element
+    🛠️->>🔧: addElement()
+    🔧->>🔧: 📝 Update Draft State
+    🔧-->>🛠️: ✅ State Updated
+    🛠️-->>👤: 🎨 UI Updated
 
-    U->>C: Preview Form
-    C->>S: getFormData()
-    S-->>C: Return Form Schema
-    C->>C: Render Preview
-    C-->>U: Display Preview
+    👤->>🛠️: 💾 Save Form
+    🛠️->>📋: createForm()
+    📋->>🔄: POST /forms
+    🔄->>💾: 💾 Persist Data
+    💾-->>🔄: ✅ Success
+    🔄-->>📋: 📄 Return Form
+    📋-->>🛠️: ✅ Form Saved
+    🛠️-->>👤: 🎉 Success Notification
+
+    Note over 👤,💾: 🧠 Conditional Logic Flow
+    👤->>🛠️: ⚙️ Set Conditional Logic
+    🛠️->>🔧: updateElement()
+    🔧->>🔧: 📝 Update Element Rules
+    🔧-->>🛠️: ✅ State Updated
+    🛠️->>🛠️: 🧮 Evaluate Conditions
+    🛠️-->>👤: 👁️ Show/Hide Elements
 ```
 
 ### Key Architectural Decisions
 
-- **Data Persistence**: Browser localStorage with automatic serialization
-- **Testing Framework**: Vitest over Jest for better Vite integration and similar syntax
-
-### Component Architecture
-
-- **Modular Design**: Separation of concerns with dedicated component folders
-- **Props Interface**: Strongly typed component interfaces
-- **Reusable Components**: Shared UI components across the application
-
-### Form Management
-
-- **Dynamic Schema**: JSON-based form definitions with TypeScript validation
-- **Conditional Logic**: Element visibility based on form state
-- **Validation Strategy**: Yup schema validation with real-time feedback
-
-### Styling System
-
-- **Design Tokens**: Consistent spacing, colors, and typography
-- **Component Theming**: Material-UI theme customization
-- **Responsive Design**: Mobile-first approach with breakpoint system
-- **Theme System**: Centralized design tokens and color variables
+- **Data Persistence**: MirageJS API simulation with localStorage for development
+- **Component Architecture**: Modular design with clear separation of concerns
+- **Conditional Logic**: Real-time evaluation engine with AND/OR operators
+- **Testing**: Vitest over Jest for better integration with Vite and similar syntax
 
 ## 🧪 Testing
 
-### Form Creation Workflow
-
-```mermaid
-flowchart TD
-    A[Start Form Creation] --> B{Select Element Type}
-    B -->|Text Field| C[Add Text Element]
-    B -->|Checkbox| D[Add Checkbox Element]
-
-    C --> E[Configure Properties]
-    D --> E
-
-    E --> F[Set Label]
-    E --> G[Set Required Status]
-    E --> H[Add Conditional Logic]
-
-    F --> I[Update Form Schema]
-    G --> I
-    H --> I
-
-    I --> J[Validate Form]
-    J -->|Valid| K[Save to Store]
-    J -->|Invalid| L[Show Validation Errors]
-
-    L --> E
-    K --> M[Update Preview]
-    M --> N{Add More Elements?}
-
-    N -->|Yes| B
-    N -->|No| O[Complete Form]
-
-    O --> P[Export/Save Form]
-
-    style A fill:#e8f5e8
-    style O fill:#e3f2fd
-    style P fill:#fff3e0
-```
-
 ### Testing Strategy
 
-```mermaid
-graph TD
-    A[Testing Approach] --> B[Unit Tests]
-    A --> C[Integration Tests]
-
-    B --> D[React Components]
-    B --> E[Utility Functions]
-    B --> F[Store Logic]
-
-    C --> G[Form Workflows]
-    C --> H[Conditional Logic]
-    C --> I[User Interactions]
-
-    D --> J[Element Properties Editor]
-    D --> K[Form Renderer]
-    D --> L[Conditional Logic Builder]
-
-    E --> M[Store Helpers]
-    E --> N[Conditional Logic Utils]
-
-    F --> O[Form Builder Store]
-    F --> P[UI Store]
-    F --> Q[Form Store]
-
-    style B fill:#e8f5e8
-    style C fill:#fff3e0
-```
-
-The project uses **Vitest** with **React Testing Library** for a modern testing approach:
+The project uses **Vitest** with **React Testing Library** for comprehensive testing:
 
 ```bash
 # Run all tests
@@ -414,58 +333,21 @@ npm run test:coverage
 npm run test:watch
 ```
 
-### Current Testing Coverage
+### Testing Coverage
 
 - **Component Tests**: Form renderer, element properties editor, conditional logic builder
-- **Utility Tests**: Conditional logic evaluation, store helper functions
+- **Utility Tests**: Conditional logic evaluation with AND/OR operators, store helper functions
 - **Store Tests**: Form builder state management, UI state, form CRUD operations
 - **Integration Tests**: Form rendering with conditional logic, user interactions
 
 ### Testing Setup
 
-- **Framework**: Vitest with jsdom environment
+- **Framework**: Vitest with jsdom environment for browser simulation
 - **Testing Library**: React Testing Library for component testing
 - **Custom Utilities**: Theme provider wrapper for consistent rendering
 - **Mocking**: Vi.fn() for function mocking and API simulation
 
-## 📋 Development Guidelines
-
-### Code Quality
-
-- **TypeScript Strict Mode**: Enabled for enhanced type safety
-- **ESLint + Prettier**: Automated code formatting and linting
-- **Conventional Commits**: Structured commit messages
-- **Clean Code Principles**: Following Robert C. Martin's guidelines
-
-### Component Design
-
-- **Single Responsibility**: Each component has one clear purpose
-- **Composition over Inheritance**: Favor component composition
-- **Props Interface**: Well-defined TypeScript interfaces
-- **Accessibility**: ARIA labels and keyboard navigation support
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Commit Convention
-
-This project follows [Conventional Commits](https://www.conventionalcommits.org/):
-
-- `feat:` New features
-- `fix:` Bug fixes
-- `docs:` Documentation changes
-- `style:` Code style changes
-- `refactor:` Code refactoring
-- `test:` Test additions or modifications
-- `chore:` Build process or auxiliary tool changes
-
 ## ✅ To do list
 
-- [ ] Add form validation
 - [ ] Support more form field types
 - [ ] Implement form sharing
