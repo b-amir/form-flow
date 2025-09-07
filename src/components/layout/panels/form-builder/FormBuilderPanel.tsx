@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
 import { useFormStore } from '@/features/form-management/stores/formStore';
 import { ElementSelectionRow } from './ElementSelectionRow';
 import { useEffect, useState } from 'react';
@@ -16,8 +15,12 @@ export const FormBuilderPanel = () => {
     reorderElements,
     setIsDirty,
     isDirty,
-  } = useFormBuilderStore();
-  const { updateForm, createForm } = useFormStore();
+    updateForm,
+    createForm,
+    selectElement,
+    removeElement,
+    updateElement,
+  } = useFormStore();
   const inputRef = useFormNameInputRef();
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -29,7 +32,7 @@ export const FormBuilderPanel = () => {
   }, [draftForm.name, draftForm.elements.length, inputRef]);
 
   const handleBackgroundClick = () => {
-    useFormBuilderStore.getState().selectElement(null);
+    selectElement(null);
   };
 
   const handleSave = async () => {
@@ -48,7 +51,6 @@ export const FormBuilderPanel = () => {
         });
       }
 
-      await useFormStore.getState().fetchForms();
       setIsDirty(false);
       setSaveSuccess(true);
     } catch (error) {
@@ -75,15 +77,13 @@ export const FormBuilderPanel = () => {
         elements={draftForm.elements}
         selectedElementId={selectedElementId}
         isLoading={false}
-        onSelectElement={id => useFormBuilderStore.getState().selectElement(id)}
-        onDeleteElement={id => useFormBuilderStore.getState().removeElement(id)}
+        onSelectElement={selectElement}
+        onDeleteElement={removeElement}
         onReorderElements={(startIndex, endIndex) => {
           reorderElements(startIndex, endIndex);
           setIsDirty(true);
         }}
-        onUpdateElement={(id, updates) =>
-          useFormBuilderStore.getState().updateElement(id, updates)
-        }
+        onUpdateElement={updateElement}
         onBackgroundClick={handleBackgroundClick}
       />
 

@@ -11,13 +11,13 @@ import {
   Visibility,
   FullscreenExit,
 } from '@mui/icons-material';
-import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
+import { useFormStore } from '@/features/form-management/stores/formStore';
 import { useState } from 'react';
 import type { ApiElement } from '@/types/api';
 import { FormRenderer } from '../../../form/renderer/FormRenderer';
 
 export const ElementSelectionRow = () => {
-  const { addElement, draftForm } = useFormBuilderStore();
+  const { addElement, draftForm } = useFormStore();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const isSmallScreen = useMediaQuery(`(max-width:1390px)`);
   const isMobile = useMediaQuery(`(max-width:600px)`);

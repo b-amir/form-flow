@@ -1,12 +1,12 @@
 import { Box, Typography, IconButton, Alert, Snackbar } from '@mui/material';
 import { Fullscreen, FullscreenExit } from '@mui/icons-material';
 import { FormRenderer } from '../../../form/renderer/FormRenderer';
-import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
+import { useFormStore } from '@/features/form-management/stores/formStore';
 import { useState } from 'react';
 import { HEADER_HEIGHT } from '@/constants';
 
 export const FormPreviewPanel = () => {
-  const { draftForm } = useFormBuilderStore();
+  const { draftForm } = useFormStore();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 

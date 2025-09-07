@@ -6,6 +6,16 @@ import { formApi } from '@/services/api';
 export const useFormStore = create<FormStore>()(set => ({
   forms: [],
   currentForm: null,
+
+  draftForm: {
+    id: 'draft',
+    name: '',
+    elements: [],
+  },
+  selectedElementId: null,
+  validationErrors: [],
+  isDirty: false,
+
   isLoading: false,
   error: null,
   updatingFormId: null,
@@ -108,4 +118,135 @@ export const useFormStore = create<FormStore>()(set => ({
   clearCurrentForm: () => set({ currentForm: null }),
 
   clearError: () => set({ error: null }),
+
+  setFormName: (name: string) => {
+    set(state => ({
+      draftForm: {
+        ...state.draftForm,
+        name,
+      },
+      isDirty: true,
+    }));
+  },
+
+  updateElements: (elements: ApiElement[]) => {
+    set(state => ({
+      draftForm: {
+        ...state.draftForm,
+        elements: [...elements],
+      },
+      isDirty: true,
+    }));
+  },
+
+  clearDraftForm: () => {
+    set({
+      draftForm: {
+        id: 'draft',
+        name: '',
+        elements: [],
+      },
+      selectedElementId: null,
+      validationErrors: [],
+      isDirty: false,
+    });
+  },
+
+  initDraftForm: (form?: ApiForm) => {
+    if (form) {
+      set({
+        draftForm: {
+          id: form.id,
+          name: form.name,
+          elements: [...form.elements],
+        },
+        selectedElementId: null,
+        validationErrors: [],
+        isDirty: false,
+      });
+    } else {
+      set({
+        draftForm: {
+          id: 'draft',
+          name: '',
+          elements: [],
+        },
+        selectedElementId: null,
+        validationErrors: [],
+        isDirty: false,
+      });
+    }
+  },
+
+  setIsDirty: (isDirty: boolean) => {
+    set({ isDirty });
+  },
+
+  addElement: (element: ApiElement) => {
+    set(state => ({
+      draftForm: {
+        ...state.draftForm,
+        elements: [...state.draftForm.elements, element],
+      },
+      selectedElementId: element.id,
+      isDirty: true,
+    }));
+  },
+
+  updateElement: (id: string, updates: Partial<ApiElement>) => {
+    set(state => ({
+      draftForm: {
+        ...state.draftForm,
+        elements: state.draftForm.elements.map(element =>
+          element.id === id ? { ...element, ...updates } : element
+        ),
+      },
+      isDirty: true,
+    }));
+  },
+
+  removeElement: (id: string) => {
+    set(state => {
+      const newElements = state.draftForm.elements.filter(
+        element => element.id !== id
+      );
+
+      return {
+        draftForm: {
+          ...state.draftForm,
+          elements: newElements,
+        },
+        selectedElementId:
+          state.selectedElementId === id ? null : state.selectedElementId,
+        isDirty: true,
+      };
+    });
+  },
+
+  reorderElements: (startIndex: number, endIndex: number) => {
+    set(state => {
+      const elements = [...state.draftForm.elements];
+      const [removed] = elements.splice(startIndex, 1);
+
+      if (removed) {
+        elements.splice(endIndex, 0, removed);
+      }
+
+      return {
+        draftForm: {
+          ...state.draftForm,
+          elements,
+        },
+        isDirty: true,
+      };
+    });
+  },
+
+  selectElement: (id: string | null) => {
+    set({ selectedElementId: id });
+  },
+
+  setValidationErrors: errors => {
+    set({ validationErrors: errors });
+  },
 }));

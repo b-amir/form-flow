@@ -4,6 +4,16 @@ import { type ValidationError } from './validation';
 export interface FormStore {
   forms: ApiForm[];
   currentForm: ApiForm | null;
+
+  draftForm: {
+    id: string;
+    name: string;
+    elements: ApiElement[];
+  };
+  selectedElementId: string | null;
+  validationErrors: ValidationError[];
+  isDirty: boolean;
+
   isLoading: boolean;
   error: string | null;
   updatingFormId: string | null;
@@ -15,31 +25,19 @@ export interface FormStore {
   deleteForm: (id: string) => Promise<void>;
   clearCurrentForm: () => void;
   clearError: () => void;
-}
-
-export interface FormBuilderStore {
-  draftForm: {
-    id: string;
-    name: string;
-    elements: ApiElement[];
-  };
-  selectedElementId: string | null;
-  validationErrors: ValidationError[];
-  isDirty: boolean;
 
   setFormName: (name: string) => void;
-  updateFormName: (name: string) => void;
   updateElements: (elements: ApiElement[]) => void;
-  clearForm: () => void;
+  clearDraftForm: () => void;
+  initDraftForm: (form?: ApiForm) => void;
+  setIsDirty: (isDirty: boolean) => void;
+
   addElement: (element: ApiElement) => void;
   updateElement: (id: string, updates: Partial<ApiElement>) => void;
   removeElement: (id: string) => void;
   reorderElements: (startIndex: number, endIndex: number) => void;
   selectElement: (id: string | null) => void;
   setValidationErrors: (errors: ValidationError[]) => void;
-  clearDraftForm: () => void;
-  initDraftForm: (form?: ApiForm) => void;
-  setIsDirty: (isDirty: boolean) => void;
 }
 
 export interface UIStore {

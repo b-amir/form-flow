@@ -1,7 +1,6 @@
 import { Box, Button, useTheme, keyframes } from '@mui/material';
 import React, { useState, useEffect, useContext } from 'react';
 import { useFormStore } from '@/features/form-management/stores/formStore';
-import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
 import { ConfirmationDialog } from '../../../common/ConfirmationDialog';
 import { FormsHeader } from './FormsHeader';
 import { FormsList } from './FormsList';
@@ -17,8 +16,11 @@ export const FormsListPanel = () => {
     isLoading,
     currentForm,
     updatingFormId,
+    draftForm,
+    isDirty,
+    initDraftForm,
+    clearDraftForm,
   } = useFormStore();
-  const { draftForm, isDirty } = useFormBuilderStore();
   const { setActivePanel } = useContext(LayoutContext);
   const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -48,7 +50,7 @@ export const FormsListPanel = () => {
   const executeSelectForm = (formId: string) => {
     const form = forms.find(f => f.id === formId);
     if (form) {
-      useFormBuilderStore.getState().initDraftForm(form);
+      initDraftForm(form);
       setSelectedFormId(formId);
       setActivePanel('builder');
     }
@@ -66,7 +68,7 @@ export const FormsListPanel = () => {
   const formNameInputRef = useFormNameInputRef();
 
   const executeAddForm = () => {
-    useFormBuilderStore.getState().initDraftForm();
+    clearDraftForm();
     setSelectedFormId(null);
     setActivePanel('builder');
 
@@ -104,7 +106,7 @@ export const FormsListPanel = () => {
 
         if (selectedFormId === formToDelete) {
           setSelectedFormId(null);
-          useFormBuilderStore.getState().initDraftForm();
+          clearDraftForm();
         }
         await fetchForms();
       } catch (err) {
