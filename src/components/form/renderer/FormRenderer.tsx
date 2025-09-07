@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Collapse } from '@mui/material';
+import { Box, Collapse, Typography } from '@mui/material';
 import type { Form } from '@/types';
 import { FormHeader } from '@components/form/ui/FormHeader';
 import { FormButtons } from '@components/form/ui/FormButtons';
-import { shouldShowElement } from '@/utils/conditionalLogic';
+import { conditionalLogicHelpers } from '@/utils/conditionalLogic';
+import { getFieldValue, hasElements } from '@/utils/formHelpers';
+import { useFormVisibility } from '@/hooks/useFormVisibility';
 import { FieldFactory } from '@components/fields/FieldFactory';
 import {
   createValidationSchema,
@@ -36,65 +38,61 @@ export const FormRenderer: React.FC<FormRendererProps> = ({
   });
 
   const formValues = watch();
+  const elementVisibility = useFormVisibility(form.elements, formValues);
 
   useEffect(() => {
     reset(createDefaultValues(form));
   }, [form, reset]);
 
   const onFormSubmit = (data: Record<string, unknown>) => {
-    if (onSubmit) {
-      onSubmit(data as Record<string, string | boolean>);
-    }
+    onSubmit?.(data as Record<string, string | boolean>);
   };
 
   const handleReset = () => {
     reset(createDefaultValues(form));
   };
 
-  const hasElements = form.elements.length > 0;
+  if (!hasElements(form.elements)) {
+    return (
+      <Box sx={{ p: 3, maxWidth: 600, mx: 'auto' }}>
+        <FormHeader title={form.name} />
+        <Typography>No form elements to display</Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ p: 3, maxWidth: 600, mx: 'auto' }}>
       <FormHeader title={form.name} />
 
-      {hasElements && (
-        <Box
-          component="form"
-          onSubmit={handleSubmit(onFormSubmit)}
-          sx={{ mt: 2 }}
-        >
-          {form.elements.map(element => {
-            const shouldShow = shouldShowElement(
-              element,
-              formValues as { [fieldId: string]: boolean | string }
-            );
+      <Box
+        component="form"
+        onSubmit={handleSubmit(onFormSubmit)}
+        sx={{ mt: 2 }}
+      >
+        {form.elements.map(element => {
+          const shouldShow = elementVisibility.get(element.id) ?? true;
+          const fieldError = errors[element.id]?.message;
 
-            const fieldError = errors[element.id]?.message;
+          return (
+            <Collapse
+              key={element.id}
+              in={shouldShow}
+              timeout={conditionalLogicHelpers.COLLAPSE_TIMEOUT}
+            >
+              <FieldFactory
+                element={element}
+                value={getFieldValue(element, formValues)}
+                onChange={() => {}}
+                error={fieldError}
+                control={control}
+              />
+            </Collapse>
+          );
+        })}
 
-            return (
-              <Collapse key={element.id} in={shouldShow} timeout={300}>
-                <FieldFactory
-                  element={element}
-                  value={
-                    formValues[element.id] != null
-                      ? element.type === 'checkbox'
-                        ? Boolean(formValues[element.id])
-                        : String(formValues[element.id])
-                      : element.type === 'checkbox'
-                        ? false
-                        : ''
-                  }
-                  onChange={() => {}}
-                  error={fieldError}
-                  control={control}
-                />
-              </Collapse>
-            );
-          })}
-
-          <FormButtons onReset={handleReset} />
-        </Box>
-      )}
+        <FormButtons onReset={handleReset} />
+      </Box>
     </Box>
   );
 };

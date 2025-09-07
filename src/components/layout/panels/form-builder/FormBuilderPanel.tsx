@@ -20,6 +20,7 @@ export const FormBuilderPanel = () => {
     selectElement,
     removeElement,
     updateElement,
+    fetchForms,
   } = useFormStore();
   const inputRef = useFormNameInputRef();
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -53,6 +54,7 @@ export const FormBuilderPanel = () => {
 
       setIsDirty(false);
       setSaveSuccess(true);
+      await fetchForms();
     } catch (error) {
       setSaveError(
         error instanceof Error ? error.message : 'Failed to save form'
