@@ -97,6 +97,23 @@ Form Flow is a dynamic form generator application built with **React** and **Typ
 4. **Open your browser**
    Navigate to `http://localhost:3000` to view the application
 
+### Environment Configuration
+
+The application uses MirageJS for API mocking in all environments. You can control this behavior using environment variables:
+
+- **VITE_USE_MIRAGE**: Set to `'false'` to disable MirageJS mock server (default: enabled)
+- **MODE**: Controls the environment mode (development, production, etc.)
+
+Example `.env` file:
+
+```bash
+# Disable MirageJS mock server
+VITE_USE_MIRAGE=false
+
+# Set environment mode
+MODE=production
+```
+
 ### Available Scripts
 
 ```bash

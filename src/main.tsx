@@ -5,8 +5,11 @@ import App from './App.tsx';
 import ThemeProvider from './styles/ThemeProvider';
 import { makeServer } from './server';
 
-if (import.meta.env.DEV) {
-  makeServer({ environment: 'development' });
+const shouldUseMirage = import.meta.env.VITE_USE_MIRAGE !== 'false';
+const environment = import.meta.env.MODE || 'development';
+
+if (shouldUseMirage) {
+  makeServer({ environment });
 }
 
 createRoot(document.getElementById('root')!).render(

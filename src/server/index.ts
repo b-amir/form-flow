@@ -19,35 +19,35 @@ export function makeServer({ environment = 'development' } = {}) {
     routes() {
       this.namespace = 'api';
       this.timing = environment === 'development' ? 400 : 0;
-
       formRoutes.call(this);
-
       this.passthrough();
     },
 
     seeds(server) {
-      if (environment === 'development') {
-        try {
-          const storedFormsData = localStorage.getItem('form-builder-forms');
+      try {
+        const storedFormsData = localStorage.getItem('form-builder-forms');
 
-          if (storedFormsData) {
-            const storedForms = JSON.parse(storedFormsData);
-            if (Array.isArray(storedForms) && storedForms.length > 0) {
-              storedForms.forEach(form => {
-                server.create('form', form);
-              });
-              return;
-            }
+        if (storedFormsData) {
+          const storedForms = JSON.parse(storedFormsData);
+          if (Array.isArray(storedForms) && storedForms.length > 0) {
+            storedForms.forEach(form => {
+              server.create('form', form);
+            });
+            return;
           }
-
-          formFixtures.forEach(form => {
-            server.create('form', form);
-          });
-        } catch {
-          formFixtures.forEach(form => {
-            server.create('form', form);
-          });
         }
+
+        formFixtures.forEach(form => {
+          server.create('form', form);
+        });
+      } catch (error) {
+        if (environment === 'development') {
+          console.warn('Failed to load stored forms, using fixtures:', error);
+        }
+
+        formFixtures.forEach(form => {
+          server.create('form', form);
+        });
       }
     },
   });
