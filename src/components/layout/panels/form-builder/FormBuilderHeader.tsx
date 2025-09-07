@@ -100,7 +100,7 @@ export const FormBuilderHeader: React.FC<FormBuilderHeaderProps> = ({
         <Box
           sx={{
             overflow: 'hidden',
-            width: isDirty ? '86px' : 0,
+            width: isDirty ? { xs: 0, sm: '86px' } : 0,
             transition: 'width 0.5s ease-in-out',
             position: 'relative',
             height: '100%',
@@ -117,7 +117,7 @@ export const FormBuilderHeader: React.FC<FormBuilderHeaderProps> = ({
                 animation: `${expandRightToLeft} 0.5s ease-out`,
                 whiteSpace: 'nowrap',
                 color: 'white',
-                display: 'block',
+                display: { xs: 'none', sm: 'block' },
                 width: '100%',
               }}
             >
