@@ -1,6 +1,6 @@
 import { Box, Typography, IconButton, Alert, Snackbar } from '@mui/material';
 import { Fullscreen, FullscreenExit } from '@mui/icons-material';
-import { FormRenderer } from '../../../form/renderer/FormRenderer';
+import { FormRenderer } from '@components/form/renderer/FormRenderer';
 import { useFormStore } from '@/features/form-management/stores/formStore';
 import { useState } from 'react';
 import { HEADER_HEIGHT } from '@/constants';

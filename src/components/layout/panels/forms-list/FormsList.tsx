@@ -1,9 +1,9 @@
 import { Box, List } from '@mui/material';
 import React from 'react';
 import type { Form } from '@/types';
-import { LoadingIndicator } from '../../../common/LoadingIndicator';
-import { EmptyIndicator } from '../../../common/EmptyIndicator';
-import { FormListItem } from './FormListItem';
+import { LoadingIndicator } from '@components/common/LoadingIndicator';
+import { EmptyIndicator } from '@components/common/EmptyIndicator';
+import { FormListItem } from '@components/layout/panels/forms-list/FormListItem';
 
 interface FormsListProps {
   forms: Form[];

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useFormStore } from '../formStore';
+import { useFormStore } from '@/features/form-management/stores/formStore';
 import { formApi } from '@/services/api';
 
 vi.mock('@/services/api', () => ({

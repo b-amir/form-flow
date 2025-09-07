@@ -1,8 +1,8 @@
 import { createServer } from 'miragejs';
-import { formModel } from './models';
-import { formFactory } from './factories';
-import { formRoutes } from './routes';
-import { formFixtures } from './fixtures';
+import { formModel } from '@/server/models';
+import { formFactory } from '@/server/factories';
+import { formRoutes } from '@/server/routes';
+import { formFixtures } from '@/server/fixtures';
 
 export function makeServer({ environment = 'development' } = {}) {
   const server = createServer({

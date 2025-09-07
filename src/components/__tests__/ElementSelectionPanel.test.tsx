@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@/utils/test-utils';
-import { ElementSelectionRow } from '../layout/panels/form-builder/ElementSelectionRow';
+import { ElementSelectionRow } from '@components/layout/panels/form-builder/ElementSelectionRow';
 import { useFormStore } from '@/features/form-management/stores/formStore';
 
 vi.mock('@/features/form-management/stores/formStore');

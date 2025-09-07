@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { useFormStore } from '../formStore';
+import { useFormStore } from '@/features/form-management/stores/formStore';
 import type { Element } from '@/types';
 
 describe('Form Builder Store', () => {

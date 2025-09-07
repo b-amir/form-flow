@@ -1,5 +1,5 @@
 import type { Theme, TypographyVariantsOptions } from '@mui/material';
-import pxToRem from './functions/pxToRem';
+import pxToRem from '@/styles/functions/pxToRem';
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {

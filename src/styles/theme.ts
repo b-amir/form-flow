@@ -1,7 +1,7 @@
 import { createTheme, alpha } from '@mui/material/styles';
-import { base, pink, green, gray } from './colors';
-import shadows from './shadows';
-import typography from './typography';
+import { base, pink, green, gray } from '@/styles/colors';
+import shadows from '@/styles/shadows';
+import typography from '@/styles/typography';
 import type { PaletteColorOptions, Shadows } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {

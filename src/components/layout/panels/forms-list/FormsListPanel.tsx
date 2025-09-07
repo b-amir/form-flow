@@ -1,12 +1,12 @@
 import { Box, Button, useTheme, keyframes } from '@mui/material';
 import React, { useState, useEffect, useContext } from 'react';
 import { useFormStore } from '@/features/form-management/stores/formStore';
-import { ConfirmationDialog } from '../../../common/ConfirmationDialog';
-import { FormsHeader } from './FormsHeader';
-import { FormsList } from './FormsList';
+import { ConfirmationDialog } from '@components/common/ConfirmationDialog';
+import { FormsHeader } from '@components/layout/panels/forms-list/FormsHeader';
+import { FormsList } from '@components/layout/panels/forms-list/FormsList';
 import { Add } from '@mui/icons-material';
 import { useFormNameInputRef } from '@/hooks';
-import { LayoutContext } from '../../Layout';
+import { LayoutContext } from '@components/layout/Layout';
 
 export const FormsListPanel = () => {
   const {

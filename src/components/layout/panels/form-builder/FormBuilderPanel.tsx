@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
 import { useFormStore } from '@/features/form-management/stores/formStore';
-import { ElementSelectionRow } from './ElementSelectionRow';
+import { ElementSelectionRow } from '@components/layout/panels/form-builder/ElementSelectionRow';
 import { useEffect, useState } from 'react';
-import { FormBuilderHeader } from './FormBuilderHeader';
-import { FormContent } from './FormContent';
-import { FormNotifications } from '../../../form/ui/FormNotifications';
+import { FormBuilderHeader } from '@components/layout/panels/form-builder/FormBuilderHeader';
+import { FormContent } from '@components/layout/panels/form-builder/FormContent';
+import { FormNotifications } from '@components/form/ui/FormNotifications';
 import { useFormNameInputRef } from '@/hooks';
 
 export const FormBuilderPanel = () => {

@@ -9,9 +9,9 @@ import {
 } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import type { Element, ConditionalLogic } from '@/types';
-import { ConditionalLogicBuilder } from './ConditionalLogicBuilder';
-import { BasicProperties } from '../../element-properties/BasicProperties';
-import { ValidationSettings } from '../../element-properties/ValidationSettings';
+import { ConditionalLogicBuilder } from '@components/form/builder/ConditionalLogicBuilder';
+import { BasicProperties } from '@components/element-properties/BasicProperties';
+import { ValidationSettings } from '@components/element-properties/ValidationSettings';
 
 interface ElementPropertiesEditorProps {
   element: Element | null;

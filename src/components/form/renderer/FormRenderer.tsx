@@ -3,10 +3,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Collapse } from '@mui/material';
 import type { Form } from '@/types';
-import { FormHeader } from '../ui/FormHeader';
-import { FormButtons } from '../ui/FormButtons';
+import { FormHeader } from '@components/form/ui/FormHeader';
+import { FormButtons } from '@components/form/ui/FormButtons';
 import { shouldShowElement } from '@/utils/conditionalLogic';
-import { FieldFactory } from '../../fields/FieldFactory';
+import { FieldFactory } from '@components/fields/FieldFactory';
 import {
   createValidationSchema,
   createDefaultValues,

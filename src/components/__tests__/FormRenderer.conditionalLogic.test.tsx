@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@/utils/test-utils';
-import { FormRenderer } from '../form/renderer/FormRenderer';
+import { FormRenderer } from '@components/form/renderer/FormRenderer';
 import type { Form } from '@/types';
 
 describe('FormRenderer - Conditional Logic Integration', () => {

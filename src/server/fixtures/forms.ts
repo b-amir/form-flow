@@ -1,4 +1,4 @@
-import { type FormData } from '../models';
+import { type FormData } from '@/server/models';
 
 export const formFixtures: Partial<FormData>[] = [
   {

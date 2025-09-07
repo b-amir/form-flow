@@ -14,7 +14,7 @@ import {
 import { useFormStore } from '@/features/form-management/stores/formStore';
 import { useState } from 'react';
 import type { Element } from '@/types';
-import { FormRenderer } from '../../../form/renderer/FormRenderer';
+import { FormRenderer } from '@components/form/renderer/FormRenderer';
 
 export const ElementSelectionRow = () => {
   const { addElement, draftForm } = useFormStore();

@@ -1,5 +1,5 @@
 import { Factory } from 'miragejs';
-import { type FormData } from '../models';
+import { type FormData } from '@/server/models';
 
 export const formFactory = Factory.extend<FormData>({
   id() {

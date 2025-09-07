@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography, Paper, IconButton, Tooltip } from '@mui/material';
-import { ConfirmationDialog } from '../../common/ConfirmationDialog';
+import { ConfirmationDialog } from '@components/common/ConfirmationDialog';
 import {
   Delete,
   TextFields,
@@ -25,7 +25,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { EmptyIndicator } from '../../common/EmptyIndicator';
+import { EmptyIndicator } from '@components/common/EmptyIndicator';
 
 interface ElementListProps {
   elements: Element[];

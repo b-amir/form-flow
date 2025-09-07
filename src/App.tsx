@@ -4,7 +4,7 @@ import {
   FormPreviewPanel,
   FormsListPanel,
   Layout,
-} from './components/layout';
+} from '@components/layout';
 
 const App = () => {
   return (

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Controller, type Control } from 'react-hook-form';
 import type { Element, TextElement, CheckboxElement } from '@/types';
-import { TextInputField } from './TextInputField';
-import { CheckboxField } from './CheckboxField';
+import { TextInputField } from '@components/fields/TextInputField';
+import { CheckboxField } from '@components/fields/CheckboxField';
 
 interface FieldFactoryProps {
   element: Element;

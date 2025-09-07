@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller, type Control } from 'react-hook-form';
-import { FieldFactory } from '../../fields/FieldFactory';
+import { FieldFactory } from '@components/fields/FieldFactory';
 import type { Element } from '@/types';
 
 interface FormFieldProps {

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { ConditionalLogicBuilder } from '../form/builder/ConditionalLogicBuilder';
+import { ConditionalLogicBuilder } from '@components/form/builder/ConditionalLogicBuilder';
 import type { Element } from '@/types';
 
 const mockTextElement: Element = {

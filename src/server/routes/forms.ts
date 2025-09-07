@@ -1,8 +1,8 @@
 import { Response } from 'miragejs';
 import type { Server, Request, Registry } from 'miragejs';
 import type Schema from 'miragejs/orm/schema';
-import { formModel } from '../models';
-import { formFactory } from '../factories';
+import { formModel } from '@/server/models';
+import { formFactory } from '@/server/factories';
 import type { Form } from '@/types';
 import { STORAGE_KEY } from '@/constants';
 
