@@ -1,10 +1,10 @@
 import React from 'react';
 import { TextField, FormControlLabel, Switch, Typography } from '@mui/material';
-import type { ApiElement } from '@/types/api';
+import type { Element } from '@/types';
 
 interface BasicPropertiesProps {
-  element: ApiElement;
-  onUpdateElement: (id: string, updates: Partial<ApiElement>) => void;
+  element: Element;
+  onUpdateElement: (id: string, updates: Partial<Element>) => void;
 }
 
 export const BasicProperties: React.FC<BasicPropertiesProps> = ({

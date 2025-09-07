@@ -16,11 +16,11 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
-import type { ApiElement, ConditionalLogic, ConditionalRule } from '@/types';
+import type { Element, ConditionalLogic, ConditionalRule } from '@/types';
 
 interface ConditionalLogicBuilderProps {
-  element: ApiElement;
-  allElements: ApiElement[];
+  element: Element;
+  allElements: Element[];
   onUpdateConditionalLogic: (
     conditionalLogic: ConditionalLogic | undefined
   ) => void;

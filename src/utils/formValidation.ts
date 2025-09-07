@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import type { Form } from '@/types/form';
+import type { Form } from '@/types';
 
 type ValidationSchema = Record<string, yup.AnySchema>;
 

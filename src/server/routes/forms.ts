@@ -3,7 +3,7 @@ import type { Server, Request, Registry } from 'miragejs';
 import type Schema from 'miragejs/orm/schema';
 import { formModel } from '../models';
 import { formFactory } from '../factories';
-import type { Form } from '@/types/form';
+import type { Form } from '@/types';
 import { STORAGE_KEY } from '@/constants';
 
 const saveFormsToStorage = (forms: Form[]) => {

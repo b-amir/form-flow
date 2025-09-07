@@ -1,6 +1,6 @@
 import { Box, List } from '@mui/material';
 import React from 'react';
-import type { Form } from '@/types/form';
+import type { Form } from '@/types';
 import { LoadingIndicator } from '../../../common/LoadingIndicator';
 import { EmptyIndicator } from '../../../common/EmptyIndicator';
 import { FormListItem } from './FormListItem';

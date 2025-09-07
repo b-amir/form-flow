@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller, type Control } from 'react-hook-form';
-import type { Element } from '@/types/form';
+import type { Element, TextElement, CheckboxElement } from '@/types';
 import { TextInputField } from './TextInputField';
 import { CheckboxField } from './CheckboxField';
 
@@ -30,7 +30,7 @@ export const FieldFactory: React.FC<FieldFactoryProps> = ({
             case 'text':
               return (
                 <TextInputField
-                  element={element}
+                  element={element as TextElement}
                   value={field.value != null ? String(field.value) : ''}
                   onChange={field.onChange}
                   error={fieldError}
@@ -39,7 +39,7 @@ export const FieldFactory: React.FC<FieldFactoryProps> = ({
             case 'checkbox':
               return (
                 <CheckboxField
-                  element={element}
+                  element={element as CheckboxElement}
                   value={field.value != null ? Boolean(field.value) : false}
                   onChange={field.onChange}
                   error={fieldError}
@@ -57,7 +57,7 @@ export const FieldFactory: React.FC<FieldFactoryProps> = ({
     case 'text':
       return (
         <TextInputField
-          element={element}
+          element={element as TextElement}
           value={typeof value === 'string' ? value : ''}
           onChange={onChange as (val: string) => void}
           error={error}
@@ -66,7 +66,7 @@ export const FieldFactory: React.FC<FieldFactoryProps> = ({
     case 'checkbox':
       return (
         <CheckboxField
-          element={element}
+          element={element as CheckboxElement}
           value={typeof value === 'boolean' ? value : false}
           onChange={onChange as (val: boolean) => void}
           error={error}

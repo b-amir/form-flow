@@ -8,7 +8,7 @@ import {
   Emergency,
   DragIndicator,
 } from '@mui/icons-material';
-import type { ApiElement } from '@/types/api';
+import type { Element } from '@/types';
 import {
   DndContext,
   closestCenter,
@@ -28,7 +28,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { EmptyIndicator } from '../../common/EmptyIndicator';
 
 interface ElementListProps {
-  elements: ApiElement[];
+  elements: Element[];
   selectedElementId: string | null;
   onSelectElement: (id: string) => void;
   onDeleteElement: (id: string) => void;
@@ -37,7 +37,7 @@ interface ElementListProps {
 }
 
 interface SortableItemProps {
-  element: ApiElement;
+  element: Element;
   isSelected: boolean;
   onSelect: (id: string) => void;
   onDelete: (id: string) => void;

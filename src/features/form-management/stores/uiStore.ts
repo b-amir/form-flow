@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { type UIStore } from '@/types/store';
+import { type UIStore } from '@/types';
 
 export const useUIStore = create<UIStore>(set => ({
   isLoading: false,

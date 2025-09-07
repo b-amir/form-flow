@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextField } from '@mui/material';
-import type { TextElement } from '@/types/form';
+import type { TextElement } from '@/types';
 
 interface TextInputFieldProps {
   element: TextElement;

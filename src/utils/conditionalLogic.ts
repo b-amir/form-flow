@@ -1,8 +1,9 @@
-import type { ConditionalLogic, ConditionalRule, ApiElement } from '@/types';
-
-export interface FormValues {
-  [fieldId: string]: boolean | string;
-}
+import type {
+  ConditionalLogic,
+  ConditionalRule,
+  Element,
+  FormValues,
+} from '@/types';
 
 function evaluateRule(rule: ConditionalRule, formValues: FormValues): boolean {
   const fieldValue = formValues[rule.dependsOn];
@@ -28,7 +29,7 @@ export function evaluateConditionalLogic(
 }
 
 export function shouldShowElement(
-  element: ApiElement,
+  element: Element,
   formValues: FormValues
 ): boolean {
   if (!element.conditionalLogic) {

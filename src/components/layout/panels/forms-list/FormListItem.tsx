@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import React from 'react';
-import type { Form } from '@/types/form';
+import type { Form } from '@/types';
 
 interface FormListItemProps {
   form: Form;

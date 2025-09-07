@@ -3,12 +3,11 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Box, TextField } from '@mui/material';
-import type { ApiElement } from '@/types/api';
-import type { TextElement } from '@/types/form';
+import type { Element, TextElement } from '@/types';
 
 interface ValidationSettingsProps {
-  element: ApiElement;
-  onUpdateElement: (id: string, updates: Partial<ApiElement>) => void;
+  element: Element;
+  onUpdateElement: (id: string, updates: Partial<Element>) => void;
 }
 
 const validationSchema = yup.object({
@@ -73,7 +72,7 @@ export const ValidationSettings: React.FC<ValidationSettingsProps> = ({
 
     onUpdateElement(element.id, {
       validation: newValidation,
-    } as unknown as Partial<ApiElement>);
+    } as unknown as Partial<Element>);
   };
 
   return (

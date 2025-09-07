@@ -13,7 +13,7 @@ import {
 } from '@mui/icons-material';
 import { useFormStore } from '@/features/form-management/stores/formStore';
 import { useState } from 'react';
-import type { ApiElement } from '@/types/api';
+import type { Element } from '@/types';
 import { FormRenderer } from '../../../form/renderer/FormRenderer';
 
 export const ElementSelectionRow = () => {
@@ -23,7 +23,7 @@ export const ElementSelectionRow = () => {
   const isMobile = useMediaQuery(`(max-width:600px)`);
 
   const handleSelectElement = (type: 'text' | 'checkbox') => {
-    const newElement: ApiElement = {
+    const newElement: Element = {
       id: `element_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       type,
       label: `New ${type === 'text' ? 'Text Field' : 'Checkbox'}`,

@@ -1,20 +1,20 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ConditionalLogicBuilder } from '../form/builder/ConditionalLogicBuilder';
-import type { ApiElement } from '@/types';
+import type { Element } from '@/types';
 
-const mockTextElement: ApiElement = {
+const mockTextElement: Element = {
   id: 'text1',
   type: 'text',
   label: 'Text Field',
 };
 
-const mockCheckboxElement: ApiElement = {
+const mockCheckboxElement: Element = {
   id: 'checkbox1',
   type: 'checkbox',
   label: 'Checkbox Field',
 };
 
-const mockAllElements: ApiElement[] = [
+const mockAllElements: Element[] = [
   mockTextElement,
   mockCheckboxElement,
   {
@@ -91,7 +91,7 @@ describe('ConditionalLogicBuilder', () => {
   });
 
   it('should disable conditional logic when toggle is clicked off', () => {
-    const elementWithConditionalLogic: ApiElement = {
+    const elementWithConditionalLogic: Element = {
       ...mockTextElement,
       conditionalLogic: {
         operator: 'AND',
@@ -114,7 +114,7 @@ describe('ConditionalLogicBuilder', () => {
   });
 
   it('should render conditional logic controls when enabled', () => {
-    const elementWithConditionalLogic: ApiElement = {
+    const elementWithConditionalLogic: Element = {
       ...mockTextElement,
       conditionalLogic: {
         operator: 'AND',
@@ -135,7 +135,7 @@ describe('ConditionalLogicBuilder', () => {
   });
 
   it('should show AND/OR operator chips when multiple rules exist', () => {
-    const elementWithMultipleRules: ApiElement = {
+    const elementWithMultipleRules: Element = {
       ...mockTextElement,
       conditionalLogic: {
         operator: 'AND',
@@ -161,7 +161,7 @@ describe('ConditionalLogicBuilder', () => {
   });
 
   it('should not show operator chips when only one rule exists', () => {
-    const elementWithSingleRule: ApiElement = {
+    const elementWithSingleRule: Element = {
       ...mockTextElement,
       conditionalLogic: {
         operator: 'AND',
@@ -182,7 +182,7 @@ describe('ConditionalLogicBuilder', () => {
   });
 
   it('should allow adding new rules', () => {
-    const elementWithSingleRule: ApiElement = {
+    const elementWithSingleRule: Element = {
       ...mockTextElement,
       conditionalLogic: {
         operator: 'AND',
@@ -212,7 +212,7 @@ describe('ConditionalLogicBuilder', () => {
   });
 
   it('should allow removing rules when multiple exist', () => {
-    const elementWithMultipleRules: ApiElement = {
+    const elementWithMultipleRules: Element = {
       ...mockTextElement,
       conditionalLogic: {
         operator: 'AND',
@@ -248,7 +248,7 @@ describe('ConditionalLogicBuilder', () => {
   });
 
   it('should switch between AND and OR operators', () => {
-    const elementWithMultipleRules: ApiElement = {
+    const elementWithMultipleRules: Element = {
       ...mockTextElement,
       conditionalLogic: {
         operator: 'AND',
@@ -280,7 +280,7 @@ describe('ConditionalLogicBuilder', () => {
   });
 
   it('should render rule cards with field and state selectors', () => {
-    const elementWithConditionalLogic: ApiElement = {
+    const elementWithConditionalLogic: Element = {
       ...mockTextElement,
       conditionalLogic: {
         operator: 'AND',

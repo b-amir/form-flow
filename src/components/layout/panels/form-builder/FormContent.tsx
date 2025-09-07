@@ -5,20 +5,20 @@ import { ElementList } from '@/components/form/builder/ElementList';
 import { ElementPropertiesEditor } from '@/components/form/builder/ElementPropertiesEditor';
 import { LoadingIndicator } from '@/components/common/LoadingIndicator';
 import { EmptyIndicator } from '@/components/common/EmptyIndicator';
-import type { ApiElement } from '@/types/api';
+import type { Element } from '@/types';
 import {
   MEDIUM_SCREEN_BREAKPOINT,
   ELEMENT_PROPERTIES_WIDTH,
 } from '@/constants';
 
 interface FormContentProps {
-  elements: ApiElement[];
+  elements: Element[];
   selectedElementId: string | null;
   isLoading?: boolean;
   onSelectElement: (id: string | null) => void;
   onDeleteElement: (id: string) => void;
   onReorderElements: (startIndex: number, endIndex: number) => void;
-  onUpdateElement: (id: string, updates: Partial<ApiElement>) => void;
+  onUpdateElement: (id: string, updates: Partial<Element>) => void;
   onBackgroundClick?: () => void;
 }
 

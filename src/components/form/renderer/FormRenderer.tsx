@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Collapse } from '@mui/material';
-import type { Form } from '@/types/form';
-import type { ApiElement } from '@/types/api';
+import type { Form } from '@/types';
 import { FormHeader } from '../ui/FormHeader';
 import { FormButtons } from '../ui/FormButtons';
 import { shouldShowElement } from '@/utils/conditionalLogic';
@@ -65,13 +64,10 @@ export const FormRenderer: React.FC<FormRendererProps> = ({
           sx={{ mt: 2 }}
         >
           {form.elements.map(element => {
-            const shouldShow =
-              'conditionalLogic' in element
-                ? shouldShowElement(
-                    element as ApiElement,
-                    formValues as { [fieldId: string]: boolean | string }
-                  )
-                : true;
+            const shouldShow = shouldShowElement(
+              element,
+              formValues as { [fieldId: string]: boolean | string }
+            );
 
             const fieldError = errors[element.id]?.message;
 

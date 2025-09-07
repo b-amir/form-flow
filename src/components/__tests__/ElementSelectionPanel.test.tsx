@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@/utils/test-utils';
 import { ElementSelectionRow } from '../layout/panels/form-builder/ElementSelectionRow';
-import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
+import { useFormStore } from '@/features/form-management/stores/formStore';
 
-vi.mock('@/features/form-management/stores/formBuilderStore');
+vi.mock('@/features/form-management/stores/formStore');
 
 describe('ElementSelectionRow', () => {
   const mockAddElement = vi.fn();
@@ -10,7 +10,7 @@ describe('ElementSelectionRow', () => {
   beforeEach(() => {
     mockAddElement.mockClear();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (useFormBuilderStore as any).mockReturnValue({
+    (useFormStore as any).mockReturnValue({
       addElement: mockAddElement,
       draftForm: { name: 'Test Form', elements: [] },
     });

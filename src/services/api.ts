@@ -1,9 +1,4 @@
-import {
-  type ApiForm,
-  type ApiError,
-  type CreateFormRequest,
-  type UpdateFormRequest,
-} from '@/types/api';
+import type { Form, Element } from '@/types';
 import { API_BASE_URL } from '@/constants';
 
 export const formApi = {
@@ -24,7 +19,7 @@ export const formApi = {
       );
 
       if (!response.ok) {
-        const errorData: ApiError = await response.json();
+        const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to submit form');
       }
 
@@ -36,11 +31,11 @@ export const formApi = {
     }
   },
 
-  async fetchForms(): Promise<ApiForm[]> {
+  async fetchForms(): Promise<Form[]> {
     try {
       const response = await fetch(`${API_BASE_URL}/forms`);
       if (!response.ok) {
-        const errorData: ApiError = await response.json();
+        const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to fetch forms');
       }
       const data = await response.json();
@@ -52,11 +47,11 @@ export const formApi = {
     }
   },
 
-  async fetchFormById(id: string): Promise<ApiForm> {
+  async fetchFormById(id: string): Promise<Form> {
     try {
       const response = await fetch(`${API_BASE_URL}/forms/${id}`);
       if (!response.ok) {
-        const errorData: ApiError = await response.json();
+        const errorData = await response.json();
         throw new Error(
           errorData.error || `Failed to fetch form with id ${id}`
         );
@@ -69,7 +64,10 @@ export const formApi = {
     }
   },
 
-  async createForm(formData: CreateFormRequest): Promise<ApiForm> {
+  async createForm(formData: {
+    name: string;
+    elements: Element[];
+  }): Promise<Form> {
     try {
       const response = await fetch(`${API_BASE_URL}/forms`, {
         method: 'POST',
@@ -80,7 +78,7 @@ export const formApi = {
       });
 
       if (!response.ok) {
-        const errorData: ApiError = await response.json();
+        const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to create form');
       }
 
@@ -92,7 +90,7 @@ export const formApi = {
     }
   },
 
-  async updateForm(id: string, updates: UpdateFormRequest): Promise<ApiForm> {
+  async updateForm(id: string, updates: Partial<Form>): Promise<Form> {
     try {
       const response = await fetch(`${API_BASE_URL}/forms/${id}`, {
         method: 'PUT',
@@ -103,7 +101,7 @@ export const formApi = {
       });
 
       if (!response.ok) {
-        const errorData: ApiError = await response.json();
+        const errorData = await response.json();
         throw new Error(
           errorData.error || `Failed to update form with id ${id}`
         );
@@ -124,7 +122,7 @@ export const formApi = {
       });
 
       if (!response.ok) {
-        const errorData: ApiError = await response.json();
+        const errorData = await response.json();
         throw new Error(
           errorData.error || `Failed to delete form with id ${id}`
         );

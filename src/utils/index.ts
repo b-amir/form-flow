@@ -12,4 +12,4 @@ export {
   shouldShowElement,
 } from './conditionalLogic';
 
-export type { FormValues } from './conditionalLogic';
+export type { FormValues } from '@/types';

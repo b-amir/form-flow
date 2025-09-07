@@ -6,10 +6,9 @@ import {
   storeSelectors,
   storeUtils,
 } from '../storeHelpers';
-import { type ApiForm, type ApiElement } from '@/types/api';
-import { type Form } from '@/types/form';
+import type { Form, Element } from '@/types';
 
-const mockApiForm: ApiForm = {
+const mockApiForm: Form = {
   id: '1',
   name: 'Test Form',
   elements: [
@@ -30,7 +29,7 @@ const mockApiForm: ApiForm = {
   updatedAt: '2023-01-02T00:00:00Z',
 };
 
-const mockElement: ApiElement = {
+const mockElement: Element = {
   id: 'test-element',
   type: 'text',
   label: 'Test Label',
@@ -96,7 +95,7 @@ describe('elementHelpers', () => {
 });
 
 describe('dataTransformHelpers', () => {
-  it('should transform between Form and ApiForm formats', () => {
+  it('should transform between Form and Form formats', () => {
     const form: Form = {
       id: '1',
       name: 'Test Form',
@@ -139,7 +138,7 @@ describe('dataTransformHelpers', () => {
 });
 
 describe('storeSelectors', () => {
-  const mockForms: ApiForm[] = [
+  const mockForms: Form[] = [
     mockApiForm,
     {
       ...mockApiForm,

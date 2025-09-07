@@ -1,6 +1,5 @@
 import { create } from 'zustand';
-import { type FormStore } from '@/types/store';
-import { type ApiElement, type ApiForm } from '@/types/api';
+import { type FormStore, type Element, type Form } from '@/types';
 import { formApi } from '@/services/api';
 
 export const useFormStore = create<FormStore>()(set => ({
@@ -51,7 +50,7 @@ export const useFormStore = create<FormStore>()(set => ({
     }
   },
 
-  createForm: async (name: string, elements: ApiElement[]) => {
+  createForm: async (name: string, elements: Element[]) => {
     set({ isLoading: true, error: null, updatingFormId: 'draft' });
     try {
       const newForm = await formApi.createForm({ name, elements });
@@ -70,7 +69,7 @@ export const useFormStore = create<FormStore>()(set => ({
     }
   },
 
-  updateForm: async (id: string, updates: Partial<ApiForm>) => {
+  updateForm: async (id: string, updates: Partial<Form>) => {
     set({ isLoading: true, error: null, updatingFormId: id });
     try {
       const updatedForm = await formApi.updateForm(id, updates);
@@ -129,7 +128,7 @@ export const useFormStore = create<FormStore>()(set => ({
     }));
   },
 
-  updateElements: (elements: ApiElement[]) => {
+  updateElements: (elements: Element[]) => {
     set(state => ({
       draftForm: {
         ...state.draftForm,
@@ -152,7 +151,7 @@ export const useFormStore = create<FormStore>()(set => ({
     });
   },
 
-  initDraftForm: (form?: ApiForm) => {
+  initDraftForm: (form?: Form) => {
     if (form) {
       set({
         draftForm: {
@@ -182,7 +181,7 @@ export const useFormStore = create<FormStore>()(set => ({
     set({ isDirty });
   },
 
-  addElement: (element: ApiElement) => {
+  addElement: (element: Element) => {
     set(state => ({
       draftForm: {
         ...state.draftForm,
@@ -193,12 +192,12 @@ export const useFormStore = create<FormStore>()(set => ({
     }));
   },
 
-  updateElement: (id: string, updates: Partial<ApiElement>) => {
+  updateElement: (id: string, updates: Partial<Element>) => {
     set(state => ({
       draftForm: {
         ...state.draftForm,
         elements: state.draftForm.elements.map(element =>
-          element.id === id ? { ...element, ...updates } : element
+          element.id === id ? ({ ...element, ...updates } as Element) : element
         ),
       },
       isDirty: true,

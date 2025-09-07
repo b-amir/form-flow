@@ -1,12 +1,10 @@
-import { type ApiForm, type ApiElement } from '@/types/api';
-import { type Form, type Element } from '@/types/form';
-import { type ValidationError } from '@/types/validation';
+import { type Form, type Element, type ValidationError } from '@/types';
 
 export const formHelpers = {
   duplicateForm: (
-    form: ApiForm,
+    form: Form,
     suffix: string = 'Copy'
-  ): Omit<ApiForm, 'id' | 'createdAt' | 'updatedAt'> => {
+  ): Omit<Form, 'id' | 'createdAt' | 'updatedAt'> => {
     return {
       name: `${form.name} ${suffix}`,
       elements: form.elements.map(element => ({
@@ -16,9 +14,7 @@ export const formHelpers = {
     };
   },
 
-  cloneForm: (
-    form: ApiForm
-  ): Omit<ApiForm, 'id' | 'createdAt' | 'updatedAt'> => {
+  cloneForm: (form: Form): Omit<Form, 'id' | 'createdAt' | 'updatedAt'> => {
     return {
       name: form.name,
       elements: form.elements.map(element => ({
@@ -47,7 +43,7 @@ export const formHelpers = {
 
   validateForm: (form: {
     name: string;
-    elements: ApiElement[];
+    elements: Element[];
   }): ValidationError[] => {
     const errors: ValidationError[] = [];
 
@@ -73,21 +69,21 @@ export const formHelpers = {
     return errors;
   },
 
-  isFormValid: (form: { name: string; elements: ApiElement[] }): boolean => {
+  isFormValid: (form: { name: string; elements: Element[] }): boolean => {
     return formHelpers.validateForm(form).length === 0;
   },
 
-  getFormElementCount: (form: ApiForm): number => {
+  getFormElementCount: (form: Form): number => {
     return form.elements.length;
   },
 
-  getRequiredElementCount: (form: ApiForm): number => {
+  getRequiredElementCount: (form: Form): number => {
     return form.elements.filter(element => element.isRequired).length;
   },
 
   hasUnsavedChanges: (
-    originalForm: ApiForm,
-    currentForm: { name: string; elements: ApiElement[] }
+    originalForm: Form,
+    currentForm: { name: string; elements: Element[] }
   ): boolean => {
     if (originalForm.name !== currentForm.name) {
       return true;
@@ -115,7 +111,7 @@ export const elementHelpers = {
     type: Element['type'],
     label: string,
     isRequired: boolean = false
-  ): ApiElement => {
+  ): Element => {
     return {
       id: `element_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       type,
@@ -124,7 +120,7 @@ export const elementHelpers = {
     };
   },
 
-  validateElement: (element: ApiElement): ValidationError[] => {
+  validateElement: (element: Element): ValidationError[] => {
     const errors: ValidationError[] = [];
 
     if (!element.label || element.label.trim().length === 0) {
@@ -148,21 +144,15 @@ export const elementHelpers = {
     return errors;
   },
 
-  transformElement: (
-    element: ApiElement,
-    updates: Partial<ApiElement>
-  ): ApiElement => {
+  transformElement: (element: Element, updates: Partial<Element>): Element => {
     return {
       ...element,
       ...updates,
       id: element.id,
-    };
+    } as Element;
   },
 
-  duplicateElement: (
-    element: ApiElement,
-    suffix: string = 'Copy'
-  ): ApiElement => {
+  duplicateElement: (element: Element, suffix: string = 'Copy'): Element => {
     return {
       ...element,
       id: `${element.id}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -170,11 +160,11 @@ export const elementHelpers = {
     };
   },
 
-  isElementValid: (element: ApiElement): boolean => {
+  isElementValid: (element: Element): boolean => {
     return elementHelpers.validateElement(element).length === 0;
   },
 
-  getElementDisplayName: (element: ApiElement): string => {
+  getElementDisplayName: (element: Element): string => {
     const typeLabel = element.type === 'text' ? 'Text Field' : 'Checkbox';
     const requiredLabel = element.isRequired ? ' (Required)' : '';
     return `${element.label} - ${typeLabel}${requiredLabel}`;
@@ -182,7 +172,7 @@ export const elementHelpers = {
 };
 
 export const dataTransformHelpers = {
-  formToApiForm: (form: Form): Omit<ApiForm, 'createdAt' | 'updatedAt'> => {
+  formToApiForm: (form: Form): Omit<Form, 'createdAt' | 'updatedAt'> => {
     return {
       id: form.id,
       name: form.name,
@@ -192,7 +182,7 @@ export const dataTransformHelpers = {
     };
   },
 
-  apiFormToForm: (apiForm: ApiForm): Form => {
+  apiFormToForm: (apiForm: Form): Form => {
     return {
       id: apiForm.id,
       name: apiForm.name,
@@ -207,8 +197,8 @@ export const dataTransformHelpers = {
 
   sanitizeFormData: (form: {
     name: string;
-    elements: ApiElement[];
-  }): { name: string; elements: ApiElement[] } => {
+    elements: Element[];
+  }): { name: string; elements: Element[] } => {
     return {
       name: form.name.trim(),
       elements: form.elements.map(element => ({
@@ -220,8 +210,8 @@ export const dataTransformHelpers = {
 
   prepareFormForApi: (form: {
     name: string;
-    elements: ApiElement[];
-  }): { name: string; elements: ApiElement[] } => {
+    elements: Element[];
+  }): { name: string; elements: Element[] } => {
     const sanitized = dataTransformHelpers.sanitizeFormData(form);
     return {
       name: sanitized.name,
@@ -233,7 +223,7 @@ export const dataTransformHelpers = {
     };
   },
 
-  extractFormMetadata: (form: ApiForm) => {
+  extractFormMetadata: (form: Form) => {
     return {
       id: form.id,
       name: form.name,
@@ -248,51 +238,48 @@ export const dataTransformHelpers = {
 };
 
 export const storeSelectors = {
-  selectFormById: (forms: ApiForm[], id: string): ApiForm | undefined => {
+  selectFormById: (forms: Form[], id: string): Form | undefined => {
     return forms.find(form => form.id === id);
   },
 
-  selectFormsByName: (forms: ApiForm[], searchTerm: string): ApiForm[] => {
+  selectFormsByName: (forms: Form[], searchTerm: string): Form[] => {
     const term = searchTerm.toLowerCase().trim();
     if (!term) return forms;
 
     return forms.filter(form => form.name.toLowerCase().includes(term));
   },
 
-  selectFormsWithElements: (forms: ApiForm[]): ApiForm[] => {
+  selectFormsWithElements: (forms: Form[]): Form[] => {
     return forms.filter(form => form.elements.length > 0);
   },
 
-  selectFormsSortedByName: (forms: ApiForm[]): ApiForm[] => {
+  selectFormsSortedByName: (forms: Form[]): Form[] => {
     return [...forms].sort((a, b) => a.name.localeCompare(b.name));
   },
 
   selectFormsSortedByDate: (
-    forms: ApiForm[],
+    forms: Form[],
     direction: 'asc' | 'desc' = 'desc'
-  ): ApiForm[] => {
+  ): Form[] => {
     return [...forms].sort((a, b) => {
-      const dateA = new Date(a.updatedAt).getTime();
-      const dateB = new Date(b.updatedAt).getTime();
+      const dateA = new Date(a.updatedAt || '').getTime();
+      const dateB = new Date(b.updatedAt || '').getTime();
       return direction === 'desc' ? dateB - dateA : dateA - dateB;
     });
   },
 
-  selectElementById: (
-    elements: ApiElement[],
-    id: string
-  ): ApiElement | undefined => {
+  selectElementById: (elements: Element[], id: string): Element | undefined => {
     return elements.find(element => element.id === id);
   },
 
-  selectRequiredElements: (elements: ApiElement[]): ApiElement[] => {
+  selectRequiredElements: (elements: Element[]): Element[] => {
     return elements.filter(element => element.isRequired);
   },
 
   selectElementsByType: (
-    elements: ApiElement[],
+    elements: Element[],
     type: Element['type']
-  ): ApiElement[] => {
+  ): Element[] => {
     return elements.filter(element => element.type === type);
   },
 

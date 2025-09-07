@@ -1,9 +1,9 @@
 import { render, screen, fireEvent } from '@/utils/test-utils';
 import { FormRenderer } from '../form/renderer/FormRenderer';
-import type { ApiForm } from '@/types';
+import type { Form } from '@/types';
 
 describe('FormRenderer - Conditional Logic Integration', () => {
-  const mockFormWithConditionalLogic: ApiForm = {
+  const mockFormWithConditionalLogic: Form = {
     id: 'form1',
     name: 'Test Form with Conditional Logic',
     createdAt: '2023-01-01T00:00:00Z',
@@ -87,7 +87,7 @@ describe('FormRenderer - Conditional Logic Integration', () => {
   });
 
   it('should handle multiple conditional elements correctly', () => {
-    const formWithMultipleConditionals: ApiForm = {
+    const formWithMultipleConditionals: Form = {
       ...mockFormWithConditionalLogic,
       elements: [
         {
@@ -178,7 +178,7 @@ describe('FormRenderer - Conditional Logic Integration', () => {
   });
 
   it('should handle form with no conditional logic elements', () => {
-    const simpleForm: ApiForm = {
+    const simpleForm: Form = {
       id: 'simple-form',
       name: 'Simple Form',
       createdAt: '2023-01-01T00:00:00Z',

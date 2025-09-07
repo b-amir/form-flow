@@ -3,9 +3,8 @@ import {
   evaluateConditionalLogic,
   shouldShowElement,
   conditionalLogicHelpers,
-  type FormValues,
 } from '../conditionalLogic';
-import type { ConditionalLogic, ApiElement } from '@/types';
+import type { ConditionalLogic, Element, FormValues } from '@/types';
 
 describe('conditionalLogic', () => {
   describe('evaluateConditionalLogic', () => {
@@ -183,7 +182,7 @@ describe('conditionalLogic', () => {
 
   describe('shouldShowElement', () => {
     it('should return true for elements without conditional logic', () => {
-      const element: ApiElement = {
+      const element: Element = {
         id: 'element1',
         type: 'text',
         label: 'Test Element',
@@ -195,7 +194,7 @@ describe('conditionalLogic', () => {
     });
 
     it('should evaluate conditional logic when present', () => {
-      const element: ApiElement = {
+      const element: Element = {
         id: 'element1',
         type: 'text',
         label: 'Test Element',
@@ -213,7 +212,7 @@ describe('conditionalLogic', () => {
     });
 
     it('should hide element when conditional logic evaluates to false', () => {
-      const element: ApiElement = {
+      const element: Element = {
         id: 'element1',
         type: 'text',
         label: 'Test Element',
@@ -248,7 +247,7 @@ describe('conditionalLogic', () => {
         checkbox3: true,
       };
 
-      const element1: ApiElement = {
+      const element1: Element = {
         id: 'element1',
         type: 'text',
         label: 'Element 1',
@@ -258,7 +257,7 @@ describe('conditionalLogic', () => {
         },
       };
 
-      const element2: ApiElement = {
+      const element2: Element = {
         id: 'element2',
         type: 'text',
         label: 'Element 2',
@@ -268,7 +267,7 @@ describe('conditionalLogic', () => {
         },
       };
 
-      const element3: ApiElement = {
+      const element3: Element = {
         id: 'element3',
         type: 'text',
         label: 'Element 3',
@@ -289,7 +288,7 @@ describe('conditionalLogic', () => {
         textField1: 'some value',
       };
 
-      const textElement: ApiElement = {
+      const textElement: Element = {
         id: 'text1',
         type: 'text',
         label: 'Text Element',
@@ -299,7 +298,7 @@ describe('conditionalLogic', () => {
         },
       };
 
-      const checkboxElement: ApiElement = {
+      const checkboxElement: Element = {
         id: 'checkbox2',
         type: 'checkbox',
         label: 'Checkbox Element',
@@ -320,7 +319,7 @@ describe('conditionalLogic', () => {
         checkbox3: true,
       };
 
-      const andElement: ApiElement = {
+      const andElement: Element = {
         id: 'and-element',
         type: 'text',
         label: 'AND Element',
@@ -333,7 +332,7 @@ describe('conditionalLogic', () => {
         },
       };
 
-      const orElement: ApiElement = {
+      const orElement: Element = {
         id: 'or-element',
         type: 'text',
         label: 'OR Element',

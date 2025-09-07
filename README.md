@@ -130,25 +130,18 @@ npm run test:coverage # Run tests with coverage
 
 ### Form Schema
 
-The application uses a structured schema for form definitions with TypeScript interfaces:
+The application uses a unified type system with all definitions consolidated in `src/types/index.ts`:
 
 ```typescript
-interface Form {
+export interface BaseElement {
   id: string;
-  name: string;
-  elements: Element[];
-}
-
-type Element = TextElement | CheckboxElement;
-
-interface BaseElement {
-  id: string;
-  type: 'text' | 'checkbox';
+  type: ElementType;
   label: string;
   isRequired?: boolean;
+  conditionalLogic?: ConditionalLogic;
 }
 
-interface TextElement extends BaseElement {
+export interface TextElement extends BaseElement {
   type: 'text';
   validation?: {
     minLength?: number;
@@ -156,11 +149,21 @@ interface TextElement extends BaseElement {
   };
 }
 
-interface CheckboxElement extends BaseElement {
+export interface CheckboxElement extends BaseElement {
   type: 'checkbox';
   validation?: {
     required?: boolean;
   };
+}
+
+export type Element = TextElement | CheckboxElement;
+
+export interface Form {
+  id: string;
+  name: string;
+  elements: Element[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 ```
 
@@ -174,12 +177,12 @@ Conditional logic supports advanced show/hide operations with AND/OR operators:
 - **Rules**: Multiple conditional rules per element with `showWhen` boolean flags
 
 ```typescript
-interface ConditionalRule {
+export interface ConditionalRule {
   dependsOn: string; // ID of the field this condition depends on
   showWhen: boolean; // Show element when field value equals this
 }
 
-interface ConditionalLogic {
+export interface ConditionalLogic {
   operator?: 'AND' | 'OR'; // How to combine multiple rules
   rules: ConditionalRule[]; // Array of conditions to evaluate
 }

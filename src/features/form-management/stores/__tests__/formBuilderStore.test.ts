@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { useFormBuilderStore } from '../formBuilderStore';
-import { type ApiElement } from '@/types/api';
+import { useFormStore } from '../formStore';
+import type { Element } from '@/types';
 
 describe('Form Builder Store', () => {
   beforeEach(() => {
-    useFormBuilderStore.setState({
+    useFormStore.setState({
       draftForm: {
         id: '',
         name: '',
@@ -18,39 +18,37 @@ describe('Form Builder Store', () => {
 
   it('should set form name', () => {
     const name = 'Test Form';
-    useFormBuilderStore.getState().setFormName(name);
+    useFormStore.getState().setFormName(name);
 
-    expect(useFormBuilderStore.getState().draftForm?.name).toBe(name);
-    expect(useFormBuilderStore.getState().isDirty).toBe(true);
+    expect(useFormStore.getState().draftForm?.name).toBe(name);
+    expect(useFormStore.getState().isDirty).toBe(true);
   });
 
   it('should add an element', () => {
-    const element: ApiElement = {
+    const element: Element = {
       id: '1',
       type: 'text',
       label: 'Full Name',
       isRequired: true,
     };
 
-    useFormBuilderStore.getState().addElement(element);
+    useFormStore.getState().addElement(element);
 
-    expect(useFormBuilderStore.getState().draftForm?.elements).toHaveLength(1);
-    expect(useFormBuilderStore.getState().draftForm?.elements?.[0]).toEqual(
-      element
-    );
-    expect(useFormBuilderStore.getState().selectedElementId).toBe(element.id);
-    expect(useFormBuilderStore.getState().isDirty).toBe(true);
+    expect(useFormStore.getState().draftForm?.elements).toHaveLength(1);
+    expect(useFormStore.getState().draftForm?.elements?.[0]).toEqual(element);
+    expect(useFormStore.getState().selectedElementId).toBe(element.id);
+    expect(useFormStore.getState().isDirty).toBe(true);
   });
 
   it('should update an element', () => {
-    const element: ApiElement = {
+    const element: Element = {
       id: '1',
       type: 'text',
       label: 'Full Name',
       isRequired: true,
     };
 
-    useFormBuilderStore.setState({
+    useFormStore.setState({
       draftForm: {
         id: '1',
         name: 'Test Form',
@@ -66,26 +64,26 @@ describe('Form Builder Store', () => {
       isRequired: false,
     };
 
-    useFormBuilderStore.getState().updateElement('1', updates);
+    useFormStore.getState().updateElement('1', updates);
 
-    expect(useFormBuilderStore.getState().draftForm?.elements?.[0]?.label).toBe(
+    expect(useFormStore.getState().draftForm?.elements?.[0]?.label).toBe(
       updates.label
     );
-    expect(
-      useFormBuilderStore.getState().draftForm?.elements?.[0]?.isRequired
-    ).toBe(updates.isRequired);
-    expect(useFormBuilderStore.getState().isDirty).toBe(true);
+    expect(useFormStore.getState().draftForm?.elements?.[0]?.isRequired).toBe(
+      updates.isRequired
+    );
+    expect(useFormStore.getState().isDirty).toBe(true);
   });
 
   it('should remove an element', () => {
-    const element: ApiElement = {
+    const element: Element = {
       id: '1',
       type: 'text',
       label: 'Full Name',
       isRequired: true,
     };
 
-    useFormBuilderStore.setState({
+    useFormStore.setState({
       draftForm: {
         id: '1',
         name: 'Test Form',
@@ -96,15 +94,15 @@ describe('Form Builder Store', () => {
       isDirty: false,
     });
 
-    useFormBuilderStore.getState().removeElement('1');
+    useFormStore.getState().removeElement('1');
 
-    expect(useFormBuilderStore.getState().draftForm?.elements).toHaveLength(0);
-    expect(useFormBuilderStore.getState().selectedElementId).toBeNull();
-    expect(useFormBuilderStore.getState().isDirty).toBe(true);
+    expect(useFormStore.getState().draftForm?.elements).toHaveLength(0);
+    expect(useFormStore.getState().selectedElementId).toBeNull();
+    expect(useFormStore.getState().isDirty).toBe(true);
   });
 
   it('should reorder elements', () => {
-    const elements: ApiElement[] = [
+    const elements: Element[] = [
       {
         id: '1',
         type: 'text',
@@ -125,7 +123,7 @@ describe('Form Builder Store', () => {
       },
     ];
 
-    useFormBuilderStore.setState({
+    useFormStore.setState({
       draftForm: {
         id: 'test-form-id',
         name: 'Test Form',
@@ -136,22 +134,21 @@ describe('Form Builder Store', () => {
       isDirty: false,
     });
 
-    useFormBuilderStore.getState().reorderElements(0, 2);
+    useFormStore.getState().reorderElements(0, 2);
 
-    const reorderedElements =
-      useFormBuilderStore.getState().draftForm?.elements || [];
+    const reorderedElements = useFormStore.getState().draftForm?.elements || [];
     expect(reorderedElements[0]?.id).toBe('2');
     expect(reorderedElements[1]?.id).toBe('3');
     expect(reorderedElements[2]?.id).toBe('1');
-    expect(useFormBuilderStore.getState().isDirty).toBe(true);
+    expect(useFormStore.getState().isDirty).toBe(true);
   });
 
   it('should select an element', () => {
-    useFormBuilderStore.getState().selectElement('1');
-    expect(useFormBuilderStore.getState().selectedElementId).toBe('1');
+    useFormStore.getState().selectElement('1');
+    expect(useFormStore.getState().selectedElementId).toBe('1');
 
-    useFormBuilderStore.getState().selectElement(null);
-    expect(useFormBuilderStore.getState().selectedElementId).toBeNull();
+    useFormStore.getState().selectElement(null);
+    expect(useFormStore.getState().selectedElementId).toBeNull();
   });
 
   it('should set validation errors', () => {
@@ -160,12 +157,12 @@ describe('Form Builder Store', () => {
       { path: 'elements[0].label', message: 'Label is required' },
     ];
 
-    useFormBuilderStore.getState().setValidationErrors(errors);
-    expect(useFormBuilderStore.getState().validationErrors).toEqual(errors);
+    useFormStore.getState().setValidationErrors(errors);
+    expect(useFormStore.getState().validationErrors).toEqual(errors);
   });
 
   it('should clear draft form', () => {
-    useFormBuilderStore.setState({
+    useFormStore.setState({
       draftForm: {
         id: '1',
         name: 'Test Form',
@@ -183,13 +180,13 @@ describe('Form Builder Store', () => {
       isDirty: true,
     });
 
-    useFormBuilderStore.getState().clearDraftForm();
+    useFormStore.getState().clearDraftForm();
 
-    expect(useFormBuilderStore.getState().draftForm?.name).toBe('');
-    expect(useFormBuilderStore.getState().draftForm?.elements).toHaveLength(0);
-    expect(useFormBuilderStore.getState().selectedElementId).toBeNull();
-    expect(useFormBuilderStore.getState().validationErrors).toHaveLength(0);
-    expect(useFormBuilderStore.getState().isDirty).toBe(false);
+    expect(useFormStore.getState().draftForm?.name).toBe('');
+    expect(useFormStore.getState().draftForm?.elements).toHaveLength(0);
+    expect(useFormStore.getState().selectedElementId).toBeNull();
+    expect(useFormStore.getState().validationErrors).toHaveLength(0);
+    expect(useFormStore.getState().isDirty).toBe(false);
   });
 
   it('should initialize draft form with existing form', () => {
@@ -208,20 +205,20 @@ describe('Form Builder Store', () => {
       updatedAt: '2023-01-01',
     };
 
-    useFormBuilderStore.getState().initDraftForm(form);
+    useFormStore.getState().initDraftForm(form);
 
-    expect(useFormBuilderStore.getState().draftForm?.name).toBe(form.name);
-    expect(useFormBuilderStore.getState().draftForm?.elements).toHaveLength(1);
-    expect(useFormBuilderStore.getState().draftForm?.elements?.[0]).toEqual(
+    expect(useFormStore.getState().draftForm?.name).toBe(form.name);
+    expect(useFormStore.getState().draftForm?.elements).toHaveLength(1);
+    expect(useFormStore.getState().draftForm?.elements?.[0]).toEqual(
       form.elements[0]
     );
-    expect(useFormBuilderStore.getState().selectedElementId).toBeNull();
-    expect(useFormBuilderStore.getState().validationErrors).toHaveLength(0);
-    expect(useFormBuilderStore.getState().isDirty).toBe(false);
+    expect(useFormStore.getState().selectedElementId).toBeNull();
+    expect(useFormStore.getState().validationErrors).toHaveLength(0);
+    expect(useFormStore.getState().isDirty).toBe(false);
   });
 
   it('should initialize empty draft form when no form is provided', () => {
-    useFormBuilderStore.setState({
+    useFormStore.setState({
       draftForm: {
         id: '1',
         name: 'Test Form',
@@ -239,20 +236,20 @@ describe('Form Builder Store', () => {
       isDirty: true,
     });
 
-    useFormBuilderStore.getState().initDraftForm();
+    useFormStore.getState().initDraftForm();
 
-    expect(useFormBuilderStore.getState().draftForm?.name).toBe('');
-    expect(useFormBuilderStore.getState().draftForm?.elements).toHaveLength(0);
-    expect(useFormBuilderStore.getState().selectedElementId).toBeNull();
-    expect(useFormBuilderStore.getState().validationErrors).toHaveLength(0);
-    expect(useFormBuilderStore.getState().isDirty).toBe(false);
+    expect(useFormStore.getState().draftForm?.name).toBe('');
+    expect(useFormStore.getState().draftForm?.elements).toHaveLength(0);
+    expect(useFormStore.getState().selectedElementId).toBeNull();
+    expect(useFormStore.getState().validationErrors).toHaveLength(0);
+    expect(useFormStore.getState().isDirty).toBe(false);
   });
 
   it('should set isDirty flag', () => {
-    useFormBuilderStore.getState().setIsDirty(true);
-    expect(useFormBuilderStore.getState().isDirty).toBe(true);
+    useFormStore.getState().setIsDirty(true);
+    expect(useFormStore.getState().isDirty).toBe(true);
 
-    useFormBuilderStore.getState().setIsDirty(false);
-    expect(useFormBuilderStore.getState().isDirty).toBe(false);
+    useFormStore.getState().setIsDirty(false);
+    expect(useFormStore.getState().isDirty).toBe(false);
   });
 });

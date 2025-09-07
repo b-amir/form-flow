@@ -8,15 +8,15 @@ import {
   useTheme,
 } from '@mui/material';
 import { Close } from '@mui/icons-material';
-import type { ApiElement, ConditionalLogic } from '@/types';
+import type { Element, ConditionalLogic } from '@/types';
 import { ConditionalLogicBuilder } from './ConditionalLogicBuilder';
 import { BasicProperties } from '../../element-properties/BasicProperties';
 import { ValidationSettings } from '../../element-properties/ValidationSettings';
 
 interface ElementPropertiesEditorProps {
-  element: ApiElement | null;
-  allElements: ApiElement[];
-  onUpdateElement: (id: string, updates: Partial<ApiElement>) => void;
+  element: Element | null;
+  allElements: Element[];
+  onUpdateElement: (id: string, updates: Partial<Element>) => void;
   onClose?: () => void;
 }
 
@@ -58,7 +58,7 @@ export const ElementPropertiesEditor: React.FC<
   const handleConditionalLogicChange = (
     conditionalLogic: ConditionalLogic | undefined
   ) => {
-    onUpdateElement(element.id, { conditionalLogic } as Partial<ApiElement>);
+    onUpdateElement(element.id, { conditionalLogic } as Partial<Element>);
   };
 
   return (

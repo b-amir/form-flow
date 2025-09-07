@@ -5,7 +5,7 @@ import {
   FormControl,
   FormHelperText,
 } from '@mui/material';
-import type { CheckboxElement } from '@/types/form';
+import type { CheckboxElement } from '@/types';
 
 interface CheckboxFieldProps {
   element: CheckboxElement;
