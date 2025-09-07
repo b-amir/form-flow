@@ -28,6 +28,7 @@ export const FormPreviewPanel = () => {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        zIndex: 9999,
       }}
     >
       <Box
@@ -45,7 +46,7 @@ export const FormPreviewPanel = () => {
             top: 0,
             left: 0,
             width: '100%',
-            zIndex: 1301,
+            zIndex: 9999,
             bgcolor: 'white',
           }),
         }}

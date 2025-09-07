@@ -210,8 +210,19 @@ export const ElementList: React.FC<ElementListProps> = ({
       }}
       onClick={onClick}
     >
-      <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
+      <Typography variant="h6" gutterBottom sx={{ mb: 1 }}>
         Form Elements
+      </Typography>
+      <Typography
+        gutterBottom
+        sx={{
+          mb: 2,
+          fontWeight: 400,
+          fontSize: 12,
+          color: 'neutral.light',
+        }}
+      >
+        Select an element to edit properties{' '}
       </Typography>
 
       {elements.length === 0 ? (

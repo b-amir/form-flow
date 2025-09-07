@@ -18,6 +18,8 @@ export const MEDIUM_SCREEN_BREAKPOINT = '(max-width:1390px)';
 export const ELEMENT_PROPERTIES_WIDTH = {
   NORMAL: 300,
   COMPACT: 250,
+  EXPANDED: 400,
+  EXPANDED_COMPACT: 350,
 };
 
 // Drag and drop constants

@@ -8,6 +8,7 @@ const defaultShadows = [
   '0px -2px 6px 0px rgba(0, 0, 0, 0.03), 1px 10px 10px 0px rgba(0, 0, 0, 0.01), 0px 20px 17.48px 0px rgba(0, 0, 0, 0.03), 4px 38px 47px 0px rgba(0, 0, 0, 0.07)',
   '0px -2px 6px 0px rgba(0, 0, 0, 0.03), 2px 10px 10px 0px rgba(0, 0, 0, 0.01), 1px 20px 19px 0px rgba(0, 0, 0, 0.03), 6px 33px 46px 0px rgba(0, 0, 0, 0.07)',
   '0px -2px 6px 0px rgba(0, 0, 0, 0.03), 2px 10px 10px 0px rgba(0, 0, 0, 0.01), 1px 20px 65px 0px rgba(0, 0, 0, 0.02), 16px 39px 67px 0px rgba(0, 0, 0, 0.11)',
+  '0px -8px 24px 0px rgba(0, 0, 0, 0.12), 0px -4px 8px 0px rgba(0, 0, 0, 0.08)', // 9
 ];
 
 type MuiShadowsType = ['none', ...string[]] & { length: 25 };

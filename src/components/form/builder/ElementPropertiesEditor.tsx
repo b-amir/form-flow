@@ -1,5 +1,13 @@
 import React from 'react';
-import { Box, Typography, Divider } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Divider,
+  IconButton,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
+import { Close } from '@mui/icons-material';
 import type { ApiElement, ConditionalLogic } from '@/types';
 import { ConditionalLogicBuilder } from './ConditionalLogicBuilder';
 import { BasicProperties } from '../../element-properties/BasicProperties';
@@ -9,14 +17,26 @@ interface ElementPropertiesEditorProps {
   element: ApiElement | null;
   allElements: ApiElement[];
   onUpdateElement: (id: string, updates: Partial<ApiElement>) => void;
+  onClose?: () => void;
 }
 
 export const ElementPropertiesEditor: React.FC<
   ElementPropertiesEditorProps
-> = ({ element, allElements, onUpdateElement }) => {
+> = ({ element, allElements, onUpdateElement, onClose }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   if (!element) {
     return (
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1.5,
+          width: '100%',
+          maxWidth: '100%',
+          overflow: 'hidden',
+        }}
+      >
         <Typography
           variant="subtitle1"
           gutterBottom
@@ -46,22 +66,48 @@ export const ElementPropertiesEditor: React.FC<
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 1,
-        p: 1,
+        gap: 1.5,
+        p: isMobile ? 0 : 1,
+        pb: isMobile ? 2 : undefined,
         fontSize: '0.9rem',
+        width: '100%',
+        maxWidth: '100%',
+        minHeight: isMobile ? 'auto' : 'auto',
       }}
     >
-      <Typography
-        variant="subtitle2"
-        gutterBottom
-        sx={{ fontSize: '0.8rem', fontWeight: 500 }}
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          mb: 1,
+        }}
       >
-        Element Properties
-      </Typography>
+        <Typography
+          variant="subtitle2"
+          sx={{ fontSize: '0.8rem', fontWeight: 500 }}
+        >
+          Element Properties
+        </Typography>
+        {isMobile && onClose && (
+          <IconButton
+            size="small"
+            onClick={onClose}
+            sx={{
+              color: 'text.secondary',
+              '&:hover': {
+                backgroundColor: 'action.hover',
+              },
+            }}
+          >
+            <Close fontSize="small" />
+          </IconButton>
+        )}
+      </Box>
 
       <BasicProperties element={element} onUpdateElement={onUpdateElement} />
 
-      {element.type === 'text' ? (
+      {element.type === 'text' && (
         <>
           <Divider sx={{ my: 1 }} />
           <Typography
@@ -76,8 +122,6 @@ export const ElementPropertiesEditor: React.FC<
             onUpdateElement={onUpdateElement}
           />
         </>
-      ) : (
-        <Divider sx={{ my: 1 }} />
       )}
 
       <ConditionalLogicBuilder
