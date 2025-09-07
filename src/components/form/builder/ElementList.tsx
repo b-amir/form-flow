@@ -202,8 +202,8 @@ export const ElementList: React.FC<ElementListProps> = ({
   return (
     <Box
       sx={{
-        pb: 2,
-        px: 2,
+        pb: 3,
+        px: 3,
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
@@ -250,6 +250,8 @@ export const ElementList: React.FC<ElementListProps> = ({
                 overflowY: 'auto',
                 maxHeight: '78dvh',
                 pb: { xs: 16, sm: 2 },
+                px: 1,
+                pr: 2,
               }}
             >
               {elements.map(element => (

@@ -266,6 +266,36 @@ const theme = createTheme({
         },
       },
     },
+
+    MuiCssBaseline: {
+      styleOverrides: {
+        '*': {
+          '&::-webkit-scrollbar': {
+            width: '8px',
+            height: '8px',
+          },
+          '&::-webkit-scrollbar-track': {
+            background: 'transparent',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: alpha(gray[100], 0.3),
+            borderRadius: '4px',
+            border: `1px solid ${alpha(gray[50], 0.5)}`,
+            '&:hover': {
+              background: alpha(gray[100], 0.5),
+            },
+            '&:active': {
+              background: alpha(gray[200], 0.6),
+            },
+          },
+          '&::-webkit-scrollbar-corner': {
+            background: 'transparent',
+          },
+          scrollbarWidth: 'thin',
+          scrollbarColor: `${alpha(gray[100], 0.3)} transparent`,
+        },
+      },
+    },
   },
 });
 
