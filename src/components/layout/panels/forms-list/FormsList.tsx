@@ -35,6 +35,7 @@ export const FormsList: React.FC<FormsListProps> = ({
         overflow: 'auto',
         position: 'relative',
         p: forms.length === 0 ? 2 : 0,
+        minHeight: 0,
       }}
     >
       {isLoading && forms.length === 0 ? (

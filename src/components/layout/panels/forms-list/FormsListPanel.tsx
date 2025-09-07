@@ -1,5 +1,5 @@
 import { Box, Button, useTheme, keyframes } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useFormStore } from '@/features/form-management/stores/formStore';
 import { useFormBuilderStore } from '@/features/form-management/stores/formBuilderStore';
 import { ConfirmationDialog } from '../../../common/ConfirmationDialog';
@@ -7,6 +7,7 @@ import { FormsHeader } from './FormsHeader';
 import { FormsList } from './FormsList';
 import { Add } from '@mui/icons-material';
 import { useFormNameInputRef } from '@/hooks';
+import { LayoutContext } from '../../Layout';
 
 export const FormsListPanel = () => {
   const {
@@ -18,6 +19,7 @@ export const FormsListPanel = () => {
     updatingFormId,
   } = useFormStore();
   const { draftForm, isDirty } = useFormBuilderStore();
+  const { setActivePanel } = useContext(LayoutContext);
   const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
@@ -48,6 +50,7 @@ export const FormsListPanel = () => {
     if (form) {
       useFormBuilderStore.getState().initDraftForm(form);
       setSelectedFormId(formId);
+      setActivePanel('builder');
     }
   };
 
@@ -65,6 +68,7 @@ export const FormsListPanel = () => {
   const executeAddForm = () => {
     useFormBuilderStore.getState().initDraftForm();
     setSelectedFormId(null);
+    setActivePanel('builder');
 
     setTimeout(() => {
       formNameInputRef.current?.focus();
@@ -125,6 +129,7 @@ export const FormsListPanel = () => {
         display: 'flex',
         flexDirection: 'column',
         zIndex: 6,
+        pb: { xs: 9, md: 0 },
       }}
     >
       <FormsHeader />
@@ -141,7 +146,7 @@ export const FormsListPanel = () => {
         onDeleteClick={handleDeleteClick}
       />
 
-      <Box sx={{ p: 2 }}>
+      <Box sx={{ p: 2, pb: { xs: 4, md: 2 } }}>
         {(() => {
           const pulse = keyframes`
             0% {
@@ -155,12 +160,13 @@ export const FormsListPanel = () => {
             }
           `;
 
-          const noForms = forms.length === 0;
+          const noForms = forms?.length === 0 && !isLoading;
 
           return (
             <Button
               fullWidth
               onClick={handleAddForm}
+              disabled={isLoading}
               startIcon={<Add />}
               sx={{
                 borderRadius: 1,
@@ -183,14 +189,14 @@ export const FormsListPanel = () => {
                     ? theme.palette.gradients.pinkGradient
                     : 'transparent',
                   border: '1px solid',
-                  borderColor: noForms ? 'error.main' : 'divider',
+                  borderColor: noForms ? 'error.main' : 'error.light',
                   boxShadow: 4,
-                  transform: noForms ? 'translateY(-2px)' : 'none',
+                  transform: 'translateY(-2px)',
                 },
                 textTransform: 'none',
                 fontWeight: 600,
                 fontSize: 14,
-                transition: 'all 0.3s ease-in-out',
+                transition: 'all 0.1s ease-in-out',
                 transform: noForms ? 'translateY(-2px)' : 'none',
                 animation: noForms ? `${pulse} 2s infinite` : 'none',
               }}
