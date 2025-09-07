@@ -296,8 +296,8 @@ describe('ConditionalLogicBuilder', () => {
       />
     );
 
-    expect(screen.getByLabelText('Field')).toBeInTheDocument();
-    expect(screen.getByLabelText('State')).toBeInTheDocument();
+    expect(screen.getByText('Checkbox Field')).toBeInTheDocument();
+    expect(screen.getByText('Checked')).toBeInTheDocument();
     expect(screen.getByText('is')).toBeInTheDocument();
   });
 });

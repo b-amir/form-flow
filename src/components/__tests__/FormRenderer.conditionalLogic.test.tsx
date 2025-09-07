@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@/utils/test-utils';
+import { render, screen, fireEvent, act } from '@/utils/test-utils';
 import { FormRenderer } from '@components/form/renderer/FormRenderer';
 import type { Form } from '@/types';
 
@@ -61,10 +61,12 @@ describe('FormRenderer - Conditional Logic Integration', () => {
     render(<FormRenderer form={mockFormWithConditionalLogic} />);
 
     const checkbox = screen.getByLabelText('Show Additional Fields');
-    fireEvent.click(checkbox);
 
-    // Wait for collapse animation to complete
-    await new Promise(resolve => setTimeout(resolve, 350));
+    await act(async () => {
+      fireEvent.click(checkbox);
+      // Wait for collapse animation to complete
+      await new Promise(resolve => setTimeout(resolve, 350));
+    });
 
     expect(screen.getByLabelText('Additional Text Field')).toBeVisible();
     expect(screen.queryByLabelText('Hidden When Checked')).not.toBeVisible();
@@ -76,12 +78,16 @@ describe('FormRenderer - Conditional Logic Integration', () => {
 
     const checkbox = screen.getByLabelText('Show Additional Fields');
 
-    fireEvent.click(checkbox);
-    await new Promise(resolve => setTimeout(resolve, 350));
+    await act(async () => {
+      fireEvent.click(checkbox);
+      await new Promise(resolve => setTimeout(resolve, 350));
+    });
     expect(screen.getByLabelText('Additional Text Field')).toBeVisible();
 
-    fireEvent.click(checkbox);
-    await new Promise(resolve => setTimeout(resolve, 350));
+    await act(async () => {
+      fireEvent.click(checkbox);
+      await new Promise(resolve => setTimeout(resolve, 350));
+    });
     expect(screen.queryByLabelText('Additional Text Field')).not.toBeVisible();
     expect(screen.getByLabelText('Hidden When Checked')).toBeVisible();
   });
@@ -139,18 +145,25 @@ describe('FormRenderer - Conditional Logic Integration', () => {
     render(<FormRenderer form={mockFormWithConditionalLogic} />);
 
     const checkbox = screen.getByLabelText('Show Additional Fields');
-    fireEvent.click(checkbox);
-    await new Promise(resolve => setTimeout(resolve, 350));
+
+    await act(async () => {
+      fireEvent.click(checkbox);
+      await new Promise(resolve => setTimeout(resolve, 350));
+    });
 
     const textField = screen.getByLabelText('Additional Text Field');
     fireEvent.change(textField, { target: { value: 'test value' } });
 
-    fireEvent.click(checkbox);
-    await new Promise(resolve => setTimeout(resolve, 350));
+    await act(async () => {
+      fireEvent.click(checkbox);
+      await new Promise(resolve => setTimeout(resolve, 350));
+    });
     expect(screen.queryByLabelText('Additional Text Field')).not.toBeVisible();
 
-    fireEvent.click(checkbox);
-    await new Promise(resolve => setTimeout(resolve, 350));
+    await act(async () => {
+      fireEvent.click(checkbox);
+      await new Promise(resolve => setTimeout(resolve, 350));
+    });
     const reshownTextField = screen.getByLabelText('Additional Text Field');
     expect(reshownTextField).toHaveValue('test value');
   });
@@ -165,8 +178,10 @@ describe('FormRenderer - Conditional Logic Integration', () => {
     fireEvent.change(hiddenField, { target: { value: 'hidden value' } });
     fireEvent.change(alwaysVisible, { target: { value: 'visible value' } });
 
-    fireEvent.click(checkbox);
-    await new Promise(resolve => setTimeout(resolve, 350));
+    await act(async () => {
+      fireEvent.click(checkbox);
+      await new Promise(resolve => setTimeout(resolve, 350));
+    });
     const conditionalField = screen.getByLabelText('Additional Text Field');
     fireEvent.change(conditionalField, {
       target: { value: 'conditional value' },

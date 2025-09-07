@@ -100,4 +100,4 @@ export interface UIStore {
   closeModal: () => void;
 }
 
-export type FormValues = Record<string, any>;
+export type FormValues = Record<string, unknown>;

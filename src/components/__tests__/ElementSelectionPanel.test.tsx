@@ -2,6 +2,15 @@ import { render, screen, fireEvent } from '@/utils/test-utils';
 import { ElementSelectionRow } from '@components/layout/panels/form-builder/ElementSelectionRow';
 import { useFormStore } from '@/features/form-management/stores/formStore';
 
+vi.mock('@mui/icons-material', () => ({
+  TextFields: () => <span data-testid="text-fields-icon">TextFields</span>,
+  CheckBox: () => <span data-testid="checkbox-icon">CheckBox</span>,
+  Visibility: () => <span data-testid="visibility-icon">Visibility</span>,
+  FullscreenExit: () => (
+    <span data-testid="fullscreen-exit-icon">FullscreenExit</span>
+  ),
+}));
+
 vi.mock('@/features/form-management/stores/formStore');
 
 describe('ElementSelectionRow', () => {

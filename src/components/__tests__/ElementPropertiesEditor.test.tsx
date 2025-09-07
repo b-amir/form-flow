@@ -1,6 +1,10 @@
 import { render, screen, fireEvent } from '@/utils/test-utils';
 import { ElementPropertiesEditor } from '@components/form/builder/ElementPropertiesEditor';
 
+vi.mock('@mui/icons-material', () => ({
+  Close: () => <span data-testid="close-icon">Close</span>,
+}));
+
 describe('ElementPropertiesEditor', () => {
   const mockElement = {
     id: 'test-id',
